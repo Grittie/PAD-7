@@ -14,6 +14,6 @@ public class Main {
         // Create an ALTextToSpeech object and link it to your current session
         ALTextToSpeech tts = new ALTextToSpeech(application.session());
         // Make your robot say something
-        tts.say("Skedadle skedoodle!");
+        tts.say("Hello Mats!");
     }
 }
