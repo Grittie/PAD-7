@@ -15,15 +15,7 @@ public class Main {
         nao.fysiekVerbinden();
 // verbinden met onze fysieke robot
         nao.zeg("Op een vrijdag in de kroeg\n" +
-                "Ergens in Amsterdam\n" +
-                "Zat aan de bar met een glas een oude wijze man\n" +
-                "Hij zei dat die nog maar een paar dagen had\n" +
-                "Dus pak het leven, pak alles en ga er mee op pad\n" +
-                "En hij zei\n" +
-                "\"Leef, alsof het je laatste dag is\"\n" +
-                "\"Leef, alsof de morgen niet bestaat\"\n" +
-                "\"Leef, alsof het nooit echt af is\"\n" +
-                "En \"leef, pak alles wat je kan");
+                "Ergens in Amsterdam\n");
 
     }
 }
