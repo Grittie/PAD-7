@@ -11,8 +11,11 @@ public class Main {
 //        ALTextToSpeech tts = new ALTextToSpeech(NAO.session());
         // Make your robot say something
 //        tts.say("Hello Mats!");
-//        nao.verbinden("localhost",63743);   // verbinden met de virtuele robot in choreograph
-        nao.fysiekVerbinden();                         // verbinden met onze fysieke robot
+        nao.verbinden("localhost",55470);   // verbinden met de virtuele robot in choreograph
+//        nao.fysiekVerbinden();
+// verbinden met onze fysieke robot
+        Thread.sleep(2000);
         nao.zeg("Lars irritant kutkind");
+
     }
 }
