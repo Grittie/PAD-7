@@ -18,7 +18,7 @@ public class Robottesten {
     }
 
     public void fysiekVerbinden() {
-        String robotUrl = "tcp://padrick.local:" +  9559;    // Create a new application
+        String robotUrl = "tcp://nao.local:" +  9559;    // Create a new application
         this.application = new Application(new String[]{}, robotUrl);
         // Start your application
         application.start();
