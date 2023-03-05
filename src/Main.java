@@ -1,19 +1,14 @@
 package src;
 
-import com.aldebaran.qi.Application;
-import com.aldebaran.qi.helper.proxies.ALTextToSpeech;
-
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        String robotUrl = "tcp://nao.local:9559";
-        // Create a new application
-        Application application = new Application(args, robotUrl);
-        // Start your application
-        application.start();
-        // Create an ALTextToSpeech object and link it to your current session
-        ALTextToSpeech tts = new ALTextToSpeech(application.session());
-        // Make your robot say something
-        tts.say("Hello Mats!");
+        NAO nao = new NAO();
+        //nao.verbinden("localhost",55470);   // verbinden met de virtuele robot in choreograph
+        nao.fysiekVerbinden();
+        // verbinden met onze fysieke robot
+        nao.zeg("Op een vrijdag in de kroeg");
+        nao.dab();
+        Thread.sleep(100);
     }
 }
