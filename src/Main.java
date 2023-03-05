@@ -8,7 +8,9 @@ public class Main {
         nao.fysiekVerbinden();
         // verbinden met onze fysieke robot
         nao.zeg("Op een vrijdag in de kroeg");
-        nao.dab();
-        Thread.sleep(100);
+        for (int i = 0; i < 50; i++) {
+            nao.dab();
+            Thread.sleep(100);
+        }
     }
 }
