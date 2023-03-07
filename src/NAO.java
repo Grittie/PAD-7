@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class NAO {
 
     private String naam;
-    public float movementSpeed = 0.5f;
+    public float movementSpeed = 1f;
 
     private Application application;
 
@@ -97,6 +97,23 @@ public class NAO {
         ALMotion alMotion = new ALMotion(this.application.session());
         alMotion.walkTo(-0.1f,0f,0f);
     }
+
+    public void wijsNaarBord() throws Exception {
+        ALMotion alMotion = new ALMotion(this.application.session());
+        String[] gevrichten = {"LElbowYaw", "LShoulderRoll", "HeadYaw", "RElbowRoll", "RElbowYaw"};
+        double[] hoeken = {-4f,5f,1.5f, 5f, -1f};
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < gevrichten.length; j++) {
+                alMotion.setAngles(gevrichten[j],hoeken[j],movementSpeed);
+            }
+            Thread.sleep(100);
+        }
+
+        alMotion.setAngles("HeadYaw",0f,1f);
+
+    }
+
+
 
 
 
