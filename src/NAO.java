@@ -49,15 +49,15 @@ public class NAO {
     }
 
     public void footState() throws Exception{
-        ALMotion motion = new ALMotion(application.session());
+        ALMotion motion = new ALMotion(application.session());      //DONT WORK
         motion.wbEnable(true);
         motion.wbFootState("Plane", "Legs");
 
 
     }
     public void animation() throws Exception {
-        ALAnimationPlayer alAnimationPlayer = new ALAnimationPlayer(this.application.session());
-        alAnimationPlayer.run("animations/Explain_1");
+        ALAnimationPlayer alAnimationPlayer = new ALAnimationPlayer(this.application.session()); //DONT WORK
+        alAnimationPlayer.runTag("explain");
 
     }
 
@@ -82,6 +82,20 @@ public class NAO {
         ALRobotPosture movement = new ALRobotPosture(this.application.session());
         movement.goToPosture(naamMovement,this.movementSpeed);
 
+    }
+    public void lopen(Long hoelang) throws Exception {
+        //grootte stappen
+        ALMotion alMotion = new ALMotion(this.application.session());
+        alMotion.moveToward(1f, // x is stap vooruit,
+                0f, // y is zijwaardsstappen   q
+                0f); // rondje stappen
+        Thread.sleep(hoelang);
+        alMotion.stopMove();
+    }
+    public void metersLopen() throws Exception {
+        //meters vooruit/achteruit
+        ALMotion alMotion = new ALMotion(this.application.session());
+        alMotion.walkTo(-0.1f,0f,0f);
     }
 
 
