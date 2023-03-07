@@ -1,6 +1,6 @@
 package src;
 
-public class Robottesten {
+public class NAO {
     private String naam;
 
     public void verbinden(){
