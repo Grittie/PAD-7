@@ -7,14 +7,13 @@ public class Main {
         //nao.verbinden("localhost", 57586);
         nao.fysiekVerbinden();
         nao.staan();
-        nao.eyes();
+
+
+
 
         //nao.animationPath("/Applications/Choregraphe.app/Contents/Resources/share/choregraphe/libraries/box/Animation/Entertainment/Dances");
-//        new Thread(new NAO.PresenterenBeweging(nao)).start();
+        new Thread(new NAO.PresenterenBeweging(nao)).start();
 //        new Thread(new NAO.PresenterenTekst(nao)).start();
-
-
-
-
+//        nao.staan();
     }
 }

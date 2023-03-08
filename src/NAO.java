@@ -18,7 +18,8 @@ public class NAO {
         @Override
         public void run() {
             try {
-                nao.zeg("Dit is mijn presentatie! Alles goed met jullie? Met mij wel");
+                nao.zeg("Dit is mijn presentatie! Alles goed met jullie? Met mij wel!");
+                Thread.sleep(1000);nao.zeg("Kamal is druk! en ik mag ik bierie?");
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -32,7 +33,12 @@ public class NAO {
         @Override
         public void run() {
             try {
-                nao.wijsNaarBord();
+                for (int i = 0; i < 2; i++) {
+                    nao.animationPath("explain");
+                    nao.animationPath("body language");
+                    nao.animationPath("explain");
+                    nao.wijsNaarBord();
+                }
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -81,12 +87,12 @@ public class NAO {
     }
     public void zwaaien() throws Exception {
         ALAnimationPlayer alAnimationPlayer = new ALAnimationPlayer(this.application.session()); //DONT WORK
-        alAnimationPlayer.run("animations/Stand/Gestures/Hey_1");
+        alAnimationPlayer.runTag("animations/Stand/Gestures/Hey_1");
     }
 
     public void animationPath(String path) throws Exception {
         ALAnimationPlayer alAnimationPlayer = new ALAnimationPlayer(this.application.session()); //DONT WORK
-        alAnimationPlayer.run(path);
+        alAnimationPlayer.runTag(path);
 
     }
 
