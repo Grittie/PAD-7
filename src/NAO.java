@@ -1,10 +1,7 @@
 
 
 import com.aldebaran.qi.Application;
-import com.aldebaran.qi.CallError;
 import com.aldebaran.qi.helper.proxies.*;
-
-import java.util.Scanner;
 
 
 public class NAO {
@@ -13,6 +10,34 @@ public class NAO {
     public float movementSpeed = 0.3f;
 
     private Application application;
+
+    static class PresenterenTekst implements Runnable {
+        private NAO nao;
+        public PresenterenTekst(NAO nao){ this.nao = nao;}
+
+        @Override
+        public void run() {
+            try {
+                nao.zeg("Dit is mijn presentatie! Alles goed met jullie? Met mij wel");
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    static class PresenterenBeweging implements Runnable {
+        private NAO nao;
+        public PresenterenBeweging(NAO nao) {this.nao = nao;};
+
+        @Override
+        public void run() {
+            try {
+                nao.wijsNaarBord();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
 
     public void verbinden(String hostname, int port) {
         String robotUrl = "tcp://" + hostname + ":" + port;    // Create a new application
@@ -43,6 +68,7 @@ public class NAO {
     public void staan() throws Exception {
         ALRobotPosture movement = new ALRobotPosture(this.application.session());
         movement.goToPosture("StandZero",this.movementSpeed);
+        System.out.println(movement.getPostureFamily());
 
     }
 
@@ -53,9 +79,15 @@ public class NAO {
 
 
     }
-    public void animation() throws Exception {
+    public void zwaaien() throws Exception {
         ALAnimationPlayer alAnimationPlayer = new ALAnimationPlayer(this.application.session()); //DONT WORK
-        alAnimationPlayer.runTag("explain");
+        alAnimationPlayer.run("animations/Stand/Gestures/Hey_1");
+
+    }
+
+    public void animationPath(String path) throws Exception {
+        ALAnimationPlayer alAnimationPlayer = new ALAnimationPlayer(this.application.session()); //DONT WORK
+        alAnimationPlayer.run(path);
 
     }
 
@@ -120,6 +152,12 @@ public class NAO {
     public void getAngles(String onderdeel) throws Exception {
         ALMotion alMotion = new ALMotion(this.application.session());
         System.out.println(alMotion.getAngles(onderdeel,true));
+    }
+
+    public void eyes() throws Exception {
+        ALLeds alLeds = new ALLeds(this.application.session());
+        alLeds.randomEyes(10f);
+
     }
 
 }

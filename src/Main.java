@@ -1,16 +1,17 @@
-import com.aldebaran.qi.helper.proxies.ALMotion;
-
 import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) throws Exception {
         NAO nao = new NAO();
-        Scanner scanner = new Scanner(System.in);
-//        nao.verbinden("localhost",57586);   // verbinden met de virtuele robot in choreogrape
+        //nao.verbinden("localhost", 57586);
         nao.fysiekVerbinden();
+        nao.staan();
+        nao.eyes();
 
-        nao.metersLopen();
+        //nao.animationPath("/Applications/Choregraphe.app/Contents/Resources/share/choregraphe/libraries/box/Animation/Entertainment/Dances");
+//        new Thread(new NAO.PresenterenBeweging(nao)).start();
+//        new Thread(new NAO.PresenterenTekst(nao)).start();
 
 
 
