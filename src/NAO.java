@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class NAO {
 
     private String naam;
-    public float movementSpeed = 1f;
+    public float movementSpeed = 0.3f;
 
     private Application application;
 
@@ -42,9 +42,7 @@ public class NAO {
 
     public void staan() throws Exception {
         ALRobotPosture movement = new ALRobotPosture(this.application.session());
-        movement.goToPosture("StandInit",this.movementSpeed);
-
-
+        movement.goToPosture("StandZero",this.movementSpeed);
 
     }
 
@@ -95,32 +93,34 @@ public class NAO {
     public void metersLopen() throws Exception {
         //meters vooruit/achteruit
         ALMotion alMotion = new ALMotion(this.application.session());
-        alMotion.walkTo(-0.1f,0f,0f);
+        alMotion.walkTo(0f,0f,-1f);
     }
 
     public void wijsNaarBord() throws Exception {
         ALMotion alMotion = new ALMotion(this.application.session());
-        String[] gevrichten = {"LElbowYaw", "LShoulderRoll", "HeadYaw", "RElbowRoll", "RElbowYaw"};
-        double[] hoeken = {-4f,5f,1.5f, 5f, -1f};
-        for (int i = 0; i < 10; i++) {
+        String[] gevrichten = {"LElbowYaw", "LShoulderRoll", "HeadYaw", "RElbowRoll", "RElbowYaw", "RShoulderPitch"};
+        double[] hoeken = {-4f,5f,1.5f, 5f, 1f, 0.8f};
             for (int j = 0; j < gevrichten.length; j++) {
                 alMotion.setAngles(gevrichten[j],hoeken[j],movementSpeed);
             }
             Thread.sleep(100);
-        }
 
-        alMotion.setAngles("HeadYaw",0f,1f);
-
+//        alMotion.setAngles("HeadYaw",0f,1f);
     }
 
+    public void kamalMethode() throws Exception {
+        ALMotion alMotion = new ALMotion(this.application.session());
+        String[] gevrichten = {"RElbowRoll", "RElbowYaw", "RShoulderPitch", "LElbowRoll", "LElbowYaw", "LShoulderPitch"};
+        double[] hoeken = { 5f, 1f, 0.8f, -5f, -1f, -0.8f};
+        for (int i = 0; i < gevrichten.length; i++) {
+            alMotion.setAngles(gevrichten[i],hoeken[i],movementSpeed);
+        }
 
-
-
-
-
-
-
-
+    }
+    public void getAngles(String onderdeel) throws Exception {
+        ALMotion alMotion = new ALMotion(this.application.session());
+        System.out.println(alMotion.getAngles(onderdeel,true));
+    }
 
 }
 

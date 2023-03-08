@@ -7,7 +7,13 @@ public class Main {
     public static void main(String[] args) throws Exception {
         NAO nao = new NAO();
         Scanner scanner = new Scanner(System.in);
-        nao.verbinden("localhost",55180);   // verbinden met de virtuele robot in choreogrape
-        nao.wijsNaarBord();
+//        nao.verbinden("localhost",57586);   // verbinden met de virtuele robot in choreogrape
+        nao.fysiekVerbinden();
+
+        nao.metersLopen();
+
+
+
+
     }
 }
