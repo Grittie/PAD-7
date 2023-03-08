@@ -82,7 +82,6 @@ public class NAO {
     public void zwaaien() throws Exception {
         ALAnimationPlayer alAnimationPlayer = new ALAnimationPlayer(this.application.session()); //DONT WORK
         alAnimationPlayer.run("animations/Stand/Gestures/Hey_1");
-
     }
 
     public void animationPath(String path) throws Exception {
