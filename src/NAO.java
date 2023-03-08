@@ -33,4 +33,9 @@ public class NAO {
         // Make your robot say something
         tts.say(tekst);
     }
+
+    public void idle() throws Exception {
+        ALRobotPosture robotPosture = new ALRobotPosture(application.session());
+        robotPosture.goToPosture("LyingBack", 0.5f);
+    }
 }
