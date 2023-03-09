@@ -4,13 +4,12 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         NAO nao = new NAO();
-        //nao.verbinden("localhost",55470);   // verbinden met de virtuele robot in choreograph
-        nao.fysiekVerbinden();
-        // verbinden met onze fysieke robot
+        Dab dab = new Dab();
+//        nao.verbinden("nao.local.",9559);   // verbinden met de virtuele robot in choreograph
+        nao.verbinden("localhost",53130);   // verbinden met de virtuele robot in choreograph
+//        nao.fysiekVerbinden();
         nao.zeg("Op een vrijdag in de kroeg");
-        for (int i = 0; i < 50; i++) {
-            nao.dab();
-            Thread.sleep(100);
-        }
+        dab.dab();
+        Thread.sleep(100);
     }
 }

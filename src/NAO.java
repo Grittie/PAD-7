@@ -1,7 +1,6 @@
 package src;
 
 import com.aldebaran.qi.Application;
-import com.aldebaran.qi.helper.proxies.ALMotion;
 import com.aldebaran.qi.helper.proxies.ALTextToSpeech;
 
 
@@ -23,16 +22,6 @@ public class NAO {
         this.application = new Application(new String[]{}, robotUrl);
         // Start your application
         application.start();
-    }
-
-    public void dab() throws Exception {
-        ALMotion motion = new ALMotion(application.session());
-        String[] limbs = {"LShoulderPitch", "LShoulderRoll", "LElbowYaw", "LElbowRoll", "LWristYaw", "RShoulderPitch", "RShoulderRoll", "RElbowYaw", "RElbowRoll", "RWristYaw", "HeadPitch"};
-        double[] limbsAngels = {0.2f, 0.0f, 0.0f, -2.0f, 0.0f, 1.9f, -2.0f, 1.0f, 0.0f, 0.0f, 1.0f};
-        float fractionMaxSpeed = 0.1f;
-        for (int i = 0; i < limbsAngels.length; i++) {
-            motion.setAngles(limbs[i], limbsAngels[i], fractionMaxSpeed);
-        }
     }
 
     public void zeg(String tekst) throws Exception {
