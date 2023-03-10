@@ -45,7 +45,6 @@ public class MovementTalking {
             }
         }
     }
-
     public void zeg(String tekst) throws Exception {
         ALTextToSpeech tts = new ALTextToSpeech(this.application.session());  // Create an ALTextToSpeech object and link it to your current session
         tts.say(tekst); // Make your robot say something
