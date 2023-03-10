@@ -11,6 +11,10 @@ public class MovementTalking {
 
     private Application application;
 
+//    public MovementTalking(String hostname, int port) {
+//        super(hostname, port);
+//    }
+
     static class PresenterenTekst implements Runnable {
         private MovementTalking movementTalking;
         public PresenterenTekst(MovementTalking movementTalking){ this.movementTalking = movementTalking;}
@@ -18,9 +22,15 @@ public class MovementTalking {
         @Override
         public void run() {
             try {
-                movementTalking.zeg("Dit is mijn presentatie! Alles goed met jullie? Met mij wel!");
+                movementTalking.zeg("Ik ga jullie de leerroutes presenteren!");
                 Thread.sleep(1000);
-                movementTalking.zeg("Kamal is druk! en ik mag ik bierie?");
+                movementTalking.zeg("Alleen is dit nog de eerste sprint review");
+                Thread.sleep(1000);
+                movementTalking.zeg("Daarom kan ik nog niet alles, en heb ik ook wat moeite met de taal");
+                Thread.sleep(1000);
+                movementTalking.zeg("Maar op het bord kan je een mooie presentatie zien die gemaakt is!");
+                Thread.sleep(1000);
+                movementTalking.zeg("Dit was mijn aller eerste presentaite!");
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -53,7 +63,7 @@ public class MovementTalking {
 
     public void staan() throws Exception {
         ALRobotPosture movement = new ALRobotPosture(this.application.session());
-        movement.goToPosture("StandInit",this.movementSpeed);
+        movement.goToPosture("Stand",this.movementSpeed);
         System.out.println(movement.getPostureFamily());
 
     }
@@ -77,5 +87,13 @@ public class MovementTalking {
         ALMotion alMotion = new ALMotion(this.application.session());
         System.out.println(alMotion.getAngles(onderdeel,true));
     }
+    public void fysiekVerbinden() {
+        String robotUrl = "tcp://nao.local:" +  9559;    // Create a new application
+        this.application = new Application(new String[]{}, robotUrl);
+        // Start your application
+        application.start();
+    }
+
+
 }
 
