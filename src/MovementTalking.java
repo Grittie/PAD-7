@@ -7,14 +7,12 @@ import com.aldebaran.qi.helper.proxies.*;
 public class MovementTalking {
 
     private String naam;
-    public float movementSpeed = 0.3f;
+    public float movementSpeed = 0.3f; // speed of the movements
 
     private Application application;
 
-//    public MovementTalking(String hostname, int port) {
-//        super(hostname, port);
-//    }
 
+    //Thead waarin de robot dingen kan zeggen
     static class PresenterenTekst implements Runnable {
         private MovementTalking movementTalking;
         public PresenterenTekst(MovementTalking movementTalking){ this.movementTalking = movementTalking;}
@@ -37,6 +35,7 @@ public class MovementTalking {
         }
     }
 
+    // Thread om de robot te laten bewegen, er zijn 2 threads aangemaakt zodat de robot kan praten en kan bewegen
     static class PresenterenBeweging implements Runnable {
         private MovementTalking movementTalking;
         public PresenterenBeweging(MovementTalking movementTalking) {this.movementTalking = movementTalking;};
@@ -44,7 +43,7 @@ public class MovementTalking {
         @Override
         public void run() {
             try {
-                for (int i = 0; i < 2; i++) {
+                for (int i = 0; i < 2; i++) { // Loop om de robot verschillende animaties te doen
                     movementTalking.animationPath("explain");
                     movementTalking.animationPath("body language");
                     movementTalking.animationPath("explain");
@@ -62,31 +61,26 @@ public class MovementTalking {
 
 
     public void staan() throws Exception {
-        ALRobotPosture movement = new ALRobotPosture(this.application.session());
-        movement.goToPosture("Stand",this.movementSpeed);
-        System.out.println(movement.getPostureFamily());
-
+        ALRobotPosture movement = new ALRobotPosture(this.application.session()); // Create an ALRobotPosture object and link it to current application
+        movement.goToPosture("Stand",this.movementSpeed); // let the robot stand in the preset "Stand"
     }
 
     public void animationPath(String path) throws Exception {
-        ALAnimationPlayer alAnimationPlayer = new ALAnimationPlayer(this.application.session());
-        alAnimationPlayer.runTag(path);
+        ALAnimationPlayer alAnimationPlayer = new ALAnimationPlayer(this.application.session()); // Create an ALAnimationPLayer object and link it
+        alAnimationPlayer.runTag(path); // the runTag choose a random animation within a tag
     }
 
     public void wijsNaarBord() throws Exception {
-        ALMotion alMotion = new ALMotion(this.application.session());
-        String[] gevrichten = {"LElbowYaw", "LShoulderRoll", "HeadYaw", "RElbowRoll", "RElbowYaw", "RShoulderPitch"};
-        double[] hoeken = {-4f,5f,1.5f, 5f, 1f, 0.8f};
+        ALMotion alMotion = new ALMotion(this.application.session()); // Create an alMotion object and link it
+        String[] gevrichten = {"LElbowYaw", "LShoulderRoll", "HeadYaw", "RElbowRoll", "RElbowYaw", "RShoulderPitch"}; // Gets the robots limbs
+        double[] hoeken = {-4f,5f,1.5f, 5f, 1f, 0.8f}; // the radians that the limbs need to reach
             for (int j = 0; j < gevrichten.length; j++) {
-                alMotion.setAngles(gevrichten[j],hoeken[j],movementSpeed);
+                alMotion.setAngles(gevrichten[j],hoeken[j],movementSpeed); // sets al the radians to the limbs
             }
             Thread.sleep(100);
     }
 
-    public void getAngles(String onderdeel) throws Exception {
-        ALMotion alMotion = new ALMotion(this.application.session());
-        System.out.println(alMotion.getAngles(onderdeel,true));
-    }
+    //connect to the nao
     public void fysiekVerbinden() {
         String robotUrl = "tcp://nao.local:" +  9559;    // Create a new application
         this.application = new Application(new String[]{}, robotUrl);
