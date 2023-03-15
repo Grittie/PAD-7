@@ -10,12 +10,5 @@ public class Main {
 
         new Thread(new MovementTalking.PresenterenBeweging(nao)).start();
         new Thread(new MovementTalking.PresenterenTekst(nao)).start();
-
-
-
-
-
-
-
     }
 }

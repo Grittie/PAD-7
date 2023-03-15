@@ -3,14 +3,12 @@ package src;
 import com.aldebaran.qi.Application;
 import com.aldebaran.qi.helper.proxies.*;
 
-
 public class MovementTalking {
 
     private String naam;
     public float movementSpeed = 0.3f; // speed of the movements
 
     private Application application;
-
 
     //Thead waarin de robot dingen kan zeggen
     static class PresenterenTekst implements Runnable {
