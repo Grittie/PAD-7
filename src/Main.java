@@ -26,7 +26,31 @@ public class Main {
         connectOptions.setUserName (MQTT_USERNAME);
         connectOptions.setPassword (MQTT_PASSWORD.toCharArray());
         client.connect(connectOptions);
+
         System.out.print("Verbonden? ");
         System.out.println(client.isConnected());
+
+        client.setCallback(new MqttCallback() {
+            @Override
+            public void connectionLost(Throwable throwable) {
+                System.out.println("connection lost...");
+            }
+
+            @Override
+            public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
+                System.out.println("Bericht ontvangen");
+                System.out.print("Topic:");
+                System.out.println(topic);
+                System.out.print("Bericht: ");
+                System.out.println(mqttMessage.toString());
+            }
+
+            @Override
+            public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {
+
+            }
+        });
+
+        client.subscribe("gritla/test");
     }
 }
