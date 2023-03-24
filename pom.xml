@@ -1,7 +1,0 @@
-<dependencies>
-    <dependency>
-        <groupId>org.eclipse.paho</groupId>
-        <artifactId>org.eclipse.paho.client.mqttv3</artifactId>
-        <version>1.8</version>
-    </dependency>
-</dependencies>
