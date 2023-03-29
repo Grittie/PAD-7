@@ -1,7 +1,8 @@
 package src;
 
 import com.aldebaran.qi.Application;
-zorgenimport com.aldebaran.qi.Session;
+import com.aldebaran.qi.Session;
+import com.aldebaran.qi.Session;
 import com.aldebaran.qi.helper.proxies.*;
 
 public class MovementTalking {
