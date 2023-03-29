@@ -1,10 +1,12 @@
 package src;
 
+import com.aldebaran.qi.Application;
+
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        SynchSpeech nao = new SynchSpeech();
-        nao.choreographe(50555);
-        nao.animitedSpeech();
+
+        NAO nao = new NAO("localhost",58248 );//9559
+
     }
 }
