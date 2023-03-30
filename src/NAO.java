@@ -38,7 +38,15 @@ public class NAO {
         this.movementTalking.wijsNaarBord();
     }
 
-    public void animationPath(String body_language) throws Exception {
-        this.movementTalking.animationPath(body_language);
+    public void animationRandom(String body_language) throws Exception {
+        this.movementTalking.animationRandom(body_language);
     }
+    public void animationPath(String path) throws Exception{
+        this.movementTalking.animationPath(path);
+    }
+
+    public void zeg(String text) throws Exception {
+        this.movementTalking.zeg(text);
+    }
+
 }
