@@ -65,8 +65,9 @@ public class MovementTalking {
         }
     }
     public void zeg(String tekst) throws Exception {
-        ALTextToSpeech tts = new ALTextToSpeech(this.session);  // Create an ALTextToSpeech object and link it to your current session
-        tts.say(tekst); // Make your robot say something
+        ALTextToSpeech tts = new ALTextToSpeech(this.session);// Create an ALTextToSpeech object and link it to your current session
+        ALAnimatedSpeech alAnimatedSpeech = new ALAnimatedSpeech(this.session);
+        alAnimatedSpeech.say(tekst);
     }
 
 
