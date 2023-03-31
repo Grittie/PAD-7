@@ -11,11 +11,14 @@ mqttClient.connect();
 mqttClient.on('connected', function () {
     document.getElementById("logo-container").innerHTML = "Connected!";
     console.log('connected');
-    mqttClient.publish("gritla/test", "websocket connect");
-    console.log('published');
 });
 
 mqttClient.on('connectionLost', function () {
     document.getElementById("logo-container").innerHTML = "Not connected!";
     console.log('ConnectionLost');
 });
+
+function mqttPublish(topic, message){
+    mqttClient.publish(topic, message);
+    console.log('published');
+}

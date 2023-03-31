@@ -6,6 +6,15 @@
  * Made By MaterializeCSS.com
  */
 
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+main {
+    flex: 1 0 auto;
+}
+
 .icon-block {
     padding: 0 15px;
 }
@@ -13,6 +22,11 @@
     font-size: inherit;
 }
 
-.section {
+#route-buttons {
+    position: relative;
+    left: 25%;
+}
 
+.divider{
+    width:5px;
 }
