@@ -1,32 +1,44 @@
 package src;
 
-import com.aldebaran.qi.Application;
+import com.aldebaran.qi.Session;
 import com.aldebaran.qi.helper.proxies.*;
 
 public class MovementTalking {
 
     private String naam;
-    public float movementSpeed = 0.3f; // speed of the movements
+    private static final float MOVEMENT_SPEED = 0.3f; // speed of the movements
 
-    private Application application;
+    private Session session;
+
+    public MovementTalking(Session session) {
+        this.session = session;
+    }
+
 
     //Thead waarin de robot dingen kan zeggen
+    static class await implements Runnable{
+        @Override
+        public void run() {
+            System.out.println("await thread");
+
+        }
+    }
     static class PresenterenTekst implements Runnable {
-        private MovementTalking movementTalking;
-        public PresenterenTekst(MovementTalking movementTalking){ this.movementTalking = movementTalking;}
+        private NAO movementTalking;
+        public PresenterenTekst(NAO movementTalking){ this.movementTalking = movementTalking;}
 
         @Override
         public void run() {
             try {
-                movementTalking.zeg("Ik ga jullie de leerroutes presenteren!");
+                movementTalking.zeg("Welkom bij de Open dag");
                 Thread.sleep(1000);
-                movementTalking.zeg("Alleen is dit nog de eerste sprint review");
+                movementTalking.zeg("Er zijn op deze opleiding 3 verschillende leerroutes");
                 Thread.sleep(1000);
-                movementTalking.zeg("Daarom kan ik nog niet alles, en heb ik ook wat moeite met de taal");
+                movementTalking.zeg("Wil je daar meer over weten?");
                 Thread.sleep(1000);
-                movementTalking.zeg("Maar op het bord kan je een mooie presentatie zien die gemaakt is!");
-                Thread.sleep(1000);
-                movementTalking.zeg("Dit was mijn aller eerste presentaite!");
+                movementTalking.zeg("Druk dan op een van deze 3 knoppen! ");
+
+
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -35,16 +47,16 @@ public class MovementTalking {
 
     // Thread om de robot te laten bewegen, er zijn 2 threads aangemaakt zodat de robot kan praten en kan bewegen
     static class PresenterenBeweging implements Runnable {
-        private MovementTalking movementTalking;
-        public PresenterenBeweging(MovementTalking movementTalking) {this.movementTalking = movementTalking;};
+        private NAO movementTalking;
+        public PresenterenBeweging(NAO movementTalking) {this.movementTalking = movementTalking;};
 
         @Override
         public void run() {
             try {
                 for (int i = 0; i < 2; i++) { // Loop om de robot verschillende animaties te doen
-                    movementTalking.animationPath("explain");
-                    movementTalking.animationPath("body language");
-                    movementTalking.animationPath("explain");
+                    movementTalking.animationRandom("explain");
+                    movementTalking.animationRandom("body language");
+                    movementTalking.animationRandom("explain");
                     movementTalking.wijsNaarBord();
                 }
             } catch (Exception e) {
@@ -53,37 +65,34 @@ public class MovementTalking {
         }
     }
     public void zeg(String tekst) throws Exception {
-        ALTextToSpeech tts = new ALTextToSpeech(this.application.session());  // Create an ALTextToSpeech object and link it to your current session
-        tts.say(tekst); // Make your robot say something
+        ALTextToSpeech tts = new ALTextToSpeech(this.session);// Create an ALTextToSpeech object and link it to your current session
+        ALAnimatedSpeech alAnimatedSpeech = new ALAnimatedSpeech(this.session);
+        alAnimatedSpeech.say(tekst);
     }
 
 
     public void staan() throws Exception {
-        ALRobotPosture movement = new ALRobotPosture(this.application.session()); // Create an ALRobotPosture object and link it to current application
-        movement.goToPosture("Stand",this.movementSpeed); // let the robot stand in the preset "Stand"
+        ALRobotPosture movement = new ALRobotPosture(this.session); // Create an ALRobotPosture object and link it to current application
+        movement.goToPosture("Stand",this.MOVEMENT_SPEED); // let the robot stand in the preset "Stand"
     }
 
-    public void animationPath(String path) throws Exception {
-        ALAnimationPlayer alAnimationPlayer = new ALAnimationPlayer(this.application.session()); // Create an ALAnimationPLayer object and link it
+    public void animationRandom(String path) throws Exception {
+        ALAnimationPlayer alAnimationPlayer = new ALAnimationPlayer(this.session); // Create an ALAnimationPLayer object and link it
         alAnimationPlayer.runTag(path); // the runTag choose a random animation within a tag
+    }
+    public void animationPath(String path) throws Exception {
+        ALAnimationPlayer alAnimationPlayer = new ALAnimationPlayer(this.session); // Create an ALAnimationPLayer object and link it
+        alAnimationPlayer.run(path); // the run makes do the robot do a specific animtion.
     }
 
     public void wijsNaarBord() throws Exception {
-        ALMotion alMotion = new ALMotion(this.application.session()); // Create an alMotion object and link it
+        ALMotion alMotion = new ALMotion(this.session); // Create an alMotion object and link it
         String[] gevrichten = {"LElbowYaw", "LShoulderRoll", "HeadYaw", "RElbowRoll", "RElbowYaw", "RShoulderPitch"}; // Gets the robots limbs
         double[] hoeken = {-4f,5f,1.5f, 5f, 1f, 0.8f}; // the radians that the limbs need to reach
             for (int j = 0; j < gevrichten.length; j++) {
-                alMotion.setAngles(gevrichten[j],hoeken[j],movementSpeed); // sets al the radians to the limbs
+                alMotion.setAngles(gevrichten[j],hoeken[j], MOVEMENT_SPEED); // sets al the radians to the limbs
             }
             Thread.sleep(100);
-    }
-
-    //connect to the nao
-    public void fysiekVerbinden() {
-        String robotUrl = "tcp://nao.local:" +  9559;    // Create a new application
-        this.application = new Application(new String[]{}, robotUrl);
-        // Start your application
-        application.start();
     }
 
 
