@@ -6,7 +6,7 @@ public class Main {
     // Host of the MQTT broker
     public static String MQTT_HOST = "tcp://mqtt.hva-robots.nl:1883";
     // Client id, unique name for each client, prefix with your username
-    public static String MQTT_CLIENT_ID = "nao_test";
+    public static String MQTT_CLIENT_ID = "gritla_0";
     // Username from hva-robots.nl
     public static String MQTT_USERNAME = "gritla";
     // Password from hva-robots.nl (don't use your HvA password!)
@@ -43,6 +43,24 @@ public class Main {
                 System.out.println(topic);
                 System.out.print("Bericht: ");
                 System.out.println(mqttMessage.toString());
+
+                switch (mqttMessage.toString()) {
+                    case "SE":
+                        System.out.println("Software engineering presentation starting...");
+                        break;
+                    case "TI":
+                        System.out.println("Technische Informatica presentation starting...");
+                        break;
+                    case "BIM":
+                        System.out.println("Business Management presentation starting...");
+                        break;
+                    case "CS":
+                        System.out.println("Cyber Security presentation starting...");
+                        break;
+                    case "GD":
+                        System.out.println("Game Development presentation starting...");
+                        break;
+                }
             }
 
             @Override
