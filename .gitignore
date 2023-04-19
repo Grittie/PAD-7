@@ -1,22 +1,14 @@
-##############################
-## Default ignored files
-##############################
+# Default ignored files
 /shelf/
 /workspace.xml
 
-##############################
-## Datasource local storage ignored files
-##############################
+# Datasource local storage ignored files
 /dataSources/
 
-##############################
-## Editor-based HTTP Client requests
-##############################
+# Editor-based HTTP Client requests
 /httpRequests/
 
-##############################
-## Java
-##############################
+# Java
 .mtj.tmp/
 *.class
 *.jar
@@ -26,9 +18,7 @@
 hs_err_pid*
 replay_pid*
 
-##############################
-## Maven
-##############################
+# Maven
 target/
 pom.xml.tag
 pom.xml.releaseBackup
@@ -41,9 +31,7 @@ buildNumber.properties
 .mvn/timing.properties
 .mvn/wrapper/maven-wrapper.jar
 
-##############################
-## Gradle
-##############################
+# Gradle
 bin/
 build/
 .gradle
@@ -51,9 +39,7 @@ build/
 gradle-app.setting
 !gradle-wrapper.jar
 
-##############################
-## IntelliJ
-##############################
+# IntelliJ
 out/
 .idea/
 .idea_modules/
@@ -61,19 +47,33 @@ out/
 *.ipr
 *.iws
 
-##############################
-## Visual studio code
-##############################
+# Visual studio code
 .vscode/
 
-##############################
 ## Archives
-##############################
 *.zip
 *.tar*
 *.rar
 
-##############################
-## Log file
-##############################
+# Log files
 *.log
+
+# Windows thumbnail cache files
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+
+# Windows dump file
+*.stackdump
+
+# Windows folder config file
+[Dd]esktop.ini
+
+# MacOS General
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# MacOS Thumbnails
+._*
