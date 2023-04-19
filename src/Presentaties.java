@@ -25,15 +25,25 @@ public class Presentaties {
      * @throws Exception
      */
     public String BIMpresentatie() throws Exception {
-        return "^start(animations/Stand/Gestures/Hey_1)Welkom bij de Business IT presentatie, oftewel BIM." + "^start(animations/Stand/Gestures/Explain_3)Hier leer je hoe ICT het bedrijfsleven kan verbeteren ";
+        return "^start(animations/Stand/Gestures/Hey_1)Welkom bij de Business ijTie presentatie, oftewel BIM." + "^start(animations/Stand/Gestures/Explain_3)Hier leer je hoe ieceetee het bedrijfsleven kan verbeteren ";
     }
     public String ITpresentatie() throws Exception {
-        return "Welkom bij de Technische informatica presentatie, ^start(animations/Stand/Gestures/Hey_1) oftewel TI.  " +
-                        "^start(animations/Sit/BodyTalk/BodyTalk_10) Hier leer je bijvoorbeeld hoe je mij kan programeren! ";
+        return "^start(animations/Stand/Gestures/Hey_1) Welkom bij de Technische informatica presentatie, oftewel tee ie.  " +
+                        "^start(animations/Sit/BodyTalk/BodyTalk_1) Hier leer je bijvoorbeeld hoe je mij kan programeeren! ";
     }
     public String SEpresentatie() throws Exception {
 
-       return "Welkom bij de Software engineer presentatie!, ^start(animations/Stand/Gestures/Hey_1) oftewel TI.  " +
+       return "^start(animations/Stand/Gestures/Hey_1)Welkom bij de Software engineer presentatie!, oftewel essee.  " +
                         "^start(animations/Sit/BodyTalk/BodyTalk_10) Hier leer je om applicaties te maken! ";
+    }
+    public String GDpresentatie() throws Exception {
+
+       return "^start(animations/Stand/Gestures/Hey_1)Welkom bij Game development, GeeDee.  " +
+                        "^start(animations/Sit/BodyTalk/BodyTalk_4) Hier leer je om de vetste games te maken! ";
+    }
+    public String CSpresentatie() throws Exception {
+
+       return "^start(animations/Stand/Gestures/Hey_1)Welkom bij Cyber Security!, oftewel Cee Es.  " +
+                        "^start(animations/Sit/BodyTalk/BodyTalk_6) Hier leer je alles over de veiligheid van het internet!";
     }
 }

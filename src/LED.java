@@ -13,23 +13,27 @@ public class LED {
 
     public void LED(String kleur) throws Exception {
         ALLeds alLeds = new ALLeds(this.session);
-        String kleurtest = null;
+        String kleurtest = "red";
         switch (kleur) {
             case "blauw":
                 kleurtest = "blue";
+                break;
             case "groen":
                 kleurtest = "green";
+                break;
             case "rood":
                 kleurtest = "red";
+                break;
             case "paars":
                 kleurtest = "magenta";
+                break;
             case "geel":
                 kleurtest = "yellow";
+                break;
+            case "wit":
+                kleurtest = "white";
         }
         alLeds.fadeRGB("AllLeds", kleurtest, 1f);
-
-
-        Thread.sleep(1000);
     }
 
 }

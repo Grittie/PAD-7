@@ -2,6 +2,8 @@ package src;
 
 import org.eclipse.paho.client.mqttv3.*;
 
+import java.util.Scanner;
+
 public class MQTT {
     // MQTT broker credentials
     public static String MQTT_HOST = "tcp://mqtt.hva-robots.nl:1883";
@@ -9,8 +11,12 @@ public class MQTT {
     public static String MQTT_USERNAME = "gritla";
     public static String MQTT_PASSWORD = "D6G9E1b95x8h3LaGFtxA";
 
+    private NAO nao;
+
     // Function that runs the MQTT Client
-    public static void mqttClient() throws Exception {
+    public void mqttClient() throws Exception {
+        //connect NAO
+        this.nao = new NAO("johanus.local", 9559);
         // Connects to MQTT broker
         MqttClient client = new MqttClient (MQTT_HOST, MQTT_CLIENT_ID);
         MqttConnectOptions connectOptions = new MqttConnectOptions();
@@ -37,29 +43,56 @@ public class MQTT {
                 System.out.print("Bericht: ");
                 System.out.println(mqttMessage.toString());
 
+
                 // Switch case that plays presentation according to buttong pressed on website
                 switch (mqttMessage.toString()) {
                     case "SE":
+                        nao.staan();
                         System.out.println("Software engineering presentation starting...");
+                        nao.led("rood");
+                        Thread.sleep(2000);
+                        nao.zeg(nao.se());
+                        nao.led("wit");
+                        nao.staan();
+
                         break;
                     case "TI":
                         System.out.println("Technische Informatica presentation starting...");
+                        nao.staan();
+                        nao.led("geel");
+                        nao.zeg(nao.ti());
+                        nao.led("wit");
+                        nao.staan();
                         break;
                     case "BIM":
                         System.out.println("Business Management presentation starting...");
+                        nao.staan();
+                        nao.led("paars");
+                        nao.zeg(nao.bim());
+                        nao.led("wit");
+                        nao.staan();
                         break;
                     case "CS":
                         System.out.println("Cyber Security presentation starting...");
+                        nao.staan();
+                        nao.led("groen");
+                        nao.zeg(nao.cs());
+                        nao.led("wit");
+                        nao.staan();
                         break;
                     case "GD":
                         System.out.println("Game Development presentation starting...");
+                        nao.staan();
+                        nao.led("blauw");
+                        nao.zeg(nao.gd());
+                        nao.led("wit");
+                        nao.staan();
                         break;
                 }
             }
 
             @Override
             public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {
-
             }
         });
 

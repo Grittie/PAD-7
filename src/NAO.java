@@ -4,8 +4,10 @@ import com.aldebaran.qi.Application;
 
 public class NAO {
     private Application application;
+    // Use presentatie etc class so it can use their methodes, so we have only have to make one NAO object in main
     private Presentaties presentaties;
     private MovementTalking movementTalking;
+    private LED led;
 
     public NAO(String hostname, int port) {
         String robotUrl = "tcp://" + hostname + ":" + port;
@@ -16,7 +18,9 @@ public class NAO {
 
         this.presentaties = new Presentaties(this.application.session());
         this.movementTalking = new MovementTalking(this.application.session());
+        this.led = new LED(this.application.session());
     }
+    //Methodes that make the NAO move
 
     public String intro() throws Exception {
         return this.presentaties.intro();
@@ -29,6 +33,12 @@ public class NAO {
     }
     public String se() throws Exception {
         return this.presentaties.SEpresentatie();
+    }
+    public String gd() throws Exception {
+        return this.presentaties.GDpresentatie();
+    }
+    public String cs() throws Exception {
+        return this.presentaties.CSpresentatie();
     }
     public void staan() throws  Exception{
         this.movementTalking.staan();
@@ -47,6 +57,9 @@ public class NAO {
 
     public void zeg(String text) throws Exception {
         this.movementTalking.zeg(text);
+    }
+    public void led(String kleur) throws Exception {
+        this.led.LED(kleur);
     }
 
 }
