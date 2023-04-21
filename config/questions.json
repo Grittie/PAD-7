@@ -12,6 +12,14 @@
           "score-ict-ondernemer": 5
         },
         {
+          "answer": "Maybe",
+          "score-back-end": 5,
+          "score-front-end": 5,
+          "score-robot-ui": 5,
+          "score-robot-technical": 5,
+          "score-ict-ondernemer": 5
+        },
+        {
           "answer": "No",
           "score-back-end": 0,
           "score-front-end": 10,
@@ -33,6 +41,14 @@
           "score-ict-ondernemer": 20
         },
         {
+          "answer": "Maybe",
+          "score-back-end": 5,
+          "score-front-end": 5,
+          "score-robot-ui": 5,
+          "score-robot-technical": 5,
+          "score-ict-ondernemer": 5
+        },
+        {
           "answer": "No",
           "score-back-end": 5,
           "score-front-end": 5,
@@ -51,6 +67,14 @@
           "score-front-end": 10,
           "score-robot-ui": 10,
           "score-robot-technical": 0,
+          "score-ict-ondernemer": 5
+        },
+        {
+          "answer": "Maybe",
+          "score-back-end": 5,
+          "score-front-end": 5,
+          "score-robot-ui": 5,
+          "score-robot-technical": 5,
           "score-ict-ondernemer": 5
         },
         {
@@ -75,6 +99,14 @@
           "score-ict-ondernemer": 5
         },
         {
+          "answer": "Maybe",
+          "score-back-end": 5,
+          "score-front-end": 5,
+          "score-robot-ui": 5,
+          "score-robot-technical": 5,
+          "score-ict-ondernemer": 5
+        },
+        {
           "answer": "No",
           "score-back-end": 5,
           "score-front-end": 5,
@@ -93,6 +125,14 @@
           "score-front-end": 10,
           "score-robot-ui": 10,
           "score-robot-technical": 10,
+          "score-ict-ondernemer": 5
+        },
+        {
+          "answer": "Maybe",
+          "score-back-end": 5,
+          "score-front-end": 5,
+          "score-robot-ui": 5,
+          "score-robot-technical": 5,
           "score-ict-ondernemer": 5
         },
         {
