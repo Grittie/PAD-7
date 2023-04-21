@@ -17,27 +17,18 @@ Every question has multiple scores.
       "answers": [
         {
           "answer": "Yes",
-          "score-back-end": 0,
-          "score-front-end": 0,
-          "score-robot-ui": 0,
-          "score-robot-technical": 0,
-          "score-ict-ondernemer": 0
+          "score-example-one": 0,
+          "score-example-two": 0
         },
         {
           "answer": "Maybe",
-          "score-back-end": 0,
-          "score-front-end": 0,
-          "score-robot-ui": 0,
-          "score-robot-technical": 0,
-          "score-ict-ondernemer": 0
+          "score-example-one": 0,
+          "score-example-two": 0
         },
         {
           "answer": "No",
-          "score-back-end": 0,
-          "score-front-end": 0,
-          "score-robot-ui": 0,
-          "score-robot-technical": 0,
-          "score-ict-ondernemer": 0
+          "score-example-one": 0,
+          "score-example-two": 0
         }
       ]
     }
