@@ -1,0 +1,109 @@
+{
+  "questions": [
+    {
+      "question": "Hou jij veel van wiskunde?",
+      "answers": [
+        {
+          "answer": "Yes",
+          "score-back-end": 10,
+          "score-front-end": 3,
+          "score-robot-ui": 5,
+          "score-robot-technical": 10,
+          "score-ict-ondernemer": 5
+        },
+        {
+          "answer": "No",
+          "score-back-end": 0,
+          "score-front-end": 10,
+          "score-robot-ui": 10,
+          "score-robot-technical": 0,
+          "score-ict-ondernemer": 0
+        }
+      ]
+    },
+    {
+      "question": "Hou je van business?",
+      "answers": [
+        {
+          "answer": "Yes",
+          "score-back-end": 5,
+          "score-front-end": 5,
+          "score-robot-ui": 5,
+          "score-robot-technical": 5,
+          "score-ict-ondernemer": 20
+        },
+        {
+          "answer": "No",
+          "score-back-end": 5,
+          "score-front-end": 5,
+          "score-robot-ui": 5,
+          "score-robot-technical": 5,
+          "score-ict-ondernemer": 0
+        }
+      ]
+    },
+    {
+      "question": "Vindt je design leuk?",
+      "answers": [
+        {
+          "answer": "Yes",
+          "score-back-end": 0,
+          "score-front-end": 10,
+          "score-robot-ui": 10,
+          "score-robot-technical": 0,
+          "score-ict-ondernemer": 5
+        },
+        {
+          "answer": "No",
+          "score-back-end": 10,
+          "score-front-end": 0,
+          "score-robot-ui": 0,
+          "score-robot-technical": 10,
+          "score-ict-ondernemer": 5
+        }
+      ]
+    },
+    {
+      "question": "Hou jij van robots?",
+      "answers": [
+        {
+          "answer": "Yes",
+          "score-back-end": 5,
+          "score-front-end": 5,
+          "score-robot-ui": 20,
+          "score-robot-technical": 20,
+          "score-ict-ondernemer": 5
+        },
+        {
+          "answer": "No",
+          "score-back-end": 5,
+          "score-front-end": 5,
+          "score-robot-ui": 0,
+          "score-robot-technical": 0,
+          "score-ict-ondernemer": 5
+        }
+      ]
+    },
+    {
+      "question": "Lijkt jou elke dag programmeren leuk?",
+      "answers": [
+        {
+          "answer": "Yes",
+          "score-back-end": 10,
+          "score-front-end": 10,
+          "score-robot-ui": 10,
+          "score-robot-technical": 10,
+          "score-ict-ondernemer": 5
+        },
+        {
+          "answer": "No",
+          "score-back-end": 0,
+          "score-front-end": 0,
+          "score-robot-ui": 0,
+          "score-robot-technical": 0,
+          "score-ict-ondernemer": 10
+        }
+      ]
+    }
+  ]
+}
