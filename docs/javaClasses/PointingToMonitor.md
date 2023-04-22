@@ -15,7 +15,7 @@ so that the robot can show what it is talking about.
 
 
 ## Class diagram:
-<img src="../../assets/wijzenmonitordiag.png" width="200">
+<img src="../../assets/wijzenmonitordiag.png" width="350">
 
 ## The Java Class:
 It then specifies an array of joint names and an array of joint angles that the robot should move to. <br> The loop iterates 
