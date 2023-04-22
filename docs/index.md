@@ -4,6 +4,6 @@ Here you can find links to more specific info about every user story in the proj
 
 ## Java classes
 
-- [Idle](./javaClasses/Idle.md)
-- [MQTT](./javaClasses/MQTT.md)
-- [PointingToMonitor](./javaClasses/PointingToMonitor.md)
+- [Idle](../docs/javaClasses/Idle.md)
+- [MQTT](../docs/javaClasses/MQTT.md)
+- [PointingToMonitor](../docs/javaClasses/PointingToMonitor.md)
