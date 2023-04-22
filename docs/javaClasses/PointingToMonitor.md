@@ -11,5 +11,5 @@ so that the robot can show what it is talking about.
 
 ## The Java Class:
 
-<img src="../../assets/wijzenmonitor%20class.png" width="400" >
+<img src="../../assets/wijzenmonitor%20class.png" width="1000" >
 
