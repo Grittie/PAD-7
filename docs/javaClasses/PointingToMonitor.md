@@ -18,7 +18,7 @@ so that the robot can show what it is talking about.
 <img src="../../assets/wijzenmonitordiag.png" width="200">
 
 ## The Java Class:
-It then specifies an array of joint names and an array of joint angles that the robot should move to.<br>The loop iterates 
+It then specifies an array of joint names and an array of joint angles that the robot should move to. <br> The loop iterates 
 over each joint in the arrays and sets the joint angles using the "setAngles()" method provided by the ALMotion class.
 
 <img src="../../assets/wijzenmonitor%20class.png" width="1000" >
