@@ -1,6 +1,6 @@
 # Documentation root
 
-Here you can find links to more specific info about everything in the project.
+Here you can find links to more specific info about every user story in the project.
 
 ## Java classes
 
