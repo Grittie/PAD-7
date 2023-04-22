@@ -15,7 +15,7 @@ so that the robot can show what it is talking about.
 
 
 ## Class diagram:
-<img src="../../assets/wijzenmonitordiag.png" width="500">
+<img src="../../assets/wijzenmonitordiag.png" width="200">
 
 ## The Java Class:
 
