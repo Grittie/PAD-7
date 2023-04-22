@@ -6,6 +6,7 @@ The future student wants the robot to point to the monitor/presentation
 so that the robot can show what it is talking about.
 
 ## Used modules:
+These modules come from the NAOqi api:
 - Application
 - ALMotion
 
