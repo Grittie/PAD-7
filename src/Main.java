@@ -10,9 +10,9 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 
-        MQTT mqtt = new MQTT();
-
-        mqtt.mqttClient();
+//        MQTT mqtt = new MQTT();
+//
+//        mqtt.mqttClient();
 
     }
 }
