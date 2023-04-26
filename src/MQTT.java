@@ -2,16 +2,41 @@ package src;
 
 import org.eclipse.paho.client.mqttv3.*;
 
-import java.util.Scanner;
-
 public class MQTT {
     // MQTT broker credentials
-    public static String MQTT_HOST = "tcp://mqtt.hva-robots.nl:1883";
-    public static String MQTT_CLIENT_ID = "gritla_0";
-    public static String MQTT_USERNAME = "gritla";
-    public static String MQTT_PASSWORD = "D6G9E1b95x8h3LaGFtxA";
+    private static final String MQTT_HOST = "tcp://mqtt.hva-robots.nl:1883";
+    private static final String MQTT_CLIENT_ID = "gritla_0";
+    private static final String MQTT_USERNAME = "gritla";
+    private static final String MQTT_PASSWORD = "D6G9E1b95x8h3LaGFtxA";
 
     private NAO nao;
+
+    public static MqttClient client;
+    public static MqttConnectOptions connectOptions;
+
+    public static MqttClient getMqttClient() throws MqttException {
+        if (client == null) {
+            client = new MqttClient(MQTT_HOST, MQTT_CLIENT_ID);
+        }
+        return client;
+    }
+
+    public static MqttConnectOptions getMqttConnectOptions() {
+        if (connectOptions == null) {
+            connectOptions = new MqttConnectOptions();
+        }
+        return connectOptions;
+    }
+
+    public static void connect() throws MqttSecurityException, MqttException {
+        connectOptions.setUserName(MQTT_USERNAME);
+        connectOptions.setPassword(MQTT_PASSWORD.toCharArray());
+        getMqttClient().connect(connectOptions);
+    }
+
+    public static void subscribe(String topic) throws MqttException {
+        getMqttClient().subscribe(topic);
+    }
 
     // Function that runs the MQTT Client
     public void mqttClient() throws Exception {
