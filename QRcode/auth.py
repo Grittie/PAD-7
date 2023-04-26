@@ -9,12 +9,10 @@ def authenticate():
 
     client_id = config.get('credentials', 'client_id')
     client_secret = config.get('credentials', 'client_secret')
-    username = config.get('credentials', 'username')
-    password = config.get('credentials', 'password')
 
     client = ImgurClient(client_id, client_secret)
 
-    # Authorization flow, pin example (see docs for other auth types)
+    # Authorization flow, pin example (there are other ways but didn't work for me bcause i didn't get the verification code)
     authorization_url = client.get_auth_url('pin')
     print(authorization_url)
     pin = input('Wat is de pin:')

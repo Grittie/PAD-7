@@ -12,9 +12,3 @@ def generate(link, teller):
     return str(string)
 
 
-# i = 0
-# while i < 1:
-#     filename = input("file name: ")
-#     generate(filename, i)
-#     i += 1
-

@@ -34,7 +34,7 @@ def getPicture():
 
 def uploadPicture(client, path):
     print("Uploading image... ")
-    foto = client.upload_from_path(path, config=None, anon=True)
+    foto = client.upload_from_path(path, config=None, anon=False)
     print("Done")
     print()
     print("De link: {0}".format(foto['link']))
@@ -49,11 +49,13 @@ restults_album_id = 1124
 qr_album_id = 124
 
 teller = 1
+
 client = authenticate()
+
 while True:
     image_path = 'QRcodes/results/'
     image_file = '.jpeg'
-    image_name = 'foto_' + str(teller)
+    image_name = 'result_' + str(teller)
 
     result_path = image_path + image_name + image_file
     try:
@@ -61,6 +63,9 @@ while True:
         resultsQR = generate(results, teller)
         time.sleep(2)
         os.remove(result_path)
-        teller = teller + 1
-    except:
-        teller = 1
+    except FileNotFoundError:
+        print("waiting on file....")
+        time.sleep(5)
+
+
+
