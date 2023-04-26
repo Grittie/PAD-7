@@ -16,6 +16,7 @@ public class NAO {
         // Start your application
         this.application.start();
 
+        //make object and give the session into the args of the constructor
         this.presentaties = new Presentaties(this.application.session());
         this.movementTalking = new MovementTalking(this.application.session());
         this.led = new LED(this.application.session());
