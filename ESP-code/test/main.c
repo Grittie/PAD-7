@@ -1,13 +1,12 @@
-#include "freertos/FreeRTOS.h"
+/*#include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "driver/gpio.h"
+#include "EspMQTT.h"
 #include <stdio.h>
-
 
 #define LOW 0
 #define HIGH 1
 #define DELAY 25
-
 
 // This funtion designates the specific pins on the esp for input or output.
 void setup(uint16_t buttons[], uint8_t sizeButtons) {
@@ -32,16 +31,27 @@ void button(uint16_t buttons[], uint8_t sizeButtons) {
 }
 
 
+void mqqtconnect() {
+    char mqtthost[] = "tcp://mqtt.hva-robots.nl:1883";
+    char mqttclient[] = "kothuis_testing";
+    char mqttusername[] = "kothuil";
+    char mqttpassword[] = "ySDupTfLbgwRssv7xlgs";
+    esp_mqtt_client
+}
+
+
 void app_main() {
     // Defining the variables for later use.
     uint16_t buttons[3] = {7, 15, 16};
     uint8_t sizeButtons = 3;
     // Calls setup for setting up the pins for input and output.
     setup(buttons, sizeButtons);
-    // Main game loop.
+    // Main loop.
+    mqqtconnect();
     while (true) {
         button(buttons, sizeButtons);
         // Delay by varibale DELAY.
         vTaskDelay(DELAY / portTICK_PERIOD_MS);
     }
 }
+*/
