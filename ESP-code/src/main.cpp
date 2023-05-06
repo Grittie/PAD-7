@@ -14,11 +14,24 @@ const char* MQTT_USERNAME = "kothuil";
 const char* MQTT_PASSWORD = "ySDupTfLbgwRssv7xlgs";
 
 // Define pin numbers for buttons.
-const uint8_t buttons[3] = {7, 15, 16};
+uint8_t buttons[3] = {7, 15, 16};
 
 // Create instances of Wi-Fi client and PubSubClient.
 WiFiClient espClient;
 PubSubClient client(espClient);
+
+// Define function to handle incoming MQTT messages.
+void callback(char* topic, byte* message, unsigned int length) {
+	Serial.print("Message arrived on topic: ");
+	Serial.print(topic);
+	Serial.print(". Message: ");
+	String messageTemp;
+	for (int i = 0; i < length; i++) {
+		Serial.print((char)message[i]);
+		messageTemp += (char)message[i];
+	}
+	Serial.println();
+}
 
 // Define function to initiates the buttons, try's to connect to the wifi network and connects to the MQTT server.
 void setup() {
@@ -45,19 +58,6 @@ void setup() {
 	// Set MQTT server and callback function.
 	client.setServer(MQTT_SERVER, 1883);
 	client.setCallback(callback);
-}
-
-// Define function to handle incoming MQTT messages.
-void callback(char* topic, byte* message, unsigned int length) {
-	Serial.print("Message arrived on topic: ");
-	Serial.print(topic);
-	Serial.print(". Message: ");
-	String messageTemp;
-	for (int i = 0; i < length; i++) {
-		Serial.print((char)message[i]);
-		messageTemp += (char)message[i];
-	}
-	Serial.println();
 }
 
 // Define function to reconnect to MQTT broker.
