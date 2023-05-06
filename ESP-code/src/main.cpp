@@ -16,6 +16,9 @@ const char* MQTT_PASSWORD = "ySDupTfLbgwRssv7xlgs";
 // Define pin numbers for buttons.
 uint8_t buttons[3] = {7, 15, 16};
 
+// Define button name.
+char* button_name[3] = {"Yes", "Maybe", "No"};
+
 // Create instances of Wi-Fi client and PubSubClient.
 WiFiClient espClient;
 PubSubClient client(espClient);
@@ -54,6 +57,7 @@ void setup() {
 	Serial.printf("%s","\nWiFi connected.\nIP address: ");
 	// When connected print the ip adress that you have connected to.
 	Serial.println(WiFi.localIP());
+	Serial.println("");
 	delay(10);
 	// Set MQTT server and callback function.
 	client.setServer(MQTT_SERVER, 1883);
@@ -68,6 +72,7 @@ void reconnect() {
 		// Attempt to connect to MQTT broker with client ID "Testclient".
 		if (client.connect("Testclient", MQTT_USERNAME, MQTT_PASSWORD)) {
 			Serial.println("connected");
+			Serial.println("");
 			// Subscribe to topic "kothuil/output". If neccesary change "output".
 			client.subscribe("kothuil/output");
 		} else {
@@ -105,11 +110,11 @@ void loop() {
 	if (pressed != 0) {
 		buttonState = 1;
 		}
-	// If a button hase been pressed send a message to the MQTT server which includes the number of the button that was pressed.
+	// If a button hase been pressed send a message to the MQTT server which includes the name of the button that was pressed.
 	if (buttonState && !buttonPressed && pressed) {
-		Serial.printf("%s%d\n","Button pressed: ", pressed);
+		Serial.printf("%s%d\n%s%s\n","Button pressed:  ", pressed, "Which is option: ", button_name[pressed - 1]);
 		buttonPressed = 1;
-		client.publish("kothuil/pressed", "testing");
+		client.publish("kothuil/pressed", button_name[pressed - 1]);
 	// When button is no longer pressed reset the variable "buttonPressed".
 	} else if (!buttonState && buttonPressed){
 		buttonPressed = 0;
