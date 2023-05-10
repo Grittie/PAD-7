@@ -4,7 +4,7 @@
 
 - Lars Grit
 - Toine Donker
-- Ana Garcia Montez
+- ~~Ana Garcia Montez~~
 - Luka Kothuis
 - Sem Wester
 - Kamal Kouidar
@@ -20,11 +20,14 @@ aan kan gaan met de doelgroep, maak daarbij gebruik van een externe factor.
 
 ## Opdrachtgever
 
-Wij hebben de HvA gekozen als opdrachtgever omdat Kamal meewerkt in het opendag team en dus ervaring heeft
-met studiekiezers & bezoekers. We kunnen de robot veel laten doen tijdens de opendag!
+We hebben HvA gekozen als opdrachtgever omdat Kamal deel uitmaakt van het opendagteam en dus ervaring heeft met studiekiezers en bezoekers. 
+We kunnen de robot tijdens de opendag veel taken laten uitvoeren dankzij deze ervaring!
 
 ## Project Idee
 
-De NAO is een leerroute presentator die op een actieve
+~~De NAO is een leerroute presentator die op een actieve
 educatieve manier de studiekiezer en begeleiders informeren over leerroutes binnen HBO-ICT. Hij moet op een bijna
-menselijke wijze presenteren.
+menselijke wijze presenteren.~~
+
+De NAO is een Studiekeuzecheck die gebruikers een reeks vragen stelt, waardoor de NAO kan bepalen wat de beste studiekeuze voor hen zou kunnen zijn. 
+Wanneer de NAO deze keuze heeft gemaakt, wordt er een afbeelding gegenereerd die de studiekiezer kan scannen met zijn telefoon via een QR-code.
