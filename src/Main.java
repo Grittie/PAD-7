@@ -10,9 +10,8 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 
-//        MQTT mqtt = new MQTT();
-//
-//        mqtt.mqttClient();
+        CreateImage createImage = new CreateImage();
+        createImage.staafDiagram();
 
     }
 }
