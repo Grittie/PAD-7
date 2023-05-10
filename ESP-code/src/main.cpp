@@ -3,15 +3,13 @@
 #include <Wire.h>
 
 // Define Wi-Fi credentials.
-// const char* WIFI_NAME = "iotroam";
-// const char* WIFI_PASSWORD = "qQl6zb6jjq";
-const char* WIFI_NAME = "Kothuis";
-const char* WIFI_PASSWORD = "luk4s4mu3l";
+const char* WIFI_NAME = "Wifitesting";
+const char* WIFI_PASSWORD = "thisneedtobesecure";
 
 // Define MQTT server and credentials.
 const char* MQTT_SERVER = "mqtt.hva-robots.nl";
-const char* MQTT_USERNAME = "kothuil";
-const char* MQTT_PASSWORD = "ySDupTfLbgwRssv7xlgs";
+const char* MQTT_USERNAME = "gritla";
+const char* MQTT_PASSWORD = "D6G9E1b95x8h3LaGFtxA";
 
 // Define pin numbers for buttons.
 uint8_t buttons[3] = {7, 15, 16};
@@ -71,10 +69,10 @@ void reconnect() {
 		Serial.print("Attempting MQTT connection...");
 		// Attempt to connect to MQTT broker with client ID "Testclient".
 		if (client.connect("Testclient", MQTT_USERNAME, MQTT_PASSWORD)) {
-			Serial.println("connected");
+			Serial.println(" connected");
 			Serial.println("");
-			// Subscribe to topic "kothuil/output". If neccesary change "output".
-			client.subscribe("kothuil/output");
+			// Subscribe to topic "gritla/answer". If neccesary change "output".
+			client.subscribe("gritla/answer");
 		} else {
 			// If connection fails, print error message and try again in 5 seconds.
 			Serial.print("failed, rc=");
@@ -114,7 +112,7 @@ void loop() {
 	if (buttonState && !buttonPressed && pressed) {
 		Serial.printf("%s%d\n%s%s\n","Button pressed:  ", pressed, "Which is option: ", button_name[pressed - 1]);
 		buttonPressed = 1;
-		client.publish("kothuil/pressed", button_name[pressed - 1]);
+		client.publish("gritla/answer", button_name[pressed - 1]);
 	// When button is no longer pressed reset the variable "buttonPressed".
 	} else if (!buttonState && buttonPressed){
 		buttonPressed = 0;
