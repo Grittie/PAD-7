@@ -22,6 +22,11 @@ main {
     font-size: inherit;
 }
 
+#QR-code {
+    position: relative;
+    left: 25%;
+}
+
 #route-buttons {
     position: relative;
     left: 25%;
