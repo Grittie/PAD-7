@@ -1,3 +1,7 @@
+/*
+Source: https://randomnerdtutorials.com/esp32-mqtt-publish-subscribe-arduino-ide/
+*/
+
 #include <WiFi.h>
 #include <PubSubClient.h>
 #include <Wire.h>
