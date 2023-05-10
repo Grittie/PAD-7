@@ -13,8 +13,8 @@ plantUML drawing, a class diagram and explanation of the code (java class).\
 
 ## Sprint 2: User stories
 - [LED](../docs/javaClasses/LED.md) - assigned to **Kamal Kouidar** - issue **#42**
-- [MQTT](./javaclasses/MQTT.md)
+- [MQTT](../docs//javaClasses/MQTT.md) - assigned to **Toine Donker** - issue **35**
 
 
 ## Sprint 3: User stories
-- [Questions JSON](./config/Questions.md)
+- [Questions JSON](../docs/config/Questions.md)
