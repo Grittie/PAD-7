@@ -4,18 +4,9 @@ import java.io.*;
 import java.util.*;
 import org.json.simple.*;
 import org.json.simple.parser.*;
-import com.aldebaran.qi.Session;
-import com.aldebaran.qi.helper.proxies.ALTextToSpeech;
-import com.aldebaran.qi.CallError;
-import org.eclipse.paho.client.mqttv3.*;
 
 public class Questions {
-    static private Session session;
-    static private ALTextToSpeech textToSpeech;
-    static private JSONParser parser;
-    static private MQTT mqtt;
-    static private long[] score = new long[5];
-    static private boolean isPressed = false;
+    public static void main(String[] args) {
 
     static private ArrayList answers;
 
@@ -126,17 +117,21 @@ public class Questions {
                 throw new UnsupportedOperationException("Unimplemented method 'deliveryComplete'");
             }
         });
+=======
+>>>>>>> src/Questions.java
     }
 
     public void parseJson() {
+        JSONParser parser = new JSONParser();
         try {
-            Object obj = getJsonParser().parse(new FileReader("./config/questions.json"));
-            JSONObject jsonObject = (JSONObject) obj;
-            JSONArray questions = (JSONArray) jsonObject.get("questions");
+            Object obj = parser.parse(new FileReader("./config/questions.json"));
+            JSONObject jsonObject = (JSONObject)obj;
+            JSONArray questions = (JSONArray)jsonObject.get("questions");
             Iterator iterator = questions.iterator();
             while (iterator.hasNext()) {
                 System.out.println(iterator.next());
             }
+<<<<<<< src/Questions.java
         } catch (Exception e) {
             e.printStackTrace();
         }
