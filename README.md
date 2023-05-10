@@ -28,16 +28,3 @@ met studiekiezers & bezoekers. We kunnen de robot veel laten doen tijdens de ope
 De NAO is een leerroute presentator die op een actieve
 educatieve manier de studiekiezer en begeleiders informeren over leerroutes binnen HBO-ICT. Hij moet op een bijna
 menselijke wijze presenteren.
-
-## Sprint 1 User stories onderwerpen
-
-- Movement
-  - [ ] Dab
-  - [ ] Lopen
-  - [ ] Idle
-  - [ ] Presenting
-- Speech
-  - [ ] Presenting
-- Vision
-  - [ ] Camera
-  - [ ] Facial detection
