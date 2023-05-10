@@ -85,31 +85,31 @@ public class Questions {
                     case "Yes":
                         // System.out.println(answers.get(0));
                         System.out.println(((JSONObject) answers.get(0)).get("score-back-end"));
-                         score[0] = (int) (long) ((JSONObject) answers.get(0)).get("score-back-end");
-                         score[1] = (int) (long) ((JSONObject) answers.get(0)).get("score-front-end");
-                         score[2] = (int) (long) ((JSONObject) answers.get(0)).get("score-robot-ui");
-                         score[3] = (int) (long) ((JSONObject) answers.get(0)).get("score-robot-technical");
-                         score[4] = (int) (long) ((JSONObject) answers.get(0)).get("score-ict-ondernemer");
+                         score[0] += (int) (long) ((JSONObject) answers.get(0)).get("score-back-end");
+                         score[1] += (int) (long) ((JSONObject) answers.get(0)).get("score-front-end");
+                         score[2] += (int) (long) ((JSONObject) answers.get(0)).get("score-robot-ui");
+                         score[3] += (int) (long) ((JSONObject) answers.get(0)).get("score-robot-technical");
+                         score[4] += (int) (long) ((JSONObject) answers.get(0)).get("score-ict-ondernemer");
 
                         break;
                     case "Maybe":
                         System.out.println(answers.get(1));
 
-                         score[0] = (int) (long) ((JSONObject) answers.get(1)).get("score-back-end");
-                         score[1] = (int) (long) ((JSONObject) answers.get(1)).get("score-front-end");
-                         score[2] = (int) (long) ((JSONObject) answers.get(1)).get("score-robot-ui");
-                         score[3] = (int) (long) ((JSONObject) answers.get(1)).get("score-robot-technical");
-                         score[4] = (int) (long) ((JSONObject) answers.get(1)).get("score-ict-ondernemer");
+                         score[0] += (int) (long) ((JSONObject) answers.get(1)).get("score-back-end");
+                         score[1] += (int) (long) ((JSONObject) answers.get(1)).get("score-front-end");
+                         score[2] += (int) (long) ((JSONObject) answers.get(1)).get("score-robot-ui");
+                         score[3] += (int) (long) ((JSONObject) answers.get(1)).get("score-robot-technical");
+                         score[4] += (int) (long) ((JSONObject) answers.get(1)).get("score-ict-ondernemer");
 
                         break;
                     case "No":
                         System.out.println(answers.get(2));
 
-                         score[0] = (int) (long) ((JSONObject) answers.get(2)).get("score-back-end");
-                         score[1] = (int) (long) ((JSONObject) answers.get(2)).get("score-front-end");
-                         score[2] = (int) (long) ((JSONObject) answers.get(2)).get("score-robot-ui");
-                         score[3] = (int) (long) ((JSONObject) answers.get(2)).get("score-robot-technical");
-                         score[4] = (int) (long) ((JSONObject) answers.get(2)).get("score-ict-ondernemer");
+                         score[0] += (int) (long) ((JSONObject) answers.get(2)).get("score-back-end");
+                         score[1] += (int) (long) ((JSONObject) answers.get(2)).get("score-front-end");
+                         score[2] += (int) (long) ((JSONObject) answers.get(2)).get("score-robot-ui");
+                         score[3] += (int) (long) ((JSONObject) answers.get(2)).get("score-robot-technical");
+                         score[4] += (int) (long) ((JSONObject) answers.get(2)).get("score-ict-ondernemer");
 
                         break;
                     default:
@@ -161,8 +161,10 @@ public class Questions {
 
             System.out.println("closing");
             System.out.println(Arrays.toString(score));
-            MQTT.client.close();
-            // TODO: data doorsturen(run fuctie van Kamal)
+
+            CreateImage createImage = new CreateImage();
+            createImage.staafDiagram(score);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
