@@ -55,8 +55,8 @@ client = authenticate()
 
 while True:
     image_path = 'QRcodes/results/'
-    image_file = '.jpeg'
-    image_name = 'result_' + str(teller)
+    image_file = '.png'
+    image_name = 'result'
 
     result_path = image_path + image_name + image_file
     try:

@@ -45,7 +45,7 @@ public class CreateImage {
 
         graphics2D.dispose();
 
-        File file = new File("mijnImage.png");
+        File file = new File("./QRcode/QRcodes/results/result.png");
         ImageIO.write(bufferedImage, "png", file);
     }
 }
