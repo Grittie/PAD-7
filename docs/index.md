@@ -7,7 +7,7 @@ plantUML drawing, a class diagram and explanation of the code (java class).\
 
 ## Sprint 1: User stories
 - [Idle](../docs/javaClasses/Idle.md) - assigned to **Toine Donker** - issue **#33**
-- [PointingToMonitor](../docs/javaClasses/PointingToMonitor.md) - assigned to **Kamal Kouidar** - issue **#34**
+- [PointingToMonitor](../docs/javaClasses/PointingToMonitor.md) - assigned to **Kamal Kouidar** - issue **#34** 
 
 
 
