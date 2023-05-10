@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class CreateImage {
 
@@ -17,7 +18,9 @@ public class CreateImage {
 
     }
 
-    public void staafDiagram() throws IOException {
+    public void staafDiagram(long[] score) throws IOException {
+        System.out.println(Arrays.toString(score));
+
         int width = 400;
         int height = 200;
         int y = 50;
@@ -27,7 +30,6 @@ public class CreateImage {
         Graphics2D graphics2D = bufferedImage.createGraphics();
 
         String[] onderwerp = {"Software-Engineering:", "Scrum-master:", "IT-ondernemer:", "Lars:", "Luka:"};
-        int[] results = {140, 150, 100, 80, 90}; // results omrekenen voor juiste staafbreedte
         Color[] kleuren = {Color.BLUE, Color.orange, Color.RED, Color.green, Color.yellow};
 
         graphics2D.setColor(Color.white);
@@ -37,7 +39,7 @@ public class CreateImage {
 
 
         for (int i = 0; i < onderwerp.length; i++) {
-            imageCreator.rectangle(onderwerp[i], kleuren[i], results[i], y, graphics2D, i);
+            imageCreator.rectangle(onderwerp[i], kleuren[i], (int) score[i], y, graphics2D, i);
             y += 30;
         }
 
