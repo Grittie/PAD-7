@@ -1,5 +1,6 @@
 package src;
 
+
 import com.aldebaran.qi.Application;
 
 import java.util.Scanner;
@@ -9,13 +10,8 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 
-
-        Questions questions = new Questions();
-        questions.askAllQuestions();
-
-        // CreateImage createImage = new CreateImage();
-        // createImage.staafDiagram();
-
+        CreateImage createImage = new CreateImage();
+        createImage.staafDiagram();
 
     }
 }
