@@ -14,7 +14,10 @@ public class Questions {
     static private ALTextToSpeech textToSpeech;
     static private JSONParser parser;
     static private MQTT mqtt;
-    static private int[] score;
+    static private int[] score = new int[5];
+    static private boolean isPressed = false;
+
+    static private ArrayList answers;
 
     static private JSONParser getJsonParser() {
         if (parser == null) {
@@ -38,6 +41,7 @@ public class Questions {
         MqttConnectOptions mqttConnectOptions = MQTT.getMqttConnectOptions();
         MQTT.connect();
         client.subscribe("gritla/answer");
+        listen();
     }
 
     /**
@@ -59,22 +63,60 @@ public class Questions {
      *
      * @throws MqttException
      */
-    public void listen(JSONObject question) throws MqttException {
+    public void listen() throws MqttException {
         getMqtt();
         MQTT.getMqttClient().setCallback(new MqttCallback() {
             @Override
             public void connectionLost(Throwable throwable) {
+                try {
+                    throw throwable;
+                } catch (Throwable e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
                 System.out.println("connection lost...");
             }
 
             // Listens to arrived messages and prints the topic and message
             @Override
             public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
-                score[0] = (score[0] + (int) ((JSONObject) question).get("score-back-end"));
-                score[1] = (score[1] + (int) ((JSONObject) question).get("score-front-end"));
-                score[2] = (score[2] + (int) ((JSONObject) question).get("score-robot-ui"));
-                score[3] = (score[3] + (int) ((JSONObject) question).get("score-robot-technical"));
-                score[4] = (score[4] + (int) ((JSONObject) question).get("score-ict-ondernemer"));
+                isPressed = true;
+                switch (mqttMessage.toString()) {
+                    case "Yes":
+                        // System.out.println(answers.get(0));
+                        System.out.println(((JSONObject) answers.get(0)).get("score-back-end"));
+                        score[0] = (int) ((JSONObject) answers.get(0)).get("score-back-end");
+                        // score[1] = (int) ((JSONObject) answers.get(0)).get("score-front-end");
+                        // score[2] = (int) ((JSONObject) answers.get(0)).get("score-robot-ui");
+                        // score[3] = (int) ((JSONObject) answers.get(0)).get("score-robot-technical");
+                        // score[4] = (int) ((JSONObject) answers.get(0)).get("score-ict-ondernemer");
+
+                        break;
+                    case "Maybe":
+                        System.out.println(answers.get(1));
+
+                        // score[0] = (int) ((JSONObject) answers.get(1)).get("score-back-end");
+                        // score[1] = (int) ((JSONObject) answers.get(1)).get("score-front-end");
+                        // score[2] = (int) ((JSONObject) answers.get(1)).get("score-robot-ui");
+                        // score[3] = (int) ((JSONObject) answers.get(1)).get("score-robot-technical");
+                        // score[4] = (int) ((JSONObject) answers.get(1)).get("score-ict-ondernemer");
+
+                        break;
+                    case "No":
+                        System.out.println(answers.get(2));
+
+                        // score[0] = (int) ((JSONObject) answers.get(2)).get("score-back-end");
+                        // score[1] = (int) ((JSONObject) answers.get(2)).get("score-front-end");
+                        // score[2] = (int) ((JSONObject) answers.get(2)).get("score-robot-ui");
+                        // score[3] = (int) ((JSONObject) answers.get(2)).get("score-robot-technical");
+                        // score[4] = (int) ((JSONObject) answers.get(2)).get("score-ict-ondernemer");
+
+                        break;
+                    default:
+                        break;
+                }
+
+                // System.out.println(mqttMessage.toString());
             }
 
             @Override
@@ -106,11 +148,18 @@ public class Questions {
             JSONArray questions = (JSONArray) jsonObject.get("questions");
             for (Object question : questions) {
                 String questionValue = (String) ((JSONObject) question).get("question");
+                answers = (ArrayList) ((JSONObject) question).get("answers");
 
                 System.out.println(questionValue);
 
-                listen((JSONObject) question);
+                while (!isPressed) {
+                    Thread.sleep(100); // anders is er geen tijd om te lluisteren naar MQTT
+                }
+                isPressed = false;
             }
+
+            MQTT.client.close();
+            // TODO: data doorsturen(run fuctie van Kamal)
         } catch (Exception e) {
             e.printStackTrace();
         }

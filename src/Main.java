@@ -1,6 +1,5 @@
 package src;
 
-
 import com.aldebaran.qi.Application;
 
 import java.util.Scanner;
@@ -10,9 +9,8 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 
-        MQTT mqtt = new MQTT();
-
-        mqtt.mqttClient();
+        Questions questions = new Questions();
+        questions.askAllQuestions();
 
     }
 }
