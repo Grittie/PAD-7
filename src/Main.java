@@ -9,9 +9,8 @@ import java.util.concurrent.CountDownLatch;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-
-        CreateImage createImage = new CreateImage();
-        createImage.staafDiagram();
+        Questions questions = new Questions();
+        questions.askAllQuestions();
 
     }
 }

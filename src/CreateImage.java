@@ -29,8 +29,8 @@ public class CreateImage {
 
         Graphics2D graphics2D = bufferedImage.createGraphics();
 
-        String[] onderwerp = {"Software-Engineering:", "Scrum-master:", "IT-ondernemer:", "Lars:", "Luka:"};
-        Color[] kleuren = {Color.BLUE, Color.orange, Color.RED, Color.green, Color.yellow};
+        String[] onderwerp = {"Back-end Engineer:", "Front-end Engineer:", "Robot UI:", "Robot Technical:", "ICT Ondernemer:"};
+        Color[] kleuren = {Color.BLUE, Color.orange, Color.RED, Color.green, Color.magenta};
 
         graphics2D.setColor(Color.white);
         graphics2D.fillRect(0, 0, width, height);
