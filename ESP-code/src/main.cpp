@@ -3,8 +3,8 @@
 #include <Wire.h>
 
 // Define Wi-Fi credentials.
-const char* WIFI_NAME = "Wifitesting";
-const char* WIFI_PASSWORD = "thisneedtobesecure";
+const char* WIFI_NAME = "iotroam";
+const char* WIFI_PASSWORD = "yhdYBrtpjv";
 
 // Define MQTT server and credentials.
 const char* MQTT_SERVER = "mqtt.hva-robots.nl";
