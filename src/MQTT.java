@@ -76,7 +76,7 @@ public class MQTT {
                         System.out.println("Software engineering presentation starting...");
                         nao.led("rood");
                         Thread.sleep(2000);
-                        nao.zeg(nao.se());
+                        nao.say(nao.se());
                         nao.led("wit");
                         nao.staan();
 
@@ -85,7 +85,7 @@ public class MQTT {
                         System.out.println("Technische Informatica presentation starting...");
                         nao.staan();
                         nao.led("geel");
-                        nao.zeg(nao.ti());
+                        nao.say(nao.ti());
                         nao.led("wit");
                         nao.staan();
                         break;
@@ -93,7 +93,7 @@ public class MQTT {
                         System.out.println("Business Management presentation starting...");
                         nao.staan();
                         nao.led("paars");
-                        nao.zeg(nao.bim());
+                        nao.say(nao.bim());
                         nao.led("wit");
                         nao.staan();
                         break;
@@ -101,7 +101,7 @@ public class MQTT {
                         System.out.println("Cyber Security presentation starting...");
                         nao.staan();
                         nao.led("groen");
-                        nao.zeg(nao.cs());
+                        nao.say(nao.cs());
                         nao.led("wit");
                         nao.staan();
                         break;
@@ -109,7 +109,7 @@ public class MQTT {
                         System.out.println("Game Development presentation starting...");
                         nao.staan();
                         nao.led("blauw");
-                        nao.zeg(nao.gd());
+                        nao.say(nao.gd());
                         nao.led("wit");
                         nao.staan();
                         break;

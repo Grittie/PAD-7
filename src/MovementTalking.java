@@ -30,13 +30,13 @@ public class MovementTalking {
         @Override
         public void run() {
             try {
-                movementTalking.zeg("Welkom bij de Open dag");
+                movementTalking.say("Welkom bij de Open dag");
                 Thread.sleep(1000);
-                movementTalking.zeg("Er zijn op deze opleiding 3 verschillende leerroutes");
+                movementTalking.say("Er zijn op deze opleiding 3 verschillende leerroutes");
                 Thread.sleep(1000);
-                movementTalking.zeg("Wil je daar meer over weten?");
+                movementTalking.say("Wil je daar meer over weten?");
                 Thread.sleep(1000);
-                movementTalking.zeg("Druk dan op een van deze 3 knoppen! ");
+                movementTalking.say("Druk dan op een van deze 3 knoppen! ");
 
 
             } catch (Exception e) {
@@ -64,7 +64,7 @@ public class MovementTalking {
             }
         }
     }
-    public void zeg(String tekst) throws Exception {
+    public void say(String tekst) throws Exception {
         ALTextToSpeech tts = new ALTextToSpeech(this.session);// Create an ALTextToSpeech object and link it to your current session
         ALAnimatedSpeech alAnimatedSpeech = new ALAnimatedSpeech(this.session);
         alAnimatedSpeech.say(tekst);

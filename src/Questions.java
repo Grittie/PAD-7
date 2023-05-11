@@ -14,6 +14,8 @@ public class Questions {
     static private ALTextToSpeech textToSpeech;
     static private JSONParser parser;
     static private MQTT mqtt;
+
+    static private NAO nao;
     static private long[] score = new long[5];
     static private boolean isPressed = false;
 
@@ -83,8 +85,7 @@ public class Questions {
                 isPressed = true;
                 switch (mqttMessage.toString()) {
                     case "Yes":
-                        // System.out.println(answers.get(0));
-                        System.out.println(((JSONObject) answers.get(0)).get("score-back-end"));
+                         System.out.println(answers.get(0));
                         score[0] += (int) (long) ((JSONObject) answers.get(0)).get("score-back-end");
                         score[1] += (int) (long) ((JSONObject) answers.get(0)).get("score-front-end");
                         score[2] += (int) (long) ((JSONObject) answers.get(0)).get("score-robot-ui");
@@ -94,7 +95,6 @@ public class Questions {
                         break;
                     case "Maybe":
                         System.out.println(answers.get(1));
-
                         score[0] += (int) (long) ((JSONObject) answers.get(1)).get("score-back-end");
                         score[1] += (int) (long) ((JSONObject) answers.get(1)).get("score-front-end");
                         score[2] += (int) (long) ((JSONObject) answers.get(1)).get("score-robot-ui");
@@ -104,7 +104,6 @@ public class Questions {
                         break;
                     case "No":
                         System.out.println(answers.get(2));
-
                         score[0] += (int) (long) ((JSONObject) answers.get(2)).get("score-back-end");
                         score[1] += (int) (long) ((JSONObject) answers.get(2)).get("score-front-end");
                         score[2] += (int) (long) ((JSONObject) answers.get(2)).get("score-robot-ui");
@@ -152,18 +151,22 @@ public class Questions {
                 answers = (ArrayList) ((JSONObject) question).get("answers");
 
                 System.out.println(questionValue);
+                nao.say(questionValue);
+
 
                 while (!isPressed) {
-                    Thread.sleep(100); // anders is er geen tijd om te lluisteren naar MQTT
+                    Thread.sleep(100); // anders is er geen tijd om te luisteren naar MQTT
                 }
                 isPressed = false;
             }
 
-            System.out.println("closing");
             System.out.println(Arrays.toString(score));
 
+            // Send score array to CreateImage class
             CreateImage createImage = new CreateImage();
             createImage.staafDiagram(score);
+
+            System.out.println("closing");
 
         } catch (Exception e) {
             e.printStackTrace();

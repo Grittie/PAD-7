@@ -56,11 +56,10 @@ public class NAO {
         this.movementTalking.animationPath(path);
     }
 
-    public void zeg(String text) throws Exception {
-        this.movementTalking.zeg(text);
+    public void say(String text) throws Exception {
+        this.movementTalking.say(text);
     }
     public void led(String kleur) throws Exception {
         this.led.LED(kleur);
     }
-
 }
