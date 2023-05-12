@@ -12,20 +12,20 @@ These modules come from the NAOqi api:
 
 
 ## PlantUML:
-<img src="../../assets/plantumlcreate.png" width="1000">
+<img src="../../assets/plantumlcreate.png" width="750">
 
 
 ## Class diagram:
-<img src="../../assets/CreateImage.png" width="350">
+<img src="../../assets/CreateImage.png" width="500">
 
 ## The Java Class:
 
 The function creates rectangles to create the bar chart.
 
-<img src="../../assets/rectangle.png" width="1000" >
+<img src="../../assets/rectangle.png" width="750" >
 
 This for loop ensures that a bar is created for each lane.
 
-<img src="../../assets/forloop.png" width="1000" >
+<img src="../../assets/forloop.png" width="750" >
 
 
