@@ -63,6 +63,7 @@ while True:
         results = uploadPicture(client, result_path)
         resultsQR = generate(results, teller)
         time.sleep(2)
+        print("removing result file");
         os.remove(result_path)
     except FileNotFoundError:
         print("waiting on file....")

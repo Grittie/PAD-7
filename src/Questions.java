@@ -149,6 +149,10 @@ public class Questions {
             }
 
             System.out.println(Arrays.toString(score));
+            nao.say("Dankjewel voor je antwoorden.");
+            Thread.sleep(1000);
+            nao.say("Ik zal nu een image voor je genereren.");
+            Thread.sleep(1000);
 
             // Send score array to CreateImage class
             CreateImage createImage = new CreateImage();

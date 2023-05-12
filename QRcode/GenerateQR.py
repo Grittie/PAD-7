@@ -3,6 +3,7 @@ import qrcode
 
 # Generate QR from link and save it with a custom filename
 def generate(link, teller):
+    print("generating QR...")
     img = qrcode.make(link)
     path = "QRcodes/QRs/"
     name = "testcode_"
