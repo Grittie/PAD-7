@@ -69,6 +69,7 @@ public class Questions {
                 isPressed = true;
                 switch (mqttMessage.toString()) {
                     case "Yes":
+                        nao.say("Je hebt JA geantwoord");
                         System.out.println(answers.get(0));
                         score[0] += (int) (long) ((JSONObject) answers.get(0)).get("score-back-end");
                         score[1] += (int) (long) ((JSONObject) answers.get(0)).get("score-front-end");
@@ -78,6 +79,7 @@ public class Questions {
 
                         break;
                     case "Maybe":
+                        nao.say("Je hebt MISSCHIEN geantwoord");
                         System.out.println(answers.get(1));
                         score[0] += (int) (long) ((JSONObject) answers.get(1)).get("score-back-end");
                         score[1] += (int) (long) ((JSONObject) answers.get(1)).get("score-front-end");
@@ -87,6 +89,7 @@ public class Questions {
 
                         break;
                     case "No":
+                        nao.say("Je hebt NEE geantwoord");
                         System.out.println(answers.get(2));
                         score[0] += (int) (long) ((JSONObject) answers.get(2)).get("score-back-end");
                         score[1] += (int) (long) ((JSONObject) answers.get(2)).get("score-front-end");
