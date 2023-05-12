@@ -5,13 +5,11 @@ import java.util.*;
 import org.json.simple.*;
 import org.json.simple.parser.*;
 import com.aldebaran.qi.Session;
-import com.aldebaran.qi.helper.proxies.ALTextToSpeech;
 import com.aldebaran.qi.CallError;
 import org.eclipse.paho.client.mqttv3.*;
 
 public class Questions {
     static private Session session;
-    static private ALTextToSpeech textToSpeech;
     static private JSONParser parser;
     static private MQTT mqtt;
 
@@ -36,28 +34,14 @@ public class Questions {
     }
 
     // public Questions(Session session) throws Exception {
-    public Questions() throws Exception {
-        // this.session = session;
-        // this.textToSpeech = new ALTextToSpeech(this.session);
+    public Questions(NAO nao) throws Exception {
+        this.nao = nao;
         MqttClient client = MQTT.getMqttClient();
         MqttConnectOptions mqttConnectOptions = MQTT.getMqttConnectOptions();
         MQTT.connect();
         client.subscribe("gritla/answer");
         listen();
-    }
 
-    /**
-     * Reminds the quiz taker to give answer after a certain amount of time
-     *
-     * @param sec The time in seconds
-     * @throws InterruptedException
-     * @throws CallError
-     */
-    public void remind(int sec) throws InterruptedException {
-        Thread.sleep(sec * 1000);
-        // textToSpeech.say("Je kan antwoord geven door op 1 van deze knoppen te
-        // drukken");
-        System.out.println("Je kan antwoord geven door op 1 van deze knoppen te drukken");
     }
 
     /**
@@ -85,7 +69,7 @@ public class Questions {
                 isPressed = true;
                 switch (mqttMessage.toString()) {
                     case "Yes":
-                         System.out.println(answers.get(0));
+                        System.out.println(answers.get(0));
                         score[0] += (int) (long) ((JSONObject) answers.get(0)).get("score-back-end");
                         score[1] += (int) (long) ((JSONObject) answers.get(0)).get("score-front-end");
                         score[2] += (int) (long) ((JSONObject) answers.get(0)).get("score-robot-ui");
@@ -149,15 +133,19 @@ public class Questions {
             for (Object question : questions) {
                 String questionValue = (String) ((JSONObject) question).get("question");
                 answers = (ArrayList) ((JSONObject) question).get("answers");
+                Thread reminder = new Thread(new Reminder(10));
 
                 System.out.println(questionValue);
+                reminder.start();
                 nao.say(questionValue);
-
 
                 while (!isPressed) {
                     Thread.sleep(100); // anders is er geen tijd om te luisteren naar MQTT
                 }
                 isPressed = false;
+                if (reminder.isAlive()) {
+                    reminder.interrupt();
+                }
             }
 
             System.out.println(Arrays.toString(score));
@@ -171,5 +159,32 @@ public class Questions {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    static class Reminder implements Runnable {
+
+        static private int time;
+
+        Reminder(int time) {
+            Reminder.time = time;
+        }
+
+        /**
+         * Reminds the quiz taker to give answer after a certain amount of time
+         *
+         * @param sec The time in seconds
+         * @throws CallError
+         */
+        @Override
+        public void run() {
+            try {
+                Thread.sleep(time * 1000);
+                nao.say("Je kan antwoord geven door op 1 van deze knoppen te drukken");
+                System.out.println("Je kan antwoord geven door op 1 van deze knoppen te drukken");
+            } catch (Exception e) {
+                // TODO: handle exception
+            }
+        }
+
     }
 }

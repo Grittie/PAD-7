@@ -1,14 +1,9 @@
 package src;
 
-
-import com.aldebaran.qi.Application;
-
-import java.util.Scanner;
-import java.util.concurrent.CountDownLatch;
-
 public class Main {
     public static void main(String[] args) throws Exception {
-        Questions questions = new Questions();
+        NAO nao = new NAO("nao.local", 9559);
+        Questions questions = new Questions(nao);
         questions.askAllQuestions();
     }
 }
