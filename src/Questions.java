@@ -1,4 +1,3 @@
-package src;
 
 import java.io.*;
 import java.util.*;
@@ -133,10 +132,13 @@ public class Questions {
                 String questionValue = (String) ((JSONObject) question).get("question");
                 answers = (ArrayList) ((JSONObject) question).get("answers");
                 Thread reminder = new Thread(new Reminder(10));
+                Thread waiting = new Thread(new Waiting());
 
                 System.out.println(questionValue);
                 reminder.start();
                 nao.say(questionValue);
+                Thread.sleep(10);
+                waiting.start();
 
                 while (!isPressed) {
                     Thread.sleep(100); // anders is er geen tijd om te luisteren naar MQTT
@@ -145,6 +147,8 @@ public class Questions {
                 if (reminder.isAlive()) {
                     reminder.interrupt();
                 }
+                nao.stopmusic();
+                waiting.interrupt();
             }
 
             System.out.println(Arrays.toString(score));
@@ -189,5 +193,16 @@ public class Questions {
             }
         }
 
+    }
+    static class Waiting implements Runnable {
+
+        @Override
+        public void run() {
+            try {
+                nao.music();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 }

@@ -1,4 +1,4 @@
-package src;
+
 
 import com.aldebaran.qi.Session;
 import com.aldebaran.qi.helper.proxies.*;
@@ -94,6 +94,25 @@ public class MovementTalking {
             }
             Thread.sleep(100);
     }
+    public void waitingloop() throws Exception {
+        for (int i = 0; i < 10; i++) {
+            this.animationRandom("undiscovered");
+            this.animationRandom("you");
+        }
+    }
+    public void music() throws Exception {
+        ALAudioPlayer alAudioPlayer = new ALAudioPlayer(this.session);
+        int mFile = alAudioPlayer.loadFile("/opt/aldebaran/www/apps/untitled-41756c/muziek/waitingSound.wav");
+        alAudioPlayer.play(mFile);
+
+
+    }
+    public void stopmusic() throws Exception {
+        ALAudioPlayer alAudioPlayer = new ALAudioPlayer(this.session);
+        alAudioPlayer.stopAll();
+    }
+
+
 
 
 }

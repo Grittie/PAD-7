@@ -1,4 +1,3 @@
-package src;
 
 import com.aldebaran.qi.Application;
 
@@ -61,5 +60,14 @@ public class NAO {
     }
     public void led(String kleur) throws Exception {
         this.led.LED(kleur);
+    }
+    public void waitingloop() throws Exception {
+        this.movementTalking.waitingloop();
+    }
+    public void music() throws Exception {
+        this.movementTalking.music();
+    }
+    public void stopmusic() throws Exception {
+        this.movementTalking.stopmusic();
     }
 }
