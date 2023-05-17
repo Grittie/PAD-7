@@ -33,15 +33,13 @@ public class Questions {
         return mqtt;
     }
 
-    // public Questions(Session session) throws Exception {
-    public Questions(NAO nao) throws Exception {
+    Questions(NAO nao) throws Exception {
         this.nao = nao;
         MqttClient client = MQTT.getMqttClient();
         MqttConnectOptions mqttConnectOptions = MQTT.getMqttConnectOptions();
         MQTT.connect();
         client.subscribe("gritla/answer");
         listen();
-
     }
 
     /**
@@ -49,7 +47,7 @@ public class Questions {
      *
      * @throws MqttException
      */
-    public void listen() throws MqttException {
+    private void listen() throws MqttException {
         getMqtt();
         MQTT.getMqttClient().setCallback(new MqttCallback() {
             @Override
@@ -102,8 +100,6 @@ public class Questions {
                         System.out.println("This is not a valid input");
                         break;
                 }
-
-                // System.out.println(mqttMessage.toString());
             }
 
             @Override
