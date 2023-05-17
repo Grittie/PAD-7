@@ -28,6 +28,7 @@ char* button_name[3] = {"Yes", "Maybe", "No"};
 WiFiClient espClient;
 PubSubClient client(espClient);
 
+// Define function to change the state of specific leds.
 void led(uint8_t leds[], uint8_t whichled, uint8_t onoff) {
 	digitalWrite(leds[whichled], onoff);
 }
@@ -43,9 +44,8 @@ void callback(char* topic, byte* message, unsigned int length) {
 		messageTemp += (char)message[i];
 	}
 	Serial.println();
+	// If reseived message on topic "gritla/led" call the led function.
 	if (strcmp(topic,"gritla/led")==0) {
-		// int x = (int)(*message) - 48;
-		// Serial.println(x);
 		for (size_t i = 0; i < 3; i++) {
 			led(leds, i, 1);
 		}
@@ -117,8 +117,6 @@ uint8_t buttonPressed = 1;
 void loop() {
 	uint8_t buttonState = 0;
 	uint8_t which_led[3] = {0, 1, 2};
-	// uint8_t onoff = 0;
-	// uint8_t whichled = 1;
 	// Check if client is connected to MQTT server and try to reconnect if not.
 	if (!client.connected()) {
 		reconnect();
@@ -137,12 +135,15 @@ void loop() {
 		Serial.printf("%s%d\n%s%s\n","Button pressed:  ", pressed, "Which is option: ", button_name[pressed - 1]);
 		buttonPressed = 1;
 		client.publish("gritla/answer", button_name[pressed - 1]);
+		// Remove the led coresponding to the button pressed from the array.
 		for (int i = pressed - 1; i < 3; i++) {
 			which_led[i] = which_led[i + 1];
 		}
+		// Turn off all the leds in the updated array.
 		for (size_t i = 0; i < sizeof(which_led); i++) {
 			led(leds, which_led[i], LOW);
 		}
+		// Wait one second and then turn all the leds off.
 		delay(1000);
 		for (size_t i = 0; i < 3; i++) {
 			led(leds, i, LOW);
