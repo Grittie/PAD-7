@@ -1,6 +1,7 @@
 package src;
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.*;
 import org.json.simple.*;
 import org.json.simple.parser.*;
@@ -148,6 +149,7 @@ public class Questions {
             }
 
             System.out.println(Arrays.toString(score));
+            storeResults(score);
             nao.say("Dankjewel voor je antwoorden.");
             Thread.sleep(1000);
             nao.say("Ik zal nu een image voor je genereren.");
@@ -162,6 +164,36 @@ public class Questions {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    void storeResults(long[] score) {
+        //Store scores
+        JSONObject scoreDetails = new JSONObject();
+        scoreDetails.put("score-back-end", score[0]);
+        scoreDetails.put("score-front-end", score[1]);
+        scoreDetails.put("score-robot-ui", score[2]);
+        scoreDetails.put("score-robot-technical", score[3]);
+        scoreDetails.put("score-ict-ondernemer", score[4]);
+
+
+        JSONObject scoreObject = new JSONObject();
+        scoreObject.put("scores", scoreDetails);
+
+        //Add employees to list
+        JSONArray scoreList = new JSONArray();
+        scoreList.add(scoreObject);
+
+        //Write JSON file
+        try (FileWriter file = new FileWriter("./config/scores.json")) {
+            //We can write any JSONArray or JSONObject instance to the file
+            file.write(scoreList.toJSONString());
+            file.flush();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Results stored...");
     }
 
     static class Reminder implements Runnable {
