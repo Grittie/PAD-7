@@ -4,19 +4,16 @@ import java.io.*;
 import java.util.*;
 import org.json.simple.*;
 import org.json.simple.parser.*;
-import com.aldebaran.qi.Session;
-import com.aldebaran.qi.CallError;
 import org.eclipse.paho.client.mqttv3.*;
 
 public class Questions {
-    static private Session session;
+    static private final int REMINDER_DELAY = 10;
+
     static private JSONParser parser;
     static private MQTT mqtt;
-
     static private NAO nao;
     static private long[] score = new long[5];
     static private boolean isPressed = false;
-
     static private ArrayList answers;
 
     static private JSONParser getJsonParser() {
@@ -34,7 +31,7 @@ public class Questions {
     }
 
     Questions(NAO nao) throws Exception {
-        this.nao = nao;
+        Questions.nao = nao;
         MqttClient client = MQTT.getMqttClient();
         MqttConnectOptions mqttConnectOptions = MQTT.getMqttConnectOptions();
         MQTT.connect();
@@ -43,8 +40,8 @@ public class Questions {
     }
 
     /**
-     * Listen to the mqtt database for button presses
-     *
+     * Listen to the mqtt database for button presses.
+     * 
      * @throws MqttException
      */
     private void listen() throws MqttException {
@@ -132,11 +129,11 @@ public class Questions {
             for (Object question : questions) {
                 String questionValue = (String) ((JSONObject) question).get("question");
                 answers = (ArrayList) ((JSONObject) question).get("answers");
-                Thread reminder = new Thread(new Reminder(10));
+                Thread reminder = new Thread(new Reminder(REMINDER_DELAY, questionValue));
 
                 System.out.println(questionValue);
-                reminder.start();
                 nao.say(questionValue);
+                reminder.start();
 
                 while (!isPressed) {
                     Thread.sleep(100); // anders is er geen tijd om te luisteren naar MQTT
@@ -167,27 +164,30 @@ public class Questions {
     static class Reminder implements Runnable {
 
         static private int time;
-
-        Reminder(int time) {
-            Reminder.time = time;
-        }
+        static private String question;
 
         /**
-         * Reminds the quiz taker to give answer after a certain amount of time
-         *
-         * @param sec The time in seconds
-         * @throws CallError
+         * Reminds the quiz taker to give answer after a certain amount of time.
+         * This class is intended to run in parallel as a Thread.
+         * 
+         * @param time
          */
+        Reminder(int time, String question) {
+            Reminder.time = time;
+            Reminder.question = question;
+        }
+
         @Override
         public void run() {
             try {
-                Thread.sleep(time * 1000);
-                nao.say("Je kan antwoord geven door op 1 van deze knoppen te drukken");
-                System.out.println("Je kan antwoord geven door op 1 van deze knoppen te drukken");
+                while (true) {
+                    Thread.sleep(time * 1000L);
+                    nao.say(question);
+                    System.out.println("Reminder: " + question);
+                }
             } catch (Exception e) {
                 // TODO: handle exception
             }
         }
-
     }
 }
