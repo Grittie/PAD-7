@@ -10,9 +10,12 @@ public class Main {
 
         NAO nao = new NAO("localhost", 59679);
         Questions questions = new Questions(nao);
+        CreateImage createImage = new CreateImage();
+        long[] results = {10,10,10,150,10};
 
+        createImage.staafDiagram(results);
+        String hoogste = createImage.staafDiagram(results);
+        questions.parseJson(hoogste);
 
-        questions.parseJson("robot technical");
-        System.exit(0);
     }
 }
