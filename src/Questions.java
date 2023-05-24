@@ -160,8 +160,11 @@ public class Questions {
 
             // Send score array to CreateImage class
             CreateImage createImage = new CreateImage();
+            String highest = createImage.staafDiagram(score);
             createImage.staafDiagram(score);
 
+            nao.say("Het startprofiel: "+highest + "lijkt mij het best geschikt voor jou, ik ga jou een presentatie nu geven! ");
+            this.parseJson(highest);
             System.out.println("closing");
 
         } catch (Exception e) {
