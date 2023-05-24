@@ -30,5 +30,5 @@ Dit gedeelte definieert de sorteerlogica. Het maakt gebruik van de comparingLong
 te maken op basis van de lange waarden die uit de score array worden gehaald. <br>
 
 Het lambda-expressiegedeelte i -> -score[i] geeft aan hoe de waarden moeten worden vergeleken. 
-Door het negatieve teken (-) voor score[i] te plaatsen, worden de waarden in omgekeerde volgorde gesorteerd, van hoog naar laag.
+Door het negatieve teken (-) voor score[i] te plaatsen, worden de waarden in omgekeerde volgorde gesorteerd, van hoog naar laag.\
 ![Array.sort](../../assets/SortWithLambda.png)
