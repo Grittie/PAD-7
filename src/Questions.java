@@ -194,12 +194,17 @@ public class Questions {
         }
 
     }
+
+    /**
+     * Thread to play music and move while waiting on answer from player
+     */
     static class Waiting implements Runnable {
 
         @Override
         public void run() {
             try {
                 nao.music();
+                nao.waitingloop();
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
