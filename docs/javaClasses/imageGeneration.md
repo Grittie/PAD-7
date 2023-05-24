@@ -1,6 +1,7 @@
 # User story: imageGeneration
 Assigned to Kamal Kouidar
 
+[◄ back to index](../index.md)
 
 ## User story description:
 The future student wants a visual representation of the results
@@ -26,5 +27,3 @@ The function creates rectangles to create the bar chart.
 This for loop ensures that a bar is created for each lane.
 
 <img src="../../assets/forloop.png" width="750" >
-
-
