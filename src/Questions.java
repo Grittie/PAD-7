@@ -109,15 +109,15 @@ public class Questions {
         });
     }
 
-    public void parseJson() {
+    public void parseJson(String name) {
         try {
-            Object obj = getJsonParser().parse(new FileReader("./config/questions.json"));
-            JSONObject jsonObject = (JSONObject) obj;
-            JSONArray questions = (JSONArray) jsonObject.get("questions");
-            Iterator iterator = questions.iterator();
-            while (iterator.hasNext()) {
-                System.out.println(iterator.next());
-            }
+            Object obj = new JSONParser().parse(new FileReader("./config/presentations.json"));
+            JSONObject jo = (JSONObject) obj;
+            String work = (String) jo.get(name);
+            System.out.println(work);
+            nao.say(work);
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
