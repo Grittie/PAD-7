@@ -6,7 +6,6 @@ Assigned to Kamal Kouidar
 The future student wants a visual representation of the results
 
 ## Used modules:
-These modules come from the NAOqi api:
 - Java AWT 
     - Graphics2D
 
