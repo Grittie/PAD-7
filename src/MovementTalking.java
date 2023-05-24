@@ -1,4 +1,4 @@
-package src;
+
 
 import com.aldebaran.qi.Session;
 import com.aldebaran.qi.helper.proxies.*;
@@ -64,8 +64,7 @@ public class MovementTalking {
             }
         }
     }
-    public void say(String tekst) throws Exception {
-        ALTextToSpeech tts = new ALTextToSpeech(this.session);// Create an ALTextToSpeech object and link it to your current session
+    public void say(String tekst) throws Exception {          // Create an ALAnimatedSpeech object and link it to your current session
         ALAnimatedSpeech alAnimatedSpeech = new ALAnimatedSpeech(this.session);
         alAnimatedSpeech.say(tekst);
     }
@@ -94,6 +93,28 @@ public class MovementTalking {
             }
             Thread.sleep(100);
     }
+    public void waitingloop() throws Exception {            // a loop that make the robot random moves
+        for (int i = 0; i < 10; i++) {                      // it can be used in a thread so it can stopped easy
+            this.animationRandom("undiscovered");
+            this.animationRandom("you");
+        }
+    }
+    public void music() throws Exception {                  // method to load a music file, and play it
+        ALAudioPlayer alAudioPlayer = new ALAudioPlayer(this.session);
+        int mFile = alAudioPlayer.loadFile("/opt/aldebaran/www/apps/untitled-d138f1/muziek/waitingSound.wav");
+        System.out.println(mFile);
+        alAudioPlayer.setVolume(mFile,0.3f);
+        alAudioPlayer.play(mFile);
+
+
+    }
+    public void stopmusic() throws Exception {      // method to stop all the music from playing
+        ALAudioPlayer alAudioPlayer = new ALAudioPlayer(this.session);
+        alAudioPlayer.stopAll();
+    }
+
+
+
 
 
 }

@@ -1,4 +1,3 @@
-package src;
 
 import java.io.*;
 import java.util.*;
@@ -33,15 +32,13 @@ public class Questions {
         return mqtt;
     }
 
-    // public Questions(Session session) throws Exception {
-    public Questions(NAO nao) throws Exception {
+    Questions(NAO nao) throws Exception {
         this.nao = nao;
         MqttClient client = MQTT.getMqttClient();
         MqttConnectOptions mqttConnectOptions = MQTT.getMqttConnectOptions();
         MQTT.connect();
         client.subscribe("gritla/answer");
         listen();
-
     }
 
     /**
@@ -49,7 +46,7 @@ public class Questions {
      *
      * @throws MqttException
      */
-    public void listen() throws MqttException {
+    private void listen() throws MqttException {
         getMqtt();
         MQTT.getMqttClient().setCallback(new MqttCallback() {
             @Override
@@ -102,8 +99,6 @@ public class Questions {
                         System.out.println("This is not a valid input");
                         break;
                 }
-
-                // System.out.println(mqttMessage.toString());
             }
 
             @Override
@@ -137,10 +132,13 @@ public class Questions {
                 String questionValue = (String) ((JSONObject) question).get("question");
                 answers = (ArrayList) ((JSONObject) question).get("answers");
                 Thread reminder = new Thread(new Reminder(10));
+                Thread waiting = new Thread(new Waiting());
 
                 System.out.println(questionValue);
                 reminder.start();
                 nao.say(questionValue);
+                Thread.sleep(10);
+                waiting.start();
 
                 while (!isPressed) {
                     Thread.sleep(100); // anders is er geen tijd om te luisteren naar MQTT
@@ -149,6 +147,8 @@ public class Questions {
                 if (reminder.isAlive()) {
                     reminder.interrupt();
                 }
+                nao.stopmusic();
+                waiting.interrupt();
             }
 
             System.out.println(Arrays.toString(score));
@@ -193,5 +193,21 @@ public class Questions {
             }
         }
 
+    }
+
+    /**
+     * Thread to play music and move while waiting on answer from player
+     */
+    static class Waiting implements Runnable {
+
+        @Override
+        public void run() {
+            try {
+                nao.music();
+                nao.waitingloop();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 }
