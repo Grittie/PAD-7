@@ -43,3 +43,7 @@ There is documentation that falls out of this realm but it is stated when it doe
 
 - [Questions JSON](../docs/config/Questions.md) - assigned to **Lars Grit** - issue **#35**
 - [Website QR](../docs/website/QRcode.md) - assigned to **Lars Grit** - issue **#48**
+
+## Sprint 4: User stories
+### Java
+- [Sort Results](../docs/javaClasses/SortResults.md)  - assigned to **Kamal Kouidar** - issue **#54**
