@@ -32,7 +32,7 @@ public class CreateImage {
         Graphics2D graphics2D = bufferedImage.createGraphics();
 
         // Onderwerpen en kleuren voor de rechthoeken
-        String[] onderwerp = {"Back-end Engineer:", "Front-end Engineer:", "Robot UI:", "Robot Technical:", "ICT Ondernemer:"};
+        String[] onderwerp = {"Back-end Engineer:", "Front-end Engineer:", "Robot UI:", "Robot Technical:", "ICT Ondernemer:"}; //Precies deze namen worden ook gebruikt in presentations.json dus wanneer hier wat wordt aangepast graag ook daarin aanpassen
         Color[] kleuren = {Color.BLUE, Color.orange, Color.RED, Color.green, Color.magenta};
 
         // Stel de achtergrondkleur van het BufferedImage in op wit
@@ -49,7 +49,7 @@ public class CreateImage {
         }
 
         Arrays.sort(sortedIndexes, Comparator.comparingLong(i -> -score[i]));
-        String hoogste = null;
+        String highestScore = null;
 
         // Teken de rechthoeken in de gesorteerde volgorde
         for (int i = 0; i < onderwerp.length; i++) {
@@ -57,11 +57,11 @@ public class CreateImage {
             // Teken rechthoek
             imageCreator.rectangle(onderwerp[index], kleuren[index], (int) score[index], y, graphics2D, i);
             if (i==0){
-                hoogste = onderwerp[index];
+                highestScore = onderwerp[index];
             }
             y += 30;
         }
-        System.out.println(hoogste);
+        System.out.println(highestScore);
 
         // Maak de Graphics2D schoon
         graphics2D.dispose();
@@ -71,7 +71,7 @@ public class CreateImage {
 
         // Schrijf het BufferedImage naar het bestand als een PNG-afbeelding
         ImageIO.write(bufferedImage, "png", file);
-        return hoogste;
+        return highestScore;
     }
 
 
