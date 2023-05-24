@@ -148,7 +148,6 @@ void loop() {
 		for (size_t i = 0; i < 3; i++) {
 			led(leds, i, LOW);
 		}
-		
 	// When button is no longer pressed reset the variable "buttonPressed".
 	} else if (!buttonState && buttonPressed){
 		buttonPressed = 0;
