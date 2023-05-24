@@ -1,5 +1,7 @@
 # Questions
 
+[◄ back to index](../index.md)
+
 This is the class that asks the user questions.
 First it reads `config/questions.json` for the questions.
 Then it asks the question and waits for input via mqtt.
