@@ -21,7 +21,8 @@ The future student wants the results  to be sorted in order of which job/it sect
 Het gebruik van Integer[] betekent dat het een array is van Integer objecten, niet van de primitieve int waarden.
 
 sortedIndexes[i] = i;: Deze regel kent de waarde van i toe aan het i-de element van de sortedIndexes array. <br>
-Aangezien i de indexwaarde is, stelt dit effectief elk element van sortedIndexes in op zijn overeenkomstige index in de score array. \
+Aangezien i de indexwaarde is, stelt dit effectief elk element van sortedIndexes in op zijn overeenkomstige index in de score array.
+
 <img src="../../assets/sortArrayForLoop.png" width="750" >
 
 
