@@ -16,10 +16,10 @@ const char* MQTT_USERNAME = "gritla";
 const char* MQTT_PASSWORD = "D6G9E1b95x8h3LaGFtxA";
 
 // Define pin numbers for buttons.
-uint8_t buttons[3] = {7, 15, 16};
+uint8_t buttons[3] = {17, 15, 16};
 
 // Define pin numbers for leds.
-uint8_t leds[3] = {38, 37, 36};
+uint8_t leds[3] = {7, 5, 6};
 
 // Define button name.
 char* button_name[3] = {"Yes", "Maybe", "No"};
