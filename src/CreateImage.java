@@ -104,10 +104,14 @@ public class CreateImage {
 
         Arrays.sort(sortedIndexes, Comparator.comparingLong(i -> -score[i]));
         // Draw rectangles in sorted order.
+        String highestScore = null;
         for (int i = 0; i < professionalProfiles.length; i++) {
             int index = sortedIndexes[i];
             // Draw rectangles
             imageCreator.rectangle(professionalProfiles[index], colors[index], (int) score[index], y, graphics2D);
+            if (i==0){
+                highestScore = professionalProfiles[index];
+            }
             y += 30; //space between bars.
         }
         imageCreator.title(Color.BLACK, "Arial", Font.BOLD, 17, "Your results: ", graphics2D);
