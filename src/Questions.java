@@ -174,9 +174,11 @@ public class Questions {
             Thread.sleep(1000);
 
             // Send score array to CreateImage class
+
             CreateImage createImage = new CreateImage();
-            String highest = createImage.staafDiagram(score);
-            createImage.staafDiagram(score);
+            String highest = createImage.barChart(score);
+            createImage.barChart(score);
+
 
             nao.say("Het startprofiel: "+highest + "lijkt mij het best geschikt voor jou, ik ga jou een presentatie nu geven! ");
             this.parseJson(highest);
