@@ -143,6 +143,7 @@ public class Questions {
                 nao.say(questionValue);
                 Thread.sleep(10);
                 waiting.start();
+                reminder.start();
 
                 while (!isPressed) {
                     Thread.sleep(100);
