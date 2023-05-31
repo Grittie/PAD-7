@@ -1,9 +1,8 @@
 # questions.json
 
+[◄ back to index](../index.md)
+
 The question logic is written in JSON, this way it is made easy for questions to be added, changed and removed.
-
-
-
 
 ## Json structure
 

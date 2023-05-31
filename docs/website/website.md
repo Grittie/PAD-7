@@ -1,6 +1,8 @@
 # Website
 
-We developed a website to demonstrate multiple functions for our project. 
+[◄ back to index](../index.md)
+
+We developed a website to demonstrate multiple functions for our project.
 The website was created using HTML and JavaScript. We opted for HTML and JavaScript rather than more robust options like PHP with its various frameworks or using JavaScript frameworks,
 due to the low requirements for this website.
 
