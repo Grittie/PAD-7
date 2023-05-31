@@ -1,6 +1,4 @@
 
-package src;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -62,14 +60,19 @@ public class CreateImage {
         }
 
         Arrays.sort(sortedIndexes, Comparator.comparingLong(i -> -score[i]));
+        String highestScore = null;
 
         // Draw rectangles in sorted order.
         for (int i = 0; i < professionalProfiles.length; i++) {
             int index = sortedIndexes[i];
-            // Draw rectangles
-            imageCreator.rectangle(professionalProfiles[index], colors[index], (int) score[index], y, graphics2D, i);
-            y += 30; //space between bars.
+            // Teken rechthoek
+            imageCreator.rectangle(onderwerp[index], kleuren[index], (int) score[index], y, graphics2D, i);
+            if (i==0){
+                highestScore = onderwerp[index];
+            }
+            y += 30;
         }
+        System.out.println(highestScore);
 
         //Clean the Graphics2D.
         graphics2D.dispose();
@@ -79,5 +82,6 @@ public class CreateImage {
 
         //Write the BufferedImage to the file as a PNG image.
         ImageIO.write(bufferedImage, "png", file);
+        return highestScore;
     }
 }

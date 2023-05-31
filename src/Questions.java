@@ -1,4 +1,3 @@
-package src;
 
 import java.io.*;
 import java.lang.reflect.Array;
@@ -67,6 +66,7 @@ public class Questions {
                 switch (mqttMessage.toString()) {
                     case "Yes":
                         nao.say("Je hebt JA geantwoord");
+                        nao.led("groen");
                         System.out.println(answers.get(0));
                         score[0] += (int) (long) ((JSONObject) answers.get(0)).get("score-back-end");
                         score[1] += (int) (long) ((JSONObject) answers.get(0)).get("score-front-end");
@@ -77,6 +77,7 @@ public class Questions {
                         break;
                     case "Maybe":
                         nao.say("Je hebt MISSCHIEN geantwoord");
+                        nao.led("geel");
                         System.out.println(answers.get(1));
                         score[0] += (int) (long) ((JSONObject) answers.get(1)).get("score-back-end");
                         score[1] += (int) (long) ((JSONObject) answers.get(1)).get("score-front-end");
@@ -87,6 +88,7 @@ public class Questions {
                         break;
                     case "No":
                         nao.say("Je hebt NEE geantwoord");
+                        nao.led("rood");
                         System.out.println(answers.get(2));
                         score[0] += (int) (long) ((JSONObject) answers.get(2)).get("score-back-end");
                         score[1] += (int) (long) ((JSONObject) answers.get(2)).get("score-front-end");
@@ -109,15 +111,16 @@ public class Questions {
         });
     }
 
-    public void parseJson() {
+
+    public void parseJson(String name) {
         try {
-            Object obj = getJsonParser().parse(new FileReader("./config/questions.json"));
-            JSONObject jsonObject = (JSONObject) obj;
-            JSONArray questions = (JSONArray) jsonObject.get("questions");
-            Iterator iterator = questions.iterator();
-            while (iterator.hasNext()) {
-                System.out.println(iterator.next());
-            }
+            Object obj = new JSONParser().parse(new FileReader("./config/presentations.json"));
+            JSONObject jo = (JSONObject) obj;
+            String work = (String) jo.get(name);
+            System.out.println(work);
+            nao.say(work);
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -134,10 +137,12 @@ public class Questions {
                 String questionValue = (String) questionObj.get("question");
                 answers = (ArrayList<String>) questionObj.get("answers"); // Cast to ArrayList<String>
                 Thread reminder = new Thread(new Reminder(10));
+                Thread waiting = new Thread(new Waiting());
 
                 System.out.println(questionValue);
                 nao.say(questionValue);
-                reminder.start();
+                Thread.sleep(10);
+                waiting.start();
 
                 while (!isPressed) {
                     Thread.sleep(100);
@@ -146,19 +151,25 @@ public class Questions {
                 if (reminder.isAlive()) {
                     reminder.interrupt();
                 }
+                nao.stopmusic();
+                waiting.interrupt();
             }
 
             System.out.println(Arrays.toString(score));
             scores.storeResults(score);
             nao.say("Dankjewel voor je antwoorden.");
+            nao.led("blauw");
             Thread.sleep(1000);
             nao.say("Ik zal nu een image voor je genereren.");
             Thread.sleep(1000);
 
             // Send score array to CreateImage class
             CreateImage createImage = new CreateImage();
+            String highest = createImage.staafDiagram(score);
             createImage.staafDiagram(score);
 
+            nao.say("Het startprofiel: "+highest + "lijkt mij het best geschikt voor jou, ik ga jou een presentatie nu geven! ");
+            this.parseJson(highest);
             System.out.println("closing");
 
         } catch (Exception e) {
@@ -196,6 +207,22 @@ public class Questions {
                 }
             } catch (Exception e) {
                 // TODO: handle exception
+            }
+        }
+    }
+
+    /**
+     * Thread to play music and move while waiting on answer from player
+     */
+    static class Waiting implements Runnable {
+
+        @Override
+        public void run() {
+            try {
+                nao.music();
+                nao.waitingloop();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
         }
     }

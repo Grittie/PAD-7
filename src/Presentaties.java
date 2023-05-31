@@ -1,4 +1,4 @@
-package src;
+
 
 import com.aldebaran.qi.Session;
 import com.aldebaran.qi.helper.proxies.ALAnimatedSpeech;
@@ -46,4 +46,6 @@ public class Presentaties {
        return "^start(animations/Stand/Gestures/Hey_1)Welkom bij Cyber Security!, oftewel Cee Es.  " +
                         "^start(animations/Sit/BodyTalk/BodyTalk_6) Hier leer je alles over de veiligheid van het internet!";
     }
+
+
 }
