@@ -131,8 +131,10 @@ public class Questions {
             JSONObject jsonObject = (JSONObject) obj;
             JSONArray questions = (JSONArray) jsonObject.get("questions");
             for (Object question : questions) {
-                String questionValue = (String) ((JSONObject) question).get("question");
-                answers = (ArrayList) ((JSONObject) question).get("answers");
+                JSONObject questionObj = (JSONObject) question; // Cast to JSONObject
+
+                String questionValue = (String) questionObj.get("question");
+                answers = (ArrayList<String>) questionObj.get("answers"); // Cast to ArrayList<String>
                 Thread reminder = new Thread(new Reminder(10));
 
                 System.out.println(questionValue);
@@ -140,7 +142,7 @@ public class Questions {
                 nao.say(questionValue);
 
                 while (!isPressed) {
-                    Thread.sleep(100); // anders is er geen tijd om te luisteren naar MQTT
+                    Thread.sleep(100);
                 }
                 isPressed = false;
                 if (reminder.isAlive()) {
@@ -166,34 +168,54 @@ public class Questions {
         }
     }
 
-    void storeResults(long[] score) {
-        //Store scores
-        JSONObject scoreDetails = new JSONObject();
-        scoreDetails.put("score-back-end", score[0]);
-        scoreDetails.put("score-front-end", score[1]);
-        scoreDetails.put("score-robot-ui", score[2]);
-        scoreDetails.put("score-robot-technical", score[3]);
-        scoreDetails.put("score-ict-ondernemer", score[4]);
+    public static void storeResults(long[] score) {
+        // Read existing JSON file
+        JSONParser parser = new JSONParser();
+        try (FileReader fileReader = new FileReader("./config/scores.json")) {
+            JSONArray jsonArray = (JSONArray) parser.parse(fileReader);
 
+            // Get the first scores object in the array
+            JSONObject scoresObject = (JSONObject) jsonArray.get(0);
+            JSONObject scoreObject = (JSONObject) scoresObject.get("scores");
 
-        JSONObject scoreObject = new JSONObject();
-        scoreObject.put("scores", scoreDetails);
+            // Update the score values
+            scoreObject.put("score-back-end", (Long) scoreObject.get("score-back-end") + score[0]);
+            scoreObject.put("score-front-end", (Long) scoreObject.get("score-front-end") + score[1]);
+            scoreObject.put("score-robot-ui", (Long) scoreObject.get("score-robot-ui") + score[2]);
+            scoreObject.put("score-robot-technical", (Long) scoreObject.get("score-robot-technical") + score[3]);
+            scoreObject.put("score-ict-ondernemer", (Long) scoreObject.get("score-ict-ondernemer") + score[4]);
 
-        //Add employees to list
-        JSONArray scoreList = new JSONArray();
-        scoreList.add(scoreObject);
-
-        //Write JSON file
-        try (FileWriter file = new FileWriter("./config/scores.json")) {
-            //We can write any JSONArray or JSONObject instance to the file
-            file.write(scoreList.toJSONString());
-            file.flush();
-
-        } catch (IOException e) {
+            // Write updated JSON array to file
+            try (FileWriter fileWriter = new FileWriter("./config/scores.json")) {
+                fileWriter.write(jsonArray.toJSONString());
+                System.out.println("Scores successfully written to scores.json");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
+    }
 
-        System.out.println("Results stored...");
+
+    void getResults() {
+        try {
+            JSONParser parser = new JSONParser();
+            Object obj = parser.parse(new FileReader("./config/scores.json"));
+            JSONArray jsonArray = (JSONArray) obj;
+            JSONObject jsonObject = (JSONObject) jsonArray.get(0); // Assuming there is only one object in the JSON array
+
+            JSONObject scoresObject = (JSONObject) jsonObject.get("scores");
+            Iterator<?> iterator = scoresObject.keySet().iterator();
+
+            while (iterator.hasNext()) {
+                String key = (String) iterator.next();
+                int score = Integer.parseInt(scoresObject.get(key).toString());
+                System.out.println(key + ": " + score);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     static class Reminder implements Runnable {
@@ -206,8 +228,6 @@ public class Questions {
 
         /**
          * Reminds the quiz taker to give answer after a certain amount of time
-         *
-         * @param sec The time in seconds
          * @throws CallError
          */
         @Override
