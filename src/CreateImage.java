@@ -1,6 +1,4 @@
 
-package src;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -59,7 +57,7 @@ public class CreateImage {
      * @param score
      * @throws IOException
      */
-    public void barChart(long[] score) throws IOException {
+    public String barChart(long[] score) throws IOException {
 
         // Dimensions of the background of the image.
         int width = 600;
@@ -131,6 +129,7 @@ public class CreateImage {
 
         //Write the BufferedImage to the file as a PNG image.
         ImageIO.write(bufferedImage, "png", file);
+        return highestScore;
     }
 
 }

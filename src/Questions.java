@@ -1,6 +1,6 @@
-package src;
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.*;
 import org.json.simple.*;
 import org.json.simple.parser.*;
@@ -12,6 +12,7 @@ public class Questions {
     static private JSONParser parser;
     static private MQTT mqtt;
     static private NAO nao;
+    static private Scores scores;
     static private long[] score = new long[5];
     static private boolean isPressed = false;
     static private ArrayList answers;
@@ -65,6 +66,7 @@ public class Questions {
                 switch (mqttMessage.toString()) {
                     case "Yes":
                         nao.say("Je hebt JA geantwoord");
+                        nao.led("groen");
                         System.out.println(answers.get(0));
                         score[0] += (int) (long) ((JSONObject) answers.get(0)).get("score-back-end");
                         score[1] += (int) (long) ((JSONObject) answers.get(0)).get("score-front-end");
@@ -75,6 +77,7 @@ public class Questions {
                         break;
                     case "Maybe":
                         nao.say("Je hebt MISSCHIEN geantwoord");
+                        nao.led("geel");
                         System.out.println(answers.get(1));
                         score[0] += (int) (long) ((JSONObject) answers.get(1)).get("score-back-end");
                         score[1] += (int) (long) ((JSONObject) answers.get(1)).get("score-front-end");
@@ -85,6 +88,7 @@ public class Questions {
                         break;
                     case "No":
                         nao.say("Je hebt NEE geantwoord");
+                        nao.led("rood");
                         System.out.println(answers.get(2));
                         score[0] += (int) (long) ((JSONObject) answers.get(2)).get("score-back-end");
                         score[1] += (int) (long) ((JSONObject) answers.get(2)).get("score-front-end");
@@ -107,15 +111,16 @@ public class Questions {
         });
     }
 
-    public void parseJson() {
+
+    public void parseJson(String name) {
         try {
-            Object obj = getJsonParser().parse(new FileReader("./config/questions.json"));
-            JSONObject jsonObject = (JSONObject) obj;
-            JSONArray questions = (JSONArray) jsonObject.get("questions");
-            Iterator iterator = questions.iterator();
-            while (iterator.hasNext()) {
-                System.out.println(iterator.next());
-            }
+            Object obj = new JSONParser().parse(new FileReader("./config/presentations.json"));
+            JSONObject jo = (JSONObject) obj;
+            String work = (String) jo.get(name);
+            System.out.println(work);
+            nao.say(work);
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -127,25 +132,34 @@ public class Questions {
             JSONObject jsonObject = (JSONObject) obj;
             JSONArray questions = (JSONArray) jsonObject.get("questions");
             for (Object question : questions) {
-                String questionValue = (String) ((JSONObject) question).get("question");
-                answers = (ArrayList) ((JSONObject) question).get("answers");
-                Thread reminder = new Thread(new Reminder(REMINDER_DELAY, questionValue));
+                JSONObject questionObj = (JSONObject) question; // Cast to JSONObject
+
+                String questionValue = (String) questionObj.get("question");
+                answers = (ArrayList<String>) questionObj.get("answers"); // Cast to ArrayList<String>
+                Thread reminder = new Thread(new Reminder(10));
+                Thread waiting = new Thread(new Waiting());
 
                 System.out.println(questionValue);
                 nao.say(questionValue);
+                Thread.sleep(10);
+                waiting.start();
                 reminder.start();
 
                 while (!isPressed) {
-                    Thread.sleep(100); // anders is er geen tijd om te luisteren naar MQTT
+                    Thread.sleep(100);
                 }
                 isPressed = false;
                 if (reminder.isAlive()) {
                     reminder.interrupt();
                 }
+                nao.stopmusic();
+                waiting.interrupt();
             }
 
             System.out.println(Arrays.toString(score));
+            scores.storeResults(score);
             nao.say("Dankjewel voor je antwoorden.");
+            nao.led("blauw");
             Thread.sleep(1000);
             nao.say("Ik zal nu een image voor je genereren.");
             Thread.sleep(1000);
@@ -154,6 +168,8 @@ public class Questions {
             CreateImage createImage = new CreateImage();
             createImage.barChart(score);
 
+            nao.say("Het startprofiel: "+highest + "lijkt mij het best geschikt voor jou, ik ga jou een presentatie nu geven! ");
+            this.parseJson(highest);
             System.out.println("closing");
 
         } catch (Exception e) {
@@ -177,6 +193,10 @@ public class Questions {
             Reminder.question = question;
         }
 
+        /**
+         * Reminds the quiz taker to give answer after a certain amount of time
+         * @throws CallError
+         */
         @Override
         public void run() {
             try {
@@ -187,6 +207,22 @@ public class Questions {
                 }
             } catch (Exception e) {
                 // TODO: handle exception
+            }
+        }
+    }
+
+    /**
+     * Thread to play music and move while waiting on answer from player
+     */
+    static class Waiting implements Runnable {
+
+        @Override
+        public void run() {
+            try {
+                nao.music();
+                nao.waitingloop();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
         }
     }
