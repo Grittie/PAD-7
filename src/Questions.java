@@ -1,6 +1,7 @@
 package src;
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.*;
 import org.json.simple.*;
 import org.json.simple.parser.*;
@@ -12,6 +13,7 @@ public class Questions {
     static private JSONParser parser;
     static private MQTT mqtt;
     static private NAO nao;
+    static private Scores scores;
     static private long[] score = new long[5];
     static private boolean isPressed = false;
     static private ArrayList answers;
@@ -127,16 +129,18 @@ public class Questions {
             JSONObject jsonObject = (JSONObject) obj;
             JSONArray questions = (JSONArray) jsonObject.get("questions");
             for (Object question : questions) {
-                String questionValue = (String) ((JSONObject) question).get("question");
-                answers = (ArrayList) ((JSONObject) question).get("answers");
-                Thread reminder = new Thread(new Reminder(REMINDER_DELAY, questionValue));
+                JSONObject questionObj = (JSONObject) question; // Cast to JSONObject
+
+                String questionValue = (String) questionObj.get("question");
+                answers = (ArrayList<String>) questionObj.get("answers"); // Cast to ArrayList<String>
+                Thread reminder = new Thread(new Reminder(10));
 
                 System.out.println(questionValue);
                 nao.say(questionValue);
                 reminder.start();
 
                 while (!isPressed) {
-                    Thread.sleep(100); // anders is er geen tijd om te luisteren naar MQTT
+                    Thread.sleep(100);
                 }
                 isPressed = false;
                 if (reminder.isAlive()) {
@@ -145,6 +149,7 @@ public class Questions {
             }
 
             System.out.println(Arrays.toString(score));
+            scores.storeResults(score);
             nao.say("Dankjewel voor je antwoorden.");
             Thread.sleep(1000);
             nao.say("Ik zal nu een image voor je genereren.");
@@ -177,6 +182,10 @@ public class Questions {
             Reminder.question = question;
         }
 
+        /**
+         * Reminds the quiz taker to give answer after a certain amount of time
+         * @throws CallError
+         */
         @Override
         public void run() {
             try {
