@@ -27,7 +27,7 @@ public class CreateImage {
      * @param score
      * @throws IOException
      */
-    public void barChart(long[] score) throws IOException {
+    public String barChart(long[] score) throws IOException {
 
         // Dimensions of the background of the image.
         int width = 500;
@@ -66,9 +66,9 @@ public class CreateImage {
         for (int i = 0; i < professionalProfiles.length; i++) {
             int index = sortedIndexes[i];
             // Teken rechthoek
-            imageCreator.rectangle(onderwerp[index], kleuren[index], (int) score[index], y, graphics2D, i);
+            imageCreator.rectangle(professionalProfiles[index], colors[index], (int) score[index], y, graphics2D, i);
             if (i==0){
-                highestScore = onderwerp[index];
+                highestScore = professionalProfiles[index];
             }
             y += 30;
         }
