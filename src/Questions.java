@@ -152,7 +152,7 @@ public class Questions {
 
             // Send score array to CreateImage class
             CreateImage createImage = new CreateImage();
-            createImage.staafDiagram(score);
+            createImage.barChart(score);
 
             System.out.println("closing");
 
