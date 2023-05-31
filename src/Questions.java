@@ -9,13 +9,15 @@ import org.eclipse.paho.client.mqttv3.*;
 public class Questions {
     static private final int REMINDER_DELAY = 10;
 
-    static private JSONParser parser;
-    static private MQTT mqtt;
-    static private NAO nao;
-    static private Scores scores;
-    static private long[] score = new long[5];
-    static private boolean isPressed = false;
-    static private ArrayList answers;
+     private static JSONParser parser;
+     private static MQTT mqtt;
+     private static NAO nao;
+     private Scores scores;
+     private long[] score = new long[5];
+     private boolean isPressed = false;
+     private ArrayList answers;
+
+    private MqttClient mqttClient;
 
     static private JSONParser getJsonParser() {
         if (parser == null) {
@@ -33,13 +35,11 @@ public class Questions {
 
     Questions(NAO nao) throws Exception {
         Questions.nao = nao;
-        MqttClient client = MQTT.getMqttClient();
+        this.mqttClient = MQTT.getMqttClient();
         MqttConnectOptions mqttConnectOptions = MQTT.getMqttConnectOptions();
-        MQTT.connect();
-        client.subscribe("gritla/answer");
-        String led = "etst";
-        client.publish("gritla/led", "ad");
         listen();
+        MQTT.connect();
+        this.mqttClient.subscribe("gritla/answer");
     }
 
     /**
@@ -108,7 +108,7 @@ public class Questions {
             @Override
             public void deliveryComplete(IMqttDeliveryToken token) {
                 // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'deliveryComplete'");
+                //throw new UnsupportedOperationException("Unimplemented method 'deliveryComplete'");
             }
         });
     }
@@ -128,17 +128,19 @@ public class Questions {
         }
     }
 
-    public void askAllQuestions(MqttClient client) {
+    public void askAllQuestions() {
         try {
+
             Object obj = getJsonParser().parse(new FileReader("./config/questions.json"));
             JSONObject jsonObject = (JSONObject) obj;
             JSONArray questions = (JSONArray) jsonObject.get("questions");
+
             for (Object question : questions) {
                 JSONObject questionObj = (JSONObject) question; // Cast to JSONObject
 
                 String questionValue = (String) questionObj.get("question");
                 answers = (ArrayList<String>) questionObj.get("answers"); // Cast to ArrayList<String>
-                Thread reminder = new Thread(new Reminder(10));
+                Thread reminder = new Thread(new Reminder(10, questionValue));
                 Thread waiting = new Thread(new Waiting());
 
                 System.out.println(questionValue);
@@ -149,7 +151,7 @@ public class Questions {
                 MqttMessage message = new MqttMessage(payload.getBytes());
                 message.setQos(qos);
                 message.setRetained(retained);
-                client.publish("gritla/led", message);
+                this.mqttClient.publish("gritla/led", message);
                 Thread.sleep(10);
                 waiting.start();
                 reminder.start();
@@ -231,7 +233,7 @@ public class Questions {
         @Override
         public void run() {
             try {
-                nao.music();
+                //nao.music();
                 nao.waitingloop();
             } catch (Exception e) {
                 throw new RuntimeException(e);

@@ -108,7 +108,7 @@ public class CreateImage {
         for (int i = 0; i < professionalProfiles.length; i++) {
             int index = sortedIndexes[i];
             // Draw rectangles
-            imageCreator.rectangle(professionalProfiles[index], colors[index], (int) score[index], y, graphics2D);
+            imageCreator.rectangle(professionalProfiles[index], colors[index], (int) score[index] * 5, y, graphics2D);
             if (i==0){
                 highestScore = professionalProfiles[index];
             }
