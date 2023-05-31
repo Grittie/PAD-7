@@ -8,51 +8,62 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 public class CreateImage {
-
-    public void rectangle(String onderwerp, Color color, int witdh, int y, Graphics2D graphics2D, int i) {
+    /**
+     * @param professionalProfiles
+     * @param color
+     * @param witdh
+     * @param y
+     * @param graphics2D
+     * @param i
+     */
+    private void rectangle(String professionalProfiles, Color color, int witdh, int y, Graphics2D graphics2D, int i) {
         graphics2D.setColor(color);
-        graphics2D.drawString(onderwerp, 25, y);
+        graphics2D.drawString(professionalProfiles, 25, y);
         graphics2D.drawRect(200, y - 13, witdh, 20);
         graphics2D.fillRect(200, y - 13, witdh, 20);
     }
 
-    public String staafDiagram(long[] score) throws IOException {
+    /**
+     * @param score
+     * @throws IOException
+     */
+    public void barChart(long[] score) throws IOException {
 
-        // Dimensions of the background of the image
+        // Dimensions of the background of the image.
         int width = 500;
         int height = 1000;
 
-        //Vertical position of the rectangles
+        //Vertical position of the rectangles.
         int y = 50;
 
-        // Maak een nieuw BufferedImage
+        // Create new bufferedImage.
         BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
-        // Maak een Graphics2D-object van het BufferedImage
+        //Create a Graphics2D-object of the bufferedImage.
         Graphics2D graphics2D = bufferedImage.createGraphics();
 
-        // Onderwerpen en kleuren voor de rechthoeken
-        String[] onderwerp = {"Back-end Engineer:", "Front-end Engineer:", "Robot UI:", "Robot Technical:", "ICT Ondernemer:"}; //Precies deze namen worden ook gebruikt in presentations.json dus wanneer hier wat wordt aangepast graag ook daarin aanpassen
-        Color[] kleuren = {Color.BLUE, Color.orange, Color.RED, Color.green, Color.magenta};
+        //Professional profiles and colors for the rectangles of the bar chart.
+        String[] professionalProfiles = {"Back-end Engineer:", "Front-end Engineer:", "Robot UI:", "Robot Technical:", "ICT Ondernemer:"};
+        Color[] colors = {Color.BLUE, Color.orange, Color.RED, Color.green, Color.magenta};
 
-        // Stel de achtergrondkleur van het BufferedImage in op wit
+        //Set backgroundcolor of bufferedImage to white.
         graphics2D.setColor(Color.white);
         graphics2D.fillRect(0, 0, width, height);
 
-        // Maak een instantie van CreateImage
+        //Create an object of CreateImage
         CreateImage imageCreator = new CreateImage();
 
-        // Sorteer de score array van hoog naar laag
+        //Sort the score array from high to low.
         Integer[] sortedIndexes = new Integer[score.length];
         for (int i = 0; i < score.length; i++) {
-            sortedIndexes[i] = i; //elke index i van de sortedIndices-array gevuld met dezelfde waarde als de oorspronkelijke index van de score-array.
+            sortedIndexes[i] = i;   //each index i of the sortedIndexes array populated with the same value as the original index of the score array.
         }
 
         Arrays.sort(sortedIndexes, Comparator.comparingLong(i -> -score[i]));
         String highestScore = null;
 
-        // Teken de rechthoeken in de gesorteerde volgorde
-        for (int i = 0; i < onderwerp.length; i++) {
+        // Draw rectangles in sorted order.
+        for (int i = 0; i < professionalProfiles.length; i++) {
             int index = sortedIndexes[i];
             // Teken rechthoek
             imageCreator.rectangle(onderwerp[index], kleuren[index], (int) score[index], y, graphics2D, i);
@@ -63,16 +74,14 @@ public class CreateImage {
         }
         System.out.println(highestScore);
 
-        // Maak de Graphics2D schoon
+        //Clean the Graphics2D.
         graphics2D.dispose();
 
-        // Bestand waarin de afbeelding wordt opgeslagen
+        //File where the image is saved.
         File file = new File("./QRcode/QRcodes/results/result.png");
 
-        // Schrijf het BufferedImage naar het bestand als een PNG-afbeelding
+        //Write the BufferedImage to the file as a PNG image.
         ImageIO.write(bufferedImage, "png", file);
         return highestScore;
     }
-
-
 }

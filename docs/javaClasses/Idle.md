@@ -1,5 +1,7 @@
 # Idle
 
+[◄ back to index](../index.md)
+
 Just run `startIdleAnimation()` and the robot will go into a idle pose.
 
 ## PlantUML diagram
