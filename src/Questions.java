@@ -37,6 +37,8 @@ public class Questions {
         MqttConnectOptions mqttConnectOptions = MQTT.getMqttConnectOptions();
         MQTT.connect();
         client.subscribe("gritla/answer");
+        String led = "etst";
+        client.publish("gritla/led", "ad");
         listen();
     }
 
@@ -126,7 +128,7 @@ public class Questions {
         }
     }
 
-    public void askAllQuestions() {
+    public void askAllQuestions(MqttClient client) {
         try {
             Object obj = getJsonParser().parse(new FileReader("./config/questions.json"));
             JSONObject jsonObject = (JSONObject) obj;
@@ -141,6 +143,13 @@ public class Questions {
 
                 System.out.println(questionValue);
                 nao.say(questionValue);
+                String payload = "test";
+                int qos = 0;
+                boolean retained = false;
+                MqttMessage message = new MqttMessage(payload.getBytes());
+                message.setQos(qos);
+                message.setRetained(retained);
+                client.publish("gritla/led", message);
                 Thread.sleep(10);
                 waiting.start();
                 reminder.start();
