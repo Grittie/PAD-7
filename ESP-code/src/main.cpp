@@ -42,7 +42,6 @@ void callback(char* topic, byte* message, unsigned int length) {
 	Serial.print(topic);
 	Serial.print(". Message: ");
 	String messageTemp;
-	NEWMSG = 1;
 	for (int i = 0; i < length; i++) {
 		Serial.print((char)message[i]);
 		messageTemp += (char)message[i];
@@ -50,6 +49,7 @@ void callback(char* topic, byte* message, unsigned int length) {
 	Serial.println();
 	// If reseived message on topic "gritla/led" call the led function.
 	if (strcmp(topic,"gritla/led")==0) {
+		NEWMSG = 1;
 		for (size_t i = 0; i < 3; i++) {
 			led(LEDS, i, 1);
 		}
@@ -154,7 +154,7 @@ void loop() {
 				led(LEDS, i, LOW);
 			}
 			// Reset the NEWMSG variable so buttons are locked again.
-			NEWMSG == 0;
+			NEWMSG = 0;
 		// When button is no longer pressed reset the variable "buttonPressed".
 		} else if (!buttonState && buttonPressed){
 			buttonPressed = 0;
