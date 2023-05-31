@@ -67,6 +67,7 @@ public class Questions {
                 switch (mqttMessage.toString()) {
                     case "Yes":
                         nao.say("Je hebt JA geantwoord");
+                        nao.led("groen");
                         System.out.println(answers.get(0));
                         score[0] += (int) (long) ((JSONObject) answers.get(0)).get("score-back-end");
                         score[1] += (int) (long) ((JSONObject) answers.get(0)).get("score-front-end");
@@ -77,6 +78,7 @@ public class Questions {
                         break;
                     case "Maybe":
                         nao.say("Je hebt MISSCHIEN geantwoord");
+                        nao.led("geel");
                         System.out.println(answers.get(1));
                         score[0] += (int) (long) ((JSONObject) answers.get(1)).get("score-back-end");
                         score[1] += (int) (long) ((JSONObject) answers.get(1)).get("score-front-end");
@@ -87,6 +89,7 @@ public class Questions {
                         break;
                     case "No":
                         nao.say("Je hebt NEE geantwoord");
+                        nao.led("rood");
                         System.out.println(answers.get(2));
                         score[0] += (int) (long) ((JSONObject) answers.get(2)).get("score-back-end");
                         score[1] += (int) (long) ((JSONObject) answers.get(2)).get("score-front-end");
@@ -154,6 +157,7 @@ public class Questions {
 
             System.out.println(Arrays.toString(score));
             nao.say("Dankjewel voor je antwoorden.");
+            nao.led("blauw");
             Thread.sleep(1000);
             nao.say("Ik zal nu een image voor je genereren.");
             Thread.sleep(1000);
