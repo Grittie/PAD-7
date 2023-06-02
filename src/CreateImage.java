@@ -9,6 +9,7 @@ import java.util.Comparator;
 
 public class CreateImage {
     private static final String BACKGROUND_IMAGE_PATH = "./assets/backgroundimageResults.png";
+    private NAO nao;
 
     /**
      * @param professionalProfiles
@@ -57,7 +58,7 @@ public class CreateImage {
      * @param score
      * @throws IOException
      */
-    public String barChart(long[] score) throws IOException {
+    public String barChart(long[] score) throws Exception {
 
         // Dimensions of the background of the image.
         int width = 600;
@@ -77,10 +78,8 @@ public class CreateImage {
         String[] professionalProfiles = {"Back-end Engineer:", "Front-end Engineer:", "Robot UI:", "Robot Technical:", "ICT Ondernemer:"};
         Color[] colors = {Color.BLUE, Color.orange, Color.RED, Color.green, Color.magenta};
 
-        String str = "Als je de tekst wilt splitsen na elke 10 woorden voordat je deze tekent, kun je de bovenstaande regex gebruiken om de tekst te splitsen en vervolgens elke regel afzonderlijk tekenen met behulp va";
-        String[] lines = str.replaceAll("((?:[^\\s]*\\s){9}[^\\s]*)\\s", "$1\n").split("\n");
-        int z = 350;
 
+        int z = 350;
         BufferedImage img = ImageIO.read(new File("./assets/fotonao.png")); // Lees de afbeelding van een bestand
         int imgX = 25; // x-coördinaat waar de afbeelding moet worden getekend
         int imgY = z + 100; // y-coördinaat waar de afbeelding moet worden getekend (20 pixels onder de laatste regel tekst)
@@ -117,6 +116,11 @@ public class CreateImage {
         imageCreator.title(Color.BLACK, "Arial", Font.BOLD, 17, "Your results: ", graphics2D);
         imageCreator.overlay(Color.BLACK, 600, 120, graphics2D);
         imageCreator.overlay(Color.BLACK, 600, 290, graphics2D);
+
+        Questions questions = new Questions(nao);
+        String str = questions.parseJson(highestScore);
+        String[] lines = str.replaceAll("((?:[^\\s]*\\s){9}[^\\s]*)\\s", "$1\n").split("\n");
+
 
         for (String line : lines) {
             graphics2D.setFont(new Font("Arial", Font.BOLD, 11));
