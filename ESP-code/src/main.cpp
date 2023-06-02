@@ -137,13 +137,14 @@ void loop() {
 	client.loop();
 	// Call function button() which checks if a button is pressed and assign that button as a number to variable: "pressed".
 	uint8_t pressed = button(BUTTONS);
-	// When "S"
+	// When "reset" message is reveived on the "gritla/intro" topic turn the led on and unlock the button to be able to send a message.
 	if (STARTING == 0) {
 		STARTING = 1;
 		for (size_t i = 0; i < 3; i++) {
 			led(LEDS, i, HIGH);
 		}
 	}
+	// When a button is pressed and "INTRO" is true send "start" to topic "gritla/intro" so the robot knows that it can start and turn all the leds off.
 	if (INTRO && pressed != 0) {
 		INTRO = 0;
 		client.publish("gritla/intro", "start");
