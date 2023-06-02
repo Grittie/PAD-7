@@ -143,7 +143,7 @@ public class Questions {
                 String questionValue = (String) questionObj.get("question");
                 answers = (ArrayList<String>) questionObj.get("answers"); // Cast to ArrayList<String>
                 Thread reminder = new Thread(new Reminder(10, questionValue));
-                Thread waiting = new Thread(new Waiting());
+                //Thread waiting = new Thread(new Waiting());
 
                 System.out.println(questionValue);
                 nao.say(questionValue);
@@ -155,7 +155,7 @@ public class Questions {
                 message.setRetained(retained);
                 this.mqttClient.publish("gritla/led", message);
                 Thread.sleep(10);
-                waiting.start();
+                //waiting.start();
                 reminder.start();
 
                 while (!isPressed) {
@@ -166,7 +166,7 @@ public class Questions {
                     reminder.interrupt();
                 }
                 nao.stopmusic();
-                waiting.interrupt();
+                //waiting.interrupt();
             }
 
             System.out.println(Arrays.toString(score));
@@ -184,7 +184,7 @@ public class Questions {
             createImage.barChart(score);
 
 
-            nao.say("Het startprofiel: "+highest + "lijkt mij het best geschikt voor jou, ik ga jou een presentatie nu geven! ");
+            nao.say("Het startprofiel: "+ highest + "lijkt mij het best geschikt voor jou, ik ga jou een presentatie nu geven! ");
             nao.say(this.parseJson(highest));
             System.out.println("closing");
 

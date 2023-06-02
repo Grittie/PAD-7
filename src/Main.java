@@ -8,7 +8,7 @@ import java.io.FileReader;
 public class Main {
     public static void main(String[] args) throws Exception {
 
-        NAO nao = new NAO("169.254.9.34", 9559);
+        NAO nao = new NAO("localhost", 50662);
 
 //        nao.staan();
 //        nao.say("Hallo ik ben de Studie Keuze bot. Ik zal jullie een korte demonstratie geven van een studie keuze check.");
