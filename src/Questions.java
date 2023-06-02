@@ -114,11 +114,12 @@ public class Questions {
     }
 
 
-    public void parseJson(String name) {
+    public String parseJson(String name) {
+        String work = null;
         try {
             Object obj = new JSONParser().parse(new FileReader("./config/presentations.json"));
             JSONObject jo = (JSONObject) obj;
-            String work = (String) jo.get(name);
+            work = (String) jo.get(name);
             System.out.println(work);
             nao.say(work);
 
@@ -126,6 +127,7 @@ public class Questions {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return work;
     }
 
     public void askAllQuestions() {
@@ -183,7 +185,7 @@ public class Questions {
 
 
             nao.say("Het startprofiel: "+highest + "lijkt mij het best geschikt voor jou, ik ga jou een presentatie nu geven! ");
-            this.parseJson(highest);
+            nao.say(this.parseJson(highest));
             System.out.println("closing");
 
         } catch (Exception e) {
