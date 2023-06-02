@@ -16,21 +16,24 @@ const char* MQTT_USERNAME = "gritla";
 const char* MQTT_PASSWORD = "D6G9E1b95x8h3LaGFtxA";
 
 // Define pin numbers for buttons.
-uint8_t buttons[3] = {17, 15, 16};
+uint8_t BUTTONS[3] = {17, 15, 16};
 
 // Define pin numbers for leds.
-uint8_t leds[3] = {7, 5, 6};
+uint8_t LEDS[3] = {7, 5, 6};
 
 // Define button name.
-char* button_name[3] = {"Yes", "Maybe", "No"};
+const char* BUTTON_NAME[3] = {"Yes", "Maybe", "No"};
+
+// Define variable that will notify the code of a new message.
+int NEWMSG = 0;
 
 // Create instances of Wi-Fi client and PubSubClient.
 WiFiClient espClient;
 PubSubClient client(espClient);
 
 // Define function to change the state of specific leds.
-void led(uint8_t leds[], uint8_t whichled, uint8_t onoff) {
-	digitalWrite(leds[whichled], onoff);
+void led(uint8_t LEDS[], uint8_t whichled, uint8_t onoff) {
+	digitalWrite(LEDS[whichled], onoff);
 }
 
 // Define function to handle incoming MQTT messages.
@@ -46,8 +49,9 @@ void callback(char* topic, byte* message, unsigned int length) {
 	Serial.println();
 	// If reseived message on topic "gritla/led" call the led function.
 	if (strcmp(topic,"gritla/led")==0) {
+		NEWMSG = 1;
 		for (size_t i = 0; i < 3; i++) {
-			led(leds, i, 1);
+			led(LEDS, i, 1);
 		}
 	}
 }
@@ -58,8 +62,8 @@ void setup() {
 	Serial.begin(115200);
 	// Set button pins as input pins and the led pins as output pins.
 	for (int i = 0; i < 3; ++i) {
-		pinMode(buttons[i], INPUT);
-		pinMode(leds[i], OUTPUT);
+		pinMode(BUTTONS[i], INPUT);
+		pinMode(LEDS[i], OUTPUT);
 	}
 	delay(10);
 	Serial.println();
@@ -104,9 +108,9 @@ void reconnect() {
 }
 
 // Define function to check which button is pressed and return which button is pressed as a number.
-int button(uint8_t buttons[]) {
+int button(uint8_t BUTTONS[]) {
 	for (int i = 0; i < 3; ++i) {
-		if (digitalRead(buttons[i])) {
+		if (digitalRead(BUTTONS[i])) {
 		return i + 1;
 		}
 	}
@@ -124,33 +128,37 @@ void loop() {
 	// Check for incoming messages from the MQTT server.
 	client.loop();
 	// Call function button() which checks if a button is pressed and assign that button as a number to variable: "pressed".
-	uint8_t pressed = button(buttons);
-	// led(leds, whichled, onoff);
-	// Variables "buttonState" and "buttonPressed" are there to make sure that when a button is pressed it only processes it once instead of repeating it.
-	if (pressed != 0) {
-		buttonState = 1;
+	uint8_t pressed = button(BUTTONS);
+	// When a new message is received then the button are unlocked so they can send a message to the MQTT server.
+	if (NEWMSG == 1) {
+		// Variables "buttonState" and "buttonPressed" are there to make sure that when a button is pressed it only processes it once instead of repeating it.
+		if (pressed != 0) {
+			buttonState = 1;
 		}
-	// If a button hase been pressed send a message to the MQTT server which includes the name of the button that was pressed.
-	if (buttonState && !buttonPressed && pressed) {
-		Serial.printf("%s%d\n%s%s\n","Button pressed:  ", pressed, "Which is option: ", button_name[pressed - 1]);
-		buttonPressed = 1;
-		client.publish("gritla/answer", button_name[pressed - 1]);
-		// Remove the led coresponding to the button pressed from the array.
-		for (int i = pressed - 1; i < 3; i++) {
-			which_led[i] = which_led[i + 1];
+		// If a button hase been pressed send a message to the MQTT server which includes the name of the button that was pressed.
+		if (buttonState && !buttonPressed && pressed) {
+			Serial.printf("%s%d\n%s%s\n","Button pressed:  ", pressed, "Which is option: ", BUTTON_NAME[pressed - 1]);
+			buttonPressed = 1;
+			client.publish("gritla/answer", BUTTON_NAME[pressed - 1]);
+			// Remove the led coresponding to the button pressed from the array.
+			for (int i = pressed - 1; i < 3; i++) {
+				which_led[i] = which_led[i + 1];
+			}
+			// Turn off all the leds in the updated array.
+			for (size_t i = 0; i < sizeof(which_led); i++) {
+				led(LEDS, which_led[i], LOW);
+			}
+			// Wait one second and then turn all the leds off.
+			delay(1000);
+			for (size_t i = 0; i < 3; i++) {
+				led(LEDS, i, LOW);
+			}
+			// Reset the NEWMSG variable so buttons are locked again.
+			NEWMSG = 0;
+		// When button is no longer pressed reset the variable "buttonPressed".
+		} else if (!buttonState && buttonPressed){
+			buttonPressed = 0;
 		}
-		// Turn off all the leds in the updated array.
-		for (size_t i = 0; i < sizeof(which_led); i++) {
-			led(leds, which_led[i], LOW);
-		}
-		// Wait one second and then turn all the leds off.
-		delay(1000);
-		for (size_t i = 0; i < 3; i++) {
-			led(leds, i, LOW);
-		}
-	// When button is no longer pressed reset the variable "buttonPressed".
-	} else if (!buttonState && buttonPressed){
-		buttonPressed = 0;
 	}
 	delay(50);
 }
