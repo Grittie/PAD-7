@@ -12,8 +12,8 @@ The presentation class has several methods with information about the routes. Th
 top to bottom direction
 skinparam linetype ortho
 
-class Presentaties {
-+ Presentaties(Session):
+class Presentations {
++ Presentations(Session):
 + ITpresentatie(): String
 + SEpresentatie(): String
 + GDpresentatie(): String

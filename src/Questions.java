@@ -127,20 +127,6 @@ public class Questions {
         score[4] += (int) (long) ((JSONObject) answers.get(index)).get("score-ict-ondernemer");
     }
 
-    public String parseJson(String name) {
-        String work = null;
-        try {
-            Object obj = new JSONParser().parse(new FileReader("./config/presentations.json"));
-            JSONObject jo = (JSONObject) obj;
-            work = (String) jo.get(name);
-            System.out.println(work);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return work;
-    }
-
     /**
      * This function parses and asks all questions
      */
@@ -199,7 +185,11 @@ public class Questions {
 
 
             nao.say("Het startprofiel: "+ highest + "lijkt mij het best geschikt voor jou, ik ga jou een presentatie nu geven! ");
-            nao.say(this.parseJson(highest));
+            Presentations presentations = new Presentations();
+            nao.say(presentations.parseJson(highest));
+
+            // Closing mqtt connection
+            mqttClient.disconnect();
             System.out.println("closing");
 
         } catch (Exception e) {

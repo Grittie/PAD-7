@@ -117,9 +117,9 @@ public class CreateImage {
         imageCreator.overlay(Color.BLACK, 600, 120, graphics2D);
         imageCreator.overlay(Color.BLACK, 600, 290, graphics2D);
 
-        Questions questions = new Questions(nao);
-        System.out.println(questions.parseJson(highestScore));
-        String str = questions.parseJson(highestScore);
+        Presentations presentations = new Presentations();
+        System.out.println(presentations.parseJson(highestScore));
+        String str = presentations.parseJson(highestScore);
         String[] lines = str.replaceAll("((?:[^\\s]*\\s){9}[^\\s]*)\\s", "$1\n").split("\n");
 
 
