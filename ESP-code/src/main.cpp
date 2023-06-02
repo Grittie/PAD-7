@@ -24,8 +24,10 @@ uint8_t LEDS[3] = {7, 5, 6};
 // Define button name.
 const char* BUTTON_NAME[3] = {"Yes", "Maybe", "No"};
 
-// Define variable that will notify the code of a new message.
-int NEWMSG = 0;
+// Define variables that will be used later.
+uint8_t UNLOCK = 0;
+uint8_t INTRO = 1;
+uint8_t STARTING = 0;
 
 // Create instances of Wi-Fi client and PubSubClient.
 WiFiClient espClient;
@@ -47,12 +49,17 @@ void callback(char* topic, byte* message, unsigned int length) {
 		messageTemp += (char)message[i];
 	}
 	Serial.println();
-	// If reseived message on topic "gritla/led" call the led function.
+	// If received message on topic "gritla/led" call the led function and change "UNLOCK" to 1.
 	if (strcmp(topic,"gritla/led")==0) {
-		NEWMSG = 1;
+		UNLOCK = 1;
 		for (size_t i = 0; i < 3; i++) {
 			led(LEDS, i, 1);
 		}
+	}
+	// If "reset" message is received on topic "gritla/intro" change "INTRO" and "STARTING".
+	if (messageTemp == "reset") {
+		INTRO = 1;
+		STARTING = 0;
 	}
 }
 
@@ -97,6 +104,7 @@ void reconnect() {
 			// Subscribe to topic's. If neccesary change "output".
 			client.subscribe("gritla/answer");
 			client.subscribe("gritla/led");
+			client.subscribe("gritla/intro");
 		} else {
 			// If connection fails, print error message and try again in 5 seconds.
 			Serial.print("failed, rc=");
@@ -129,8 +137,22 @@ void loop() {
 	client.loop();
 	// Call function button() which checks if a button is pressed and assign that button as a number to variable: "pressed".
 	uint8_t pressed = button(BUTTONS);
+	// When "S"
+	if (STARTING == 0) {
+		STARTING = 1;
+		for (size_t i = 0; i < 3; i++) {
+			led(LEDS, i, HIGH);
+		}
+	}
+	if (INTRO && pressed != 0) {
+		INTRO = 0;
+		client.publish("gritla/intro", "start");
+		for (size_t i = 0; i < 3; i++) {
+			led(LEDS, i, LOW);
+		}
+	}
 	// When a new message is received then the button are unlocked so they can send a message to the MQTT server.
-	if (NEWMSG == 1) {
+	if (UNLOCK) {
 		// Variables "buttonState" and "buttonPressed" are there to make sure that when a button is pressed it only processes it once instead of repeating it.
 		if (pressed != 0) {
 			buttonState = 1;
@@ -153,8 +175,8 @@ void loop() {
 			for (size_t i = 0; i < 3; i++) {
 				led(LEDS, i, LOW);
 			}
-			// Reset the NEWMSG variable so buttons are locked again.
-			NEWMSG = 0;
+			// Reset the UNLOCK variable so buttons are locked again.
+			UNLOCK = 0;
 		// When button is no longer pressed reset the variable "buttonPressed".
 		} else if (!buttonState && buttonPressed){
 			buttonPressed = 0;
