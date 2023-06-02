@@ -17,10 +17,11 @@ public class Main {
 //        nao.say("Daarna zal ik een QR code maken met mijn advies die je dan met je telefoon kan scannen!");
 //        Thread.sleep(1000);
 
-        Questions questions = new Questions(nao);
-        questions.askAllQuestions();
-
-        Scores scores = new Scores();
-        scores.getResults();
+//        Questions questions = new Questions(nao);
+//        questions.askAllQuestions();
+//
+//
+//        Scores scores = new Scores();
+//        scores.getResults();
     }
 }

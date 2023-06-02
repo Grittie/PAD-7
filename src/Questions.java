@@ -121,8 +121,6 @@ public class Questions {
             JSONObject jo = (JSONObject) obj;
             work = (String) jo.get(name);
             System.out.println(work);
-            nao.say(work);
-
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -147,13 +145,13 @@ public class Questions {
 
                 System.out.println(questionValue);
                 nao.say(questionValue);
-                String payload = "test";
-                int qos = 0;
-                boolean retained = false;
-                MqttMessage message = new MqttMessage(payload.getBytes());
-                message.setQos(qos);
-                message.setRetained(retained);
-                this.mqttClient.publish("gritla/led", message);
+//                String payload = "test";
+//                int qos = 0;
+//                boolean retained = false;
+//                MqttMessage message = new MqttMessage(payload.getBytes());
+//                message.setQos(qos);
+//                message.setRetained(retained);
+//                this.mqttClient.publish("gritla/led", message);
                 Thread.sleep(10);
                 //waiting.start();
                 reminder.start();
@@ -165,7 +163,7 @@ public class Questions {
                 if (reminder.isAlive()) {
                     reminder.interrupt();
                 }
-                nao.stopmusic();
+                //nao.stopmusic();
                 //waiting.interrupt();
             }
 
@@ -235,7 +233,7 @@ public class Questions {
         @Override
         public void run() {
             try {
-                //nao.music();
+                nao.music();
                 nao.waitingloop();
             } catch (Exception e) {
                 throw new RuntimeException(e);

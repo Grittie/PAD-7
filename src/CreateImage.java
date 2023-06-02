@@ -118,6 +118,7 @@ public class CreateImage {
         imageCreator.overlay(Color.BLACK, 600, 290, graphics2D);
 
         Questions questions = new Questions(nao);
+        System.out.println(questions.parseJson(highestScore));
         String str = questions.parseJson(highestScore);
         String[] lines = str.replaceAll("((?:[^\\s]*\\s){9}[^\\s]*)\\s", "$1\n").split("\n");
 
