@@ -9,13 +9,13 @@ import org.eclipse.paho.client.mqttv3.*;
 public class Questions {
     static private final int REMINDER_DELAY = 10;
 
-     private static JSONParser parser;
-     private static MQTT mqtt;
-     private static NAO nao;
-     private Scores scores;
-     private long[] score = new long[5];
-     private boolean isPressed = false;
-     private ArrayList answers;
+    private static JSONParser parser;
+    private static MQTT mqtt;
+    private static NAO nao;
+    private Scores scores;
+    private long[] score = new long[5];
+    private boolean isPressed = false;
+    private ArrayList answers;
 
     private MqttClient mqttClient;
 
@@ -31,6 +31,18 @@ public class Questions {
             mqtt = new MQTT();
         }
         return mqtt;
+    }
+
+    /**
+     * Running this constructor without parameters is for debug purposes only
+     * 
+     * @throws Exception
+     */
+    Questions() throws Exception {
+        MqttClient client = MQTT.getMqttClient();
+        MQTT.connect();
+        client.subscribe("gritla/answer");
+        listen();
     }
 
     Questions(NAO nao) throws Exception {
@@ -70,33 +82,21 @@ public class Questions {
                         nao.say("Je hebt JA geantwoord");
                         nao.led("groen");
                         System.out.println(answers.get(0));
-                        score[0] += (int) (long) ((JSONObject) answers.get(0)).get("score-back-end");
-                        score[1] += (int) (long) ((JSONObject) answers.get(0)).get("score-front-end");
-                        score[2] += (int) (long) ((JSONObject) answers.get(0)).get("score-robot-ui");
-                        score[3] += (int) (long) ((JSONObject) answers.get(0)).get("score-robot-technical");
-                        score[4] += (int) (long) ((JSONObject) answers.get(0)).get("score-ict-ondernemer");
+                        awardPoints(0);
 
                         break;
                     case "Maybe":
                         nao.say("Je hebt MISSCHIEN geantwoord");
                         nao.led("geel");
                         System.out.println(answers.get(1));
-                        score[0] += (int) (long) ((JSONObject) answers.get(1)).get("score-back-end");
-                        score[1] += (int) (long) ((JSONObject) answers.get(1)).get("score-front-end");
-                        score[2] += (int) (long) ((JSONObject) answers.get(1)).get("score-robot-ui");
-                        score[3] += (int) (long) ((JSONObject) answers.get(1)).get("score-robot-technical");
-                        score[4] += (int) (long) ((JSONObject) answers.get(1)).get("score-ict-ondernemer");
+                        awardPoints(1);
 
                         break;
                     case "No":
                         nao.say("Je hebt NEE geantwoord");
                         nao.led("rood");
                         System.out.println(answers.get(2));
-                        score[0] += (int) (long) ((JSONObject) answers.get(2)).get("score-back-end");
-                        score[1] += (int) (long) ((JSONObject) answers.get(2)).get("score-front-end");
-                        score[2] += (int) (long) ((JSONObject) answers.get(2)).get("score-robot-ui");
-                        score[3] += (int) (long) ((JSONObject) answers.get(2)).get("score-robot-technical");
-                        score[4] += (int) (long) ((JSONObject) answers.get(2)).get("score-ict-ondernemer");
+                        awardPoints(2);
 
                         break;
                     default:
@@ -108,11 +108,24 @@ public class Questions {
             @Override
             public void deliveryComplete(IMqttDeliveryToken token) {
                 // TODO Auto-generated method stub
-                //throw new UnsupportedOperationException("Unimplemented method 'deliveryComplete'");
+                // throw new UnsupportedOperationException("Unimplemented method
+                // 'deliveryComplete'");
             }
         });
     }
 
+    /**
+     * Adds the appropriate points to `score[]
+     * 
+     * @param index
+     */
+    private void awardPoints(int index) {
+        score[0] += (int) (long) ((JSONObject) answers.get(index)).get("score-back-end");
+        score[1] += (int) (long) ((JSONObject) answers.get(index)).get("score-front-end");
+        score[2] += (int) (long) ((JSONObject) answers.get(index)).get("score-robot-ui");
+        score[3] += (int) (long) ((JSONObject) answers.get(index)).get("score-robot-technical");
+        score[4] += (int) (long) ((JSONObject) answers.get(index)).get("score-ict-ondernemer");
+    }
 
     public String parseJson(String name) {
         String work = null;
@@ -128,6 +141,9 @@ public class Questions {
         return work;
     }
 
+    /**
+     * This function parses and asks all questions
+     */
     public void askAllQuestions() {
         try {
 
