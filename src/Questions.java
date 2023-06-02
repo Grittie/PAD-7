@@ -49,14 +49,15 @@ public class Questions {
         Questions.nao = nao;
         this.mqttClient = MQTT.getMqttClient();
         MqttConnectOptions mqttConnectOptions = MQTT.getMqttConnectOptions();
-        listen();
+        System.out.println("Connecting to Questions MQTT...");
         MQTT.connect();
+        listen();
         this.mqttClient.subscribe("gritla/answer");
     }
 
     /**
-     * Listen to the mqtt database for button presses.
-     * 
+     * Listen to the mqtt broker for button presses.
+     *
      * @throws MqttException
      */
     private void listen() throws MqttException {
@@ -76,6 +77,7 @@ public class Questions {
             // Listens to arrived messages and prints the topic and message
             @Override
             public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
+                System.out.println("listening for message");
                 isPressed = true;
                 switch (mqttMessage.toString()) {
                     case "Yes":
