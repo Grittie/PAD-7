@@ -143,19 +143,19 @@ public class Questions {
                 String questionValue = (String) questionObj.get("question");
                 answers = (ArrayList<String>) questionObj.get("answers"); // Cast to ArrayList<String>
                 Thread reminder = new Thread(new Reminder(10, questionValue));
-                //Thread waiting = new Thread(new Waiting());
+                Thread waiting = new Thread(new Waiting());
 
                 System.out.println(questionValue);
                 nao.say(questionValue);
-//                String payload = "test";
-//                int qos = 0;
-//                boolean retained = false;
-//                MqttMessage message = new MqttMessage(payload.getBytes());
-//                message.setQos(qos);
-//                message.setRetained(retained);
-//                this.mqttClient.publish("gritla/led", message);
+                String payload = "test";
+                int qos = 0;
+                boolean retained = false;
+                MqttMessage message = new MqttMessage(payload.getBytes());
+                message.setQos(qos);
+                message.setRetained(retained);
+                this.mqttClient.publish("gritla/led", message);
                 Thread.sleep(10);
-                //waiting.start();
+                waiting.start();
                 reminder.start();
 
                 while (!isPressed) {
@@ -165,8 +165,8 @@ public class Questions {
                 if (reminder.isAlive()) {
                     reminder.interrupt();
                 }
-                //nao.stopmusic();
-                //waiting.interrupt();
+//                nao.stopmusic();
+//                waiting.interrupt();
             }
 
             System.out.println(Arrays.toString(score));
@@ -239,8 +239,8 @@ public class Questions {
         @Override
         public void run() {
             try {
-                nao.music();
-                nao.waitingloop();
+//                nao.music();
+//                nao.waitingloop();
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
