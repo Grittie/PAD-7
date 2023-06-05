@@ -66,7 +66,8 @@ public class MovementTalking {
     }
     public void say(String tekst) throws Exception {          // Create an ALAnimatedSpeech object and link it to your current session
         ALAnimatedSpeech alAnimatedSpeech = new ALAnimatedSpeech(this.session);
-        alAnimatedSpeech.say(tekst);
+        alAnimatedSpeech.say("\\rspd=85\\"+tekst);
+
     }
 
 
