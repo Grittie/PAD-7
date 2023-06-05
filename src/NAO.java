@@ -1,5 +1,6 @@
 
 import com.aldebaran.qi.Application;
+import com.aldebaran.qi.helper.proxies.ALSystem;
 
 public class NAO {
     private Application application;
@@ -18,6 +19,11 @@ public class NAO {
         //make object and give the session into the args of the constructor
         this.movementTalking = new MovementTalking(this.application.session());
         this.led = new LED(this.application.session());
+    }
+
+    public void setName(String name) throws Exception {
+        ALSystem alSystem = new ALSystem(this.application.session());
+        alSystem.setRobotName(name);
     }
     //Methodes that make the NAO move
     public void staan() throws  Exception{
