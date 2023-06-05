@@ -1,5 +1,6 @@
 # User story: PointingToMonitor
 
+[◄ back to index](../index.md)
 
 ## User story description:
 The future student wants the robot to point to the monitor/presentation
@@ -23,4 +24,3 @@ It specifies an array of joint names and an array of joint angles that the robot
 over each joint in the arrays and sets the joint angles using the "setAngles()" method provided by the ALMotion class.
 
 <img src="../../assets/wijzenmonitor%20class.png" width="1000" >
-

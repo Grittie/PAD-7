@@ -1,10 +1,11 @@
 
 import com.aldebaran.qi.Application;
+import com.aldebaran.qi.helper.proxies.ALSystem;
 
 public class NAO {
     private Application application;
     // Use presentatie etc class so it can use their methodes, so we have only have to make one NAO object in main
-    private Presentaties presentaties;
+    private Presentations presentations;
     private MovementTalking movementTalking;
     private LED led;
 
@@ -16,30 +17,15 @@ public class NAO {
         this.application.start();
 
         //make object and give the session into the args of the constructor
-        this.presentaties = new Presentaties(this.application.session());
         this.movementTalking = new MovementTalking(this.application.session());
         this.led = new LED(this.application.session());
     }
-    //Methodes that make the NAO move
 
-    public String intro() throws Exception {
-        return this.presentaties.intro();
+    public void setName(String name) throws Exception {
+        ALSystem alSystem = new ALSystem(this.application.session());
+        alSystem.setRobotName(name);
     }
-    public String bim() throws Exception {
-        return this.presentaties.BIMpresentatie();
-    }
-    public String ti() throws Exception {
-        return this.presentaties.ITpresentatie();
-    }
-    public String se() throws Exception {
-        return this.presentaties.SEpresentatie();
-    }
-    public String gd() throws Exception {
-        return this.presentaties.GDpresentatie();
-    }
-    public String cs() throws Exception {
-        return this.presentaties.CSpresentatie();
-    }
+    //Methodes that make the NAO move
     public void staan() throws  Exception{
         this.movementTalking.staan();
     }

@@ -67,53 +67,6 @@ public class MQTT {
                 System.out.println(topic);
                 System.out.print("Bericht: ");
                 System.out.println(mqttMessage.toString());
-
-
-                // Switch case that plays presentation according to buttong pressed on website
-                switch (mqttMessage.toString()) {
-                    case "SE":
-                        nao.staan();
-                        System.out.println("Software engineering presentation starting...");
-                        nao.led("rood");
-                        Thread.sleep(2000);
-                        nao.say(nao.se());
-                        nao.led("wit");
-                        nao.staan();
-
-                        break;
-                    case "TI":
-                        System.out.println("Technische Informatica presentation starting...");
-                        nao.staan();
-                        nao.led("geel");
-                        nao.say(nao.ti());
-                        nao.led("wit");
-                        nao.staan();
-                        break;
-                    case "BIM":
-                        System.out.println("Business Management presentation starting...");
-                        nao.staan();
-                        nao.led("paars");
-                        nao.say(nao.bim());
-                        nao.led("wit");
-                        nao.staan();
-                        break;
-                    case "CS":
-                        System.out.println("Cyber Security presentation starting...");
-                        nao.staan();
-                        nao.led("groen");
-                        nao.say(nao.cs());
-                        nao.led("wit");
-                        nao.staan();
-                        break;
-                    case "GD":
-                        System.out.println("Game Development presentation starting...");
-                        nao.staan();
-                        nao.led("blauw");
-                        nao.say(nao.gd());
-                        nao.led("wit");
-                        nao.staan();
-                        break;
-                }
             }
 
             @Override

@@ -1,22 +1,23 @@
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.*;
 import org.json.simple.*;
 import org.json.simple.parser.*;
-import com.aldebaran.qi.Session;
-import com.aldebaran.qi.CallError;
 import org.eclipse.paho.client.mqttv3.*;
 
 public class Questions {
-    static private Session session;
-    static private JSONParser parser;
-    static private MQTT mqtt;
+    static private final int REMINDER_DELAY = 10;
 
-    static private NAO nao;
-    static private long[] score = new long[5];
-    static private boolean isPressed = false;
+    private static JSONParser parser;
+    private static MQTT mqtt;
+    private static NAO nao;
+    private Scores scores;
+    private long[] score = new long[5];
+    private boolean isPressed = false;
+    private ArrayList answers;
 
-    static private ArrayList answers;
+    private MqttClient mqttClient;
 
     static private JSONParser getJsonParser() {
         if (parser == null) {
@@ -32,17 +33,30 @@ public class Questions {
         return mqtt;
     }
 
-    Questions(NAO nao) throws Exception {
-        this.nao = nao;
+    /**
+     * Running this constructor without parameters is for debug purposes only
+     * 
+     * @throws Exception
+     */
+    Questions() throws Exception {
         MqttClient client = MQTT.getMqttClient();
-        MqttConnectOptions mqttConnectOptions = MQTT.getMqttConnectOptions();
         MQTT.connect();
         client.subscribe("gritla/answer");
         listen();
     }
 
+    Questions(NAO nao) throws Exception {
+        Questions.nao = nao;
+        this.mqttClient = MQTT.getMqttClient();
+        MqttConnectOptions mqttConnectOptions = MQTT.getMqttConnectOptions();
+        System.out.println("Connecting to Questions MQTT...");
+        MQTT.connect();
+        listen();
+        this.mqttClient.subscribe("gritla/answer");
+    }
+
     /**
-     * Listen to the mqtt database for button presses
+     * Listen to the mqtt broker for button presses.
      *
      * @throws MqttException
      */
@@ -63,36 +77,28 @@ public class Questions {
             // Listens to arrived messages and prints the topic and message
             @Override
             public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
+                System.out.println("listening for message");
                 isPressed = true;
                 switch (mqttMessage.toString()) {
                     case "Yes":
                         nao.say("Je hebt JA geantwoord");
+                        nao.led("groen");
                         System.out.println(answers.get(0));
-                        score[0] += (int) (long) ((JSONObject) answers.get(0)).get("score-back-end");
-                        score[1] += (int) (long) ((JSONObject) answers.get(0)).get("score-front-end");
-                        score[2] += (int) (long) ((JSONObject) answers.get(0)).get("score-robot-ui");
-                        score[3] += (int) (long) ((JSONObject) answers.get(0)).get("score-robot-technical");
-                        score[4] += (int) (long) ((JSONObject) answers.get(0)).get("score-ict-ondernemer");
+                        awardPoints(0);
 
                         break;
                     case "Maybe":
                         nao.say("Je hebt MISSCHIEN geantwoord");
+                        nao.led("geel");
                         System.out.println(answers.get(1));
-                        score[0] += (int) (long) ((JSONObject) answers.get(1)).get("score-back-end");
-                        score[1] += (int) (long) ((JSONObject) answers.get(1)).get("score-front-end");
-                        score[2] += (int) (long) ((JSONObject) answers.get(1)).get("score-robot-ui");
-                        score[3] += (int) (long) ((JSONObject) answers.get(1)).get("score-robot-technical");
-                        score[4] += (int) (long) ((JSONObject) answers.get(1)).get("score-ict-ondernemer");
+                        awardPoints(1);
 
                         break;
                     case "No":
                         nao.say("Je hebt NEE geantwoord");
+                        nao.led("rood");
                         System.out.println(answers.get(2));
-                        score[0] += (int) (long) ((JSONObject) answers.get(2)).get("score-back-end");
-                        score[1] += (int) (long) ((JSONObject) answers.get(2)).get("score-front-end");
-                        score[2] += (int) (long) ((JSONObject) answers.get(2)).get("score-robot-ui");
-                        score[3] += (int) (long) ((JSONObject) answers.get(2)).get("score-robot-technical");
-                        score[4] += (int) (long) ((JSONObject) answers.get(2)).get("score-ict-ondernemer");
+                        awardPoints(2);
 
                         break;
                     default:
@@ -104,44 +110,58 @@ public class Questions {
             @Override
             public void deliveryComplete(IMqttDeliveryToken token) {
                 // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'deliveryComplete'");
+                // throw new UnsupportedOperationException("Unimplemented method
+                // 'deliveryComplete'");
             }
         });
     }
 
-    public void parseJson() {
-        try {
-            Object obj = getJsonParser().parse(new FileReader("./config/questions.json"));
-            JSONObject jsonObject = (JSONObject) obj;
-            JSONArray questions = (JSONArray) jsonObject.get("questions");
-            Iterator iterator = questions.iterator();
-            while (iterator.hasNext()) {
-                System.out.println(iterator.next());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    /**
+     * Adds the appropriate points to `score[]
+     * 
+     * @param index
+     */
+    private void awardPoints(int index) {
+        score[0] += (int) (long) ((JSONObject) answers.get(index)).get("score-back-end");
+        score[1] += (int) (long) ((JSONObject) answers.get(index)).get("score-front-end");
+        score[2] += (int) (long) ((JSONObject) answers.get(index)).get("score-robot-ui");
+        score[3] += (int) (long) ((JSONObject) answers.get(index)).get("score-robot-technical");
+        score[4] += (int) (long) ((JSONObject) answers.get(index)).get("score-ict-ondernemer");
     }
 
+    /**
+     * This function parses and asks all questions
+     */
     public void askAllQuestions() {
         try {
+
             Object obj = getJsonParser().parse(new FileReader("./config/questions.json"));
             JSONObject jsonObject = (JSONObject) obj;
             JSONArray questions = (JSONArray) jsonObject.get("questions");
+
             for (Object question : questions) {
-                String questionValue = (String) ((JSONObject) question).get("question");
-                answers = (ArrayList) ((JSONObject) question).get("answers");
-                Thread reminder = new Thread(new Reminder(10));
+                JSONObject questionObj = (JSONObject) question; // Cast to JSONObject
+
+                String questionValue = (String) questionObj.get("question");
+                answers = (ArrayList<String>) questionObj.get("answers"); // Cast to ArrayList<String>
+                Thread reminder = new Thread(new Reminder(10, questionValue));
                 Thread waiting = new Thread(new Waiting());
 
                 System.out.println(questionValue);
-                reminder.start();
                 nao.say(questionValue);
+                String payload = "test";
+                int qos = 0;
+                boolean retained = false;
+                MqttMessage message = new MqttMessage(payload.getBytes());
+                message.setQos(qos);
+                message.setRetained(retained);
+                this.mqttClient.publish("gritla/led", message);
                 Thread.sleep(10);
                 waiting.start();
+                reminder.start();
 
                 while (!isPressed) {
-                    Thread.sleep(100); // anders is er geen tijd om te luisteren naar MQTT
+                    Thread.sleep(100);
                 }
                 isPressed = false;
                 if (reminder.isAlive()) {
@@ -152,15 +172,26 @@ public class Questions {
             }
 
             System.out.println(Arrays.toString(score));
+            scores.storeResults(score);
             nao.say("Dankjewel voor je antwoorden.");
+            nao.led("blauw");
             Thread.sleep(1000);
             nao.say("Ik zal nu een image voor je genereren.");
             Thread.sleep(1000);
 
             // Send score array to CreateImage class
-            CreateImage createImage = new CreateImage();
-            createImage.staafDiagram(score);
 
+            CreateImage createImage = new CreateImage();
+            String highest = createImage.barChart(score);
+            createImage.barChart(score);
+
+
+            nao.say("Het startprofiel: "+ highest + "lijkt mij het best geschikt voor jou, ik ga jou een presentatie nu geven! ");
+            Presentations presentations = new Presentations();
+            nao.say(presentations.parseJson(highest));
+
+            // Closing mqtt connection
+            mqttClient.disconnect();
             System.out.println("closing");
 
         } catch (Exception e) {
@@ -171,28 +202,35 @@ public class Questions {
     static class Reminder implements Runnable {
 
         static private int time;
+        static private String question;
 
-        Reminder(int time) {
+        /**
+         * Reminds the quiz taker to give answer after a certain amount of time.
+         * This class is intended to run in parallel as a Thread.
+         * 
+         * @param time
+         */
+        Reminder(int time, String question) {
             Reminder.time = time;
+            Reminder.question = question;
         }
 
         /**
          * Reminds the quiz taker to give answer after a certain amount of time
-         *
-         * @param sec The time in seconds
          * @throws CallError
          */
         @Override
         public void run() {
             try {
-                Thread.sleep(time * 1000);
-                nao.say("Je kan antwoord geven door op 1 van deze knoppen te drukken");
-                System.out.println("Je kan antwoord geven door op 1 van deze knoppen te drukken");
+                while (true) {
+                    Thread.sleep(time * 1000L);
+                    nao.say(question);
+                    System.out.println("Reminder: " + question);
+                }
             } catch (Exception e) {
                 // TODO: handle exception
             }
         }
-
     }
 
     /**

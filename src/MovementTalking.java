@@ -66,7 +66,8 @@ public class MovementTalking {
     }
     public void say(String tekst) throws Exception {          // Create an ALAnimatedSpeech object and link it to your current session
         ALAnimatedSpeech alAnimatedSpeech = new ALAnimatedSpeech(this.session);
-        alAnimatedSpeech.say(tekst);
+        alAnimatedSpeech.say("\\rspd=85\\"+tekst);
+
     }
 
 
@@ -101,7 +102,7 @@ public class MovementTalking {
     }
     public void music() throws Exception {                  // method to load a music file, and play it
         ALAudioPlayer alAudioPlayer = new ALAudioPlayer(this.session);
-        int mFile = alAudioPlayer.loadFile("/opt/aldebaran/www/apps/untitled-d138f1/muziek/waitingSound.wav");
+        int mFile = alAudioPlayer.loadFile("/opt/aldebaran/www/apps/pad7-032137/muziek/waitingSound.wav");
         System.out.println(mFile);
         alAudioPlayer.setVolume(mFile,0.3f);
         alAudioPlayer.play(mFile);

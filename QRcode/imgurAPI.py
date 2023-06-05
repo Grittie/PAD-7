@@ -55,16 +55,21 @@ client = authenticate()
 
 while True:
     image_path = 'QRcodes/results/'
+    qr_code_path = 'QRcodes/QRs/'
+    qr_code_name = 'testcode_1'
     image_file = '.png'
     image_name = 'result'
 
     result_path = image_path + image_name + image_file
+    qr_path = qr_code_path + qr_code_name + image_file
     try:
         results = uploadPicture(client, result_path)
         resultsQR = generate(results, teller)
         time.sleep(2)
-        print("removing result file");
+        print("removing result file")
         os.remove(result_path)
+        time.sleep(40)
+        os.remove(qr_path)
     except FileNotFoundError:
         print("waiting on file....")
         time.sleep(5)
