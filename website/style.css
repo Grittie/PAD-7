@@ -11,6 +11,7 @@ body {
     min-height: 100vh;
     flex-direction: column;
 }
+
 main {
     flex: 1 0 auto;
 }
@@ -18,20 +19,63 @@ main {
 .icon-block {
     padding: 0 15px;
 }
+
 .icon-block .material-icons {
     font-size: inherit;
 }
 
 #QR-code {
-    position: relative;
-    left: 25%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
 }
+
+#qr-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 24px;
+    font-weight: bold;
+    color: #555;
+    text-align: center;
+    background-color: #f5f5f5;
+    padding: 40px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: none;
+    white-space: nowrap;
+}
+
+#qr-image {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+    padding: 20px;
+    border: 5px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    font-size: 24px;
+    font-weight: bold;
+    color: #555;
+    text-align: center;
+    background-color: #f5f5f5;
+}
+
+
+
+
+
+
+
+
 
 #route-buttons {
     position: relative;
     left: 25%;
 }
 
-.divider{
-    width:5px;
+.divider {
+    width: 5px;
 }

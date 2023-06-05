@@ -68,7 +68,7 @@ while True:
         time.sleep(2)
         print("removing result file")
         os.remove(result_path)
-        time.sleep(20)
+        time.sleep(40)
         os.remove(qr_path)
     except FileNotFoundError:
         print("waiting on file....")
