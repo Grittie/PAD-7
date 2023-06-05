@@ -69,11 +69,15 @@ public class Introduction {
     public void introductionStart() throws Exception {
         System.out.println("NAO standing...");
         nao.staan();
-        System.out.println("Introduction starting...");
-        Thread.sleep(1000);
-        nao.say("Hallo ik ben de Studie Keuze bot. Ik zal jullie een korte demonstratie geven van een studie keuze tjek.");
-        Thread.sleep(1000);
-        nao.say("Ik zal je een paar vragen stellen. Jij kan hier op antwoorden met Ja, Nee of Misschien door te drukken op de knoppen voor je!");
+
+        nao.say("Hallo, ik ben de studie keuze bot. Ik zal een demonstratie geven van een studie keuze tjek.");
+        Thread.sleep(500);
+        nao.say("Ik ga een paar vragen stellen. je kan hier op reageren met de knoppen voor je.");
+        Thread.sleep(500);
+        nao.say("Na dat de quiz over is kan je een QR code scannen.");
+        Thread.sleep(500);
+
+
         System.out.println("Introduction finished");
         isPressed = true;
     }
