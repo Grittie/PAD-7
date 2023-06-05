@@ -11,7 +11,8 @@
     <link href="style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.2/mqttws31.min.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.2/mqttws31.min.js"
+            type="text/javascript"></script>
     <script src="mqtt-client.js" type="text/javascript"></script>
     <script src="script.js" type="text/javascript"></script>
     <meta http-equiv="refresh">
@@ -33,13 +34,14 @@
 <!-- Div containing the QR code-->
 <div class="container">
     <div class="section" id="QR-code">
-        <img id="qr-image" src="../QRcode/QRcodes/QRs/testcode_1.png" alt="Wachten op resultaten...." class="hide-icon">
+
+        <img id="qr-image" src="../QRcode/QRcodes/QRs/testcode_1.png" class="hide-icon"
+             alt="Wachten op resultaten......">
 
     </div>
-    <br><br>
 </div>
-
-
+<br><br>
+</div>
 
 
 <!--Buttons for presentation-->
@@ -63,17 +65,23 @@
 <script src="script.js" type="text/javascript"></script>
 
 <script>
-    // Functie om de QR-code te tonen
     function showQRCode() {
         var qrImage = document.getElementById('qr-image');
+        var altText = document.getElementById('alt-text');
+
         qrImage.style.display = 'block';
+        altText.style.display = 'none';
     }
 
-    // Functie om de QR-code te verbergen
     function hideQRCode() {
         var qrImage = document.getElementById('qr-image');
+        var altText = document.getElementById('alt-text');
+
         qrImage.style.display = 'none';
+        altText.style.display = 'block';
     }
 </script>
+
+
 </body>
 </html>
