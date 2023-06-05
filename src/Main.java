@@ -8,7 +8,7 @@ import java.io.FileReader;
 public class Main {
     public static void main(String[] args) throws Exception {
 
-        NAO nao = new NAO("localhost", 60060);
+        NAO nao = new NAO("fit-bot.local", 9559);
         while (true) {
             Introduction introduction = new Introduction(nao);
             introduction.introductionSequence();

@@ -70,11 +70,10 @@ public class Introduction {
         System.out.println("NAO standing...");
         nao.staan();
         System.out.println("Introduction starting...");
-        nao.say("Hallo ik ben de Studie Keuze bot. Ik zal jullie een korte demonstratie geven van een studie keuze check.");
+        Thread.sleep(1000);
+        nao.say("Hallo ik ben de Studie Keuze bot. Ik zal jullie een korte demonstratie geven van een studie keuze tjek.");
         Thread.sleep(1000);
         nao.say("Ik zal je een paar vragen stellen. Jij kan hier op antwoorden met Ja, Nee of Misschien door te drukken op de knoppen voor je!");
-        nao.say("Daarna zal ik een QR code maken met mijn advies die je dan met je telefoon kan scannen!");
-        Thread.sleep(1000);
         System.out.println("Introduction finished");
         isPressed = true;
     }

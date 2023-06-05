@@ -167,8 +167,8 @@ public class Questions {
                 if (reminder.isAlive()) {
                     reminder.interrupt();
                 }
-//                nao.stopmusic();
-//                waiting.interrupt();
+                nao.stopmusic();
+                waiting.interrupt();
             }
 
             System.out.println(Arrays.toString(score));
@@ -241,8 +241,8 @@ public class Questions {
         @Override
         public void run() {
             try {
-//                nao.music();
-//                nao.waitingloop();
+                nao.music();
+                nao.waitingloop();
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
