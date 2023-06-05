@@ -129,6 +129,7 @@ uint8_t buttonPressed = 1;
 void loop() {
 	uint8_t buttonState = 0;
 	uint8_t which_led[3] = {0, 1, 2};
+	uint8_t which_led_size = 3;
 	// Check if client is connected to MQTT server and try to reconnect if not.
 	if (!client.connected()) {
 		reconnect();
@@ -164,16 +165,17 @@ void loop() {
 			buttonPressed = 1;
 			client.publish("gritla/answer", BUTTON_NAME[pressed - 1]);
 			// Remove the led coresponding to the button pressed from the array.
-			for (int i = pressed - 1; i < 3; i++) {
+			for (int i = pressed - 1; i < which_led_size; i++) {
 				which_led[i] = which_led[i + 1];
 			}
 			// Turn off all the leds in the updated array.
-			for (size_t i = 0; i < sizeof(which_led); i++) {
+			for (size_t i = 0; i < which_led_size; i++) {
 				led(LEDS, which_led[i], LOW);
+				Serial.println(which_led[i]);
 			}
 			// Wait one second and then turn all the leds off.
 			delay(1000);
-			for (size_t i = 0; i < 3; i++) {
+			for (size_t i = 0; i < which_led_size; i++) {
 				led(LEDS, i, LOW);
 			}
 			// Reset the UNLOCK variable so buttons are locked again.
