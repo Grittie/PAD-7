@@ -34,7 +34,7 @@ while True:
     qr_path = qr_code_path + qr_code_name + image_file
     try:
         results = upload_picture(client, result_path)
-        generate(image_file, qr_code_name, qr_code_path, results, count)
+        generate(image_file, qr_code_name, qr_code_path, results)
         time.sleep(2)
         print("removing result file")
         os.remove(result_path)
