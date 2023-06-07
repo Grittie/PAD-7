@@ -1,78 +1,49 @@
-import configparser
 import os
 import time
-from datetime import datetime
-
-from imgurpython import ImgurClient
 
 from GenerateQR import generate
 from auth import authenticate
 
 
-def getLink(client):
-    items = client.gallery()
-    max_item = None
-    max_views = 0
-    for item in items:
-        if item.views > max_views:
-            max_item = item
-            max_views = item.views
-    print(max_item.link)
-    generate(max_item.link, 1)
+# Method to upload a picture to Imgur.
+# It needs the client and the path where the pic is stored in the PC
 
-
-def getPicture():
-    # for album in client.get_account_albums('me'):
-    #     album_title = album.title if album.title else 'Untitled'
-    # print('Album: {0} ({1})'.format(album_title, album.id))
-
-    for image in client.get_album_images('zG3f1T6'):
-        # image_title = image.title if image.title else 'Untitled'
-        print('\t{0}: {1}'.format(image.title, image.link))
-    return image.link
-
-
-def uploadPicture(client, path):
-    print("Uploading image... ")
-    foto = client.upload_from_path(path, config=None, anon=False)
+def upload_picture(client, path):
+    foto = client.upload_from_path(path, config=None, anon=False)  # No config(name, date etc, and no anonymous)
     print("Done")
     print()
-    print("De link: {0}".format(foto['link']))
+    print("De link: {0}".format(foto['link']))  # works like printf in Java
     link = '{0}'.format(foto['link'])
-    print(link)
-    return link
+    return link  # Return the link, so it can be stored in a variable.
 
 
-QR_path = "de png van qr code"
-
-restults_album_id = 1124
-qr_album_id = 124
-
-teller = 1
+count = 1  # Can be used if we want te store/count the pictures.
 
 client = authenticate()
 
+image_path = 'QRcodes/results/'  # Where the results pics from Java where saved.
+image_name = 'result'  # The name from Java
+qr_code_path = 'QRcodes/QRs/'  # Where the QR code will be saved
+image_file = '.png'
 
 while True:
-    image_path = 'QRcodes/results/'
-    qr_code_path = 'QRcodes/QRs/'
-    qr_code_name = 'testcode_1'
-    image_file = '.png'
-    image_name = 'result'
+
+    qr_code_name = 'testcode_' + str(count)
 
     result_path = image_path + image_name + image_file
     qr_path = qr_code_path + qr_code_name + image_file
     try:
-        results = uploadPicture(client, result_path)
-        resultsQR = generate(results, teller)
+        results = upload_picture(client, result_path)
+        generate(image_file, qr_code_name, qr_code_path, results, count)
         time.sleep(2)
         print("removing result file")
         os.remove(result_path)
         time.sleep(40)
+        print("removing QR code")
         os.remove(qr_path)
+        # count += 1
     except FileNotFoundError:
         print("waiting on file....")
         time.sleep(5)
 
-
-
+# if we want te store/count the pictures the os.remove must be deleted and line 41 need to be un-comment
