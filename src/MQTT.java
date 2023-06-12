@@ -1,5 +1,3 @@
-
-
 import org.eclipse.paho.client.mqttv3.*;
 
 public class MQTT {
@@ -9,10 +7,8 @@ public class MQTT {
     private static final String MQTT_USERNAME = "gritla";
     private static final String MQTT_PASSWORD = "D6G9E1b95x8h3LaGFtxA";
 
-    private NAO nao;
-
-    public static MqttClient client;
-    public static MqttConnectOptions connectOptions;
+    private static MqttClient client;
+    private static MqttConnectOptions connectOptions;
 
     public static MqttClient getMqttClient() throws MqttException {
         if (client == null) {
@@ -28,25 +24,65 @@ public class MQTT {
         return connectOptions;
     }
 
+    /**
+     * Connect to the mqtt broker
+     * 
+     * @throws MqttSecurityException
+     * @throws MqttException
+     */
     public static void connect() throws MqttSecurityException, MqttException {
         connectOptions.setUserName(MQTT_USERNAME);
         connectOptions.setPassword(MQTT_PASSWORD.toCharArray());
-        getMqttClient().connect(connectOptions);
+        getMqttClient().connect(getMqttConnectOptions());
     }
 
+    /**
+     * Subscribe to a topic. To react to mqtt messager you still need te set
+     * `setCallback()`
+     * 
+     * @param topic
+     * @throws MqttException
+     */
     public static void subscribe(String topic) throws MqttException {
         getMqttClient().subscribe(topic);
     }
 
+    /**
+     * Publish messager to connected mqtt broker
+     * 
+     * @param payload The mesage you want to send
+     * @param topic   The topic in the broker
+     * @param qos     How sure do you want to be that the message reaches the broker
+     * @param retain  Should the broker rember this message
+     * @throws MqttPersistenceException
+     * @throws MqttException
+     */
+    public static void publish(String payload, String topic, int qos, boolean retain)
+            throws MqttPersistenceException, MqttException {
+        MqttMessage message = new MqttMessage(payload.getBytes());
+        message.setQos(qos);
+        message.setRetained(retain);
+        getMqttClient().publish(topic, message);
+    }
+
+    /**
+     * Disconnect from the mqtt broker
+     * 
+     * @throws MqttException
+     */
+    public static void disconnect() throws MqttException {
+        getMqttClient().disconnect();
+    }
+
     // Function that runs the MQTT Client
     public void mqttClient() throws Exception {
-        //connect NAO
-        this.nao = new NAO("johanus.local", 9559);
+        // connect NAO
+        NAO nao = new NAO("johanus.local", 9559);
         // Connects to MQTT broker
-        MqttClient client = new MqttClient (MQTT_HOST, MQTT_CLIENT_ID);
+        MqttClient client = new MqttClient(MQTT_HOST, MQTT_CLIENT_ID);
         MqttConnectOptions connectOptions = new MqttConnectOptions();
-        connectOptions.setUserName (MQTT_USERNAME);
-        connectOptions.setPassword (MQTT_PASSWORD.toCharArray());
+        connectOptions.setUserName(MQTT_USERNAME);
+        connectOptions.setPassword(MQTT_PASSWORD.toCharArray());
         client.connect(connectOptions);
 
         // Prints true if connection is made
