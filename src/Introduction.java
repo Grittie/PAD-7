@@ -1,5 +1,4 @@
 import org.eclipse.paho.client.mqttv3.*;
-import java.util.ArrayList;
 
 public class Introduction {
     private static NAO nao;
@@ -68,7 +67,7 @@ public class Introduction {
 
     public void introductionStart() throws Exception {
         System.out.println("NAO standing...");
-        nao.staan();
+        nao.say();
 
         nao.say("Hallo, ik ben de studie keuze bot. Ik zal een demonstratie geven van een studie keuze tjek.");
         Thread.sleep(500);
