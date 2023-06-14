@@ -1,4 +1,3 @@
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -7,9 +6,18 @@ import org.json.simple.parser.ParseException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Iterator;
+import java.util.*;
 
+/**
+ * The Scores class handles storing and retrieving scores in a JSON file.
+ */
 public class Scores {
+
+    /**
+     * Stores the results by updating the scores in the JSON file.
+     *
+     * @param score an array containing the scores to be updated
+     */
     public static void storeResults(long[] score) {
         // Read existing JSON file
         JSONParser parser = new JSONParser();
@@ -39,7 +47,9 @@ public class Scores {
         }
     }
 
-
+    /**
+     * Retrieves and displays the scores from the JSON file.
+     */
     void getResults() {
         try {
             JSONParser parser = new JSONParser();
@@ -48,12 +58,26 @@ public class Scores {
             JSONObject jsonObject = (JSONObject) jsonArray.get(0); // Assuming there is only one object in the JSON array
 
             JSONObject scoresObject = (JSONObject) jsonObject.get("scores");
-            Iterator<?> iterator = scoresObject.keySet().iterator();
+            List<Map.Entry<String, Long>> entries = new ArrayList<>();
 
-            while (iterator.hasNext()) {
-                String key = (String) iterator.next();
-                int score = Integer.parseInt(scoresObject.get(key).toString());
-                System.out.println(key + ": " + score);
+            System.out.println("Total scores of the study check: ");
+            // Iterate over the scoresObject and populate the entries list
+            for (Object key : scoresObject.keySet()) {
+                String strKey = (String) key;
+                Long score = (Long) scoresObject.get(key);
+                entries.add(new AbstractMap.SimpleEntry<>(strKey, score));
+            }
+
+            // Sort the entries based on the scores in descending order
+            entries.sort((e1, e2) -> e2.getValue().compareTo(e1.getValue()));
+
+            // Print the sorted scores with number index
+            for (int i = 0; i < entries.size(); i++) {
+                Map.Entry<String, Long> entry = entries.get(i);
+                String key = entry.getKey();
+                Long score = entry.getValue();
+                int index = i + 1;
+                System.out.println(index + ". " + key + ": " + score);
             }
         } catch (Exception e) {
             e.printStackTrace();
