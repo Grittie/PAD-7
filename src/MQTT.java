@@ -1,5 +1,8 @@
 import org.eclipse.paho.client.mqttv3.*;
 
+/**
+ * The MQTT class handles the MQTT client connection and subscription.
+ */
 public class MQTT {
     // MQTT broker credentials
     private static final String MQTT_HOST = "tcp://mqtt.hva-robots.nl:1883";
@@ -10,6 +13,12 @@ public class MQTT {
     private static MqttClient client;
     private static MqttConnectOptions connectOptions;
 
+    /**
+     * Retrieves the MQTT client instance.
+     *
+     * @return the MQTT client instance
+     * @throws MqttException if an error occurs while creating the client
+     */
     public static MqttClient getMqttClient() throws MqttException {
         if (client == null) {
             client = new MqttClient(MQTT_HOST, MQTT_CLIENT_ID);
@@ -17,6 +26,11 @@ public class MQTT {
         return client;
     }
 
+    /**
+     * Retrieves the MQTT connection options.
+     *
+     * @return the MQTT connection options
+     */
     public static MqttConnectOptions getMqttConnectOptions() {
         if (connectOptions == null) {
             connectOptions = new MqttConnectOptions();
@@ -25,10 +39,10 @@ public class MQTT {
     }
 
     /**
-     * Connect to the mqtt broker
-     * 
-     * @throws MqttSecurityException
-     * @throws MqttException
+     * Connects to the MQTT broker.
+     *
+     * @throws MqttSecurityException if there is a security-related error
+     * @throws MqttException         if an error occurs while connecting
      */
     public static void connect() throws MqttSecurityException, MqttException {
         connectOptions.setUserName(MQTT_USERNAME);
@@ -37,11 +51,10 @@ public class MQTT {
     }
 
     /**
-     * Subscribe to a topic. To react to mqtt messager you still need te set
-     * `setCallback()`
-     * 
-     * @param topic
-     * @throws MqttException
+     * Subscribes to a specific MQTT topic.
+     *
+     * @param topic the topic to subscribe to
+     * @throws MqttException if an error occurs while subscribing
      */
     public static void subscribe(String topic) throws MqttException {
         getMqttClient().subscribe(topic);
