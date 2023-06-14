@@ -91,7 +91,7 @@ public class Introduction {
      */
     public void introductionStart() throws Exception {
         System.out.println("NAO standing...");
-        nao.say();
+        nao.stand();
 
         nao.say("Hallo, ik ben de studie keuze bot. Ik zal een demonstratie geven van een studie keuze tjek.");
         Thread.sleep(500);

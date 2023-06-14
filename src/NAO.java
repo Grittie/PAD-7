@@ -23,7 +23,7 @@ public class NAO {
     }
 
     //Methodes that make the NAO move/talking
-    public void say() throws Exception {
+    public void stand() throws Exception {
         this.movementTalking.stay();
     }
 
