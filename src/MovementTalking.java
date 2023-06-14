@@ -6,7 +6,7 @@ import com.aldebaran.qi.helper.proxies.*;
 public class MovementTalking {
     private static final float MOVEMENT_SPEED = 0.3f; // speed of the movements. to high has a risk of the nao falling.
     private static final float MUSIC_VOLUME = 0.3f; // 0.3 so the music isn't louder then the say.
-    private static final float SAY_SPEED = 85; // 85% is nicer then 100% to listen.
+    private static final int SAY_SPEED = 85; // 85% is nicer then 100% to listen.
     private Session session;
 
     public MovementTalking(Session session) {
