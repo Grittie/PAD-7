@@ -1,6 +1,4 @@
-
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.*;
 import org.json.simple.*;
 import org.json.simple.parser.*;
@@ -16,8 +14,6 @@ public class Questions {
     private long[] score = new long[5];
     private boolean isPressed = false;
     private ArrayList answers;
-
-    private MqttClient mqttClient;
 
     static private JSONParser getJsonParser() {
         if (parser == null) {
@@ -39,20 +35,18 @@ public class Questions {
      * @throws Exception
      */
     Questions() throws Exception {
-        MqttClient client = MQTT.getMqttClient();
+        System.out.println("Connecting to Questions MQTT...");
         MQTT.connect();
-        client.subscribe("gritla/answer");
         listen();
+        MQTT.subscribe("gritla/answer");
     }
 
     Questions(NAO nao) throws Exception {
         Questions.nao = nao;
-        this.mqttClient = MQTT.getMqttClient();
-        MqttConnectOptions mqttConnectOptions = MQTT.getMqttConnectOptions();
         System.out.println("Connecting to Questions MQTT...");
         MQTT.connect();
         listen();
-        this.mqttClient.subscribe("gritla/answer");
+        MQTT.subscribe("gritla/answer");
     }
 
     /**
@@ -68,7 +62,6 @@ public class Questions {
                 try {
                     throw throwable;
                 } catch (Throwable e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
                 System.out.println("connection lost...");
@@ -109,9 +102,7 @@ public class Questions {
 
             @Override
             public void deliveryComplete(IMqttDeliveryToken token) {
-                // TODO Auto-generated method stub
-                // throw new UnsupportedOperationException("Unimplemented method
-                // 'deliveryComplete'");
+
             }
         });
     }
@@ -144,18 +135,12 @@ public class Questions {
 
                 String questionValue = (String) questionObj.get("question");
                 answers = (ArrayList<String>) questionObj.get("answers"); // Cast to ArrayList<String>
-                Thread reminder = new Thread(new Reminder(10, questionValue));
+                Thread reminder = new Thread(new Reminder(REMINDER_DELAY, questionValue));
                 Thread waiting = new Thread(new Waiting());
 
                 System.out.println(questionValue);
                 nao.say(questionValue);
-                String payload = "test";
-                int qos = 0;
-                boolean retained = false;
-                MqttMessage message = new MqttMessage(payload.getBytes());
-                message.setQos(qos);
-                message.setRetained(retained);
-                this.mqttClient.publish("gritla/led", message);
+                MQTT.publish("test", "gritla/led", 0, false);
                 Thread.sleep(10);
                 waiting.start();
                 reminder.start();
@@ -167,12 +152,15 @@ public class Questions {
                 if (reminder.isAlive()) {
                     reminder.interrupt();
                 }
+                if (waiting.isAlive()) {
+                    waiting.interrupt();
+                }
                 nao.stopmusic();
                 waiting.interrupt();
             }
 
             System.out.println(Arrays.toString(score));
-            scores.storeResults(score);
+            Scores.storeResults(score);
             nao.say("Dankjewel voor je antwoorden.");
             nao.led("blauw");
             Thread.sleep(1000);
@@ -185,13 +173,13 @@ public class Questions {
             String highest = createImage.barChart(score);
             createImage.barChart(score);
 
-
-            nao.say("Het startprofiel: "+ highest + "lijkt mij het best geschikt voor jou, ik ga jou een presentatie nu geven! ");
+            nao.say("Het startprofiel: " + highest
+                    + "lijkt mij het best geschikt voor jou, ik ga jou een presentatie nu geven!");
             Presentations presentations = new Presentations();
             nao.say(presentations.parseJson(highest));
 
             // Closing mqtt connection
-            mqttClient.disconnect();
+            MQTT.disconnect();
             System.out.println("closing");
 
         } catch (Exception e) {
@@ -217,6 +205,7 @@ public class Questions {
 
         /**
          * Reminds the quiz taker to give answer after a certain amount of time
+         * 
          * @throws CallError
          */
         @Override

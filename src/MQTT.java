@@ -10,10 +10,8 @@ public class MQTT {
     private static final String MQTT_USERNAME = "gritla";
     private static final String MQTT_PASSWORD = "D6G9E1b95x8h3LaGFtxA";
 
-    private NAO nao;
-
-    public static MqttClient client;
-    public static MqttConnectOptions connectOptions;
+    private static MqttClient client;
+    private static MqttConnectOptions connectOptions;
 
     /**
      * Retrieves the MQTT client instance.
@@ -49,7 +47,7 @@ public class MQTT {
     public static void connect() throws MqttSecurityException, MqttException {
         connectOptions.setUserName(MQTT_USERNAME);
         connectOptions.setPassword(MQTT_PASSWORD.toCharArray());
-        getMqttClient().connect(connectOptions);
+        getMqttClient().connect(getMqttConnectOptions());
     }
 
     /**
@@ -63,14 +61,36 @@ public class MQTT {
     }
 
     /**
-     * Runs the MQTT client, connects to the broker, and subscribes to a topic.
-     *
-     * @throws Exception if an error occurs during the execution
+     * Publish messager to connected mqtt broker
+     * 
+     * @param payload The mesage you want to send
+     * @param topic   The topic in the broker
+     * @param qos     How sure do you want to be that the message reaches the broker
+     * @param retain  Should the broker rember this message
+     * @throws MqttPersistenceException
+     * @throws MqttException
      */
-    public void mqttClient() throws Exception {
-        // Connect NAO
-        this.nao = new NAO("johanus.local", 9559);
+    public static void publish(String payload, String topic, int qos, boolean retain)
+            throws MqttPersistenceException, MqttException {
+        MqttMessage message = new MqttMessage(payload.getBytes());
+        message.setQos(qos);
+        message.setRetained(retain);
+        getMqttClient().publish(topic, message);
+    }
 
+    /**
+     * Disconnect from the mqtt broker
+     * 
+     * @throws MqttException
+     */
+    public static void disconnect() throws MqttException {
+        getMqttClient().disconnect();
+    }
+
+    // Function that runs the MQTT Client
+    public void mqttClient() throws Exception {
+        // connect NAO
+        NAO nao = new NAO("johanus.local", 9559);
         // Connects to MQTT broker
         MqttClient client = new MqttClient(MQTT_HOST, MQTT_CLIENT_ID);
         MqttConnectOptions connectOptions = new MqttConnectOptions();
