@@ -1,4 +1,3 @@
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -9,7 +8,16 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * The Scores class handles storing and retrieving scores in a JSON file.
+ */
 public class Scores {
+
+    /**
+     * Stores the results by updating the scores in the JSON file.
+     *
+     * @param score an array containing the scores to be updated
+     */
     public static void storeResults(long[] score) {
         // Read existing JSON file
         JSONParser parser = new JSONParser();
@@ -39,6 +47,9 @@ public class Scores {
         }
     }
 
+    /**
+     * Retrieves and displays the scores from the JSON file.
+     */
     void getResults() {
         try {
             JSONParser parser = new JSONParser();

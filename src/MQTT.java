@@ -1,7 +1,8 @@
-
-
 import org.eclipse.paho.client.mqttv3.*;
 
+/**
+ * The MQTT class handles the MQTT client connection and subscription.
+ */
 public class MQTT {
     // MQTT broker credentials
     private static final String MQTT_HOST = "tcp://mqtt.hva-robots.nl:1883";
@@ -14,6 +15,12 @@ public class MQTT {
     public static MqttClient client;
     public static MqttConnectOptions connectOptions;
 
+    /**
+     * Retrieves the MQTT client instance.
+     *
+     * @return the MQTT client instance
+     * @throws MqttException if an error occurs while creating the client
+     */
     public static MqttClient getMqttClient() throws MqttException {
         if (client == null) {
             client = new MqttClient(MQTT_HOST, MQTT_CLIENT_ID);
@@ -21,6 +28,11 @@ public class MQTT {
         return client;
     }
 
+    /**
+     * Retrieves the MQTT connection options.
+     *
+     * @return the MQTT connection options
+     */
     public static MqttConnectOptions getMqttConnectOptions() {
         if (connectOptions == null) {
             connectOptions = new MqttConnectOptions();
@@ -28,25 +40,42 @@ public class MQTT {
         return connectOptions;
     }
 
+    /**
+     * Connects to the MQTT broker.
+     *
+     * @throws MqttSecurityException if there is a security-related error
+     * @throws MqttException         if an error occurs while connecting
+     */
     public static void connect() throws MqttSecurityException, MqttException {
         connectOptions.setUserName(MQTT_USERNAME);
         connectOptions.setPassword(MQTT_PASSWORD.toCharArray());
         getMqttClient().connect(connectOptions);
     }
 
+    /**
+     * Subscribes to a specific MQTT topic.
+     *
+     * @param topic the topic to subscribe to
+     * @throws MqttException if an error occurs while subscribing
+     */
     public static void subscribe(String topic) throws MqttException {
         getMqttClient().subscribe(topic);
     }
 
-    // Function that runs the MQTT Client
+    /**
+     * Runs the MQTT client, connects to the broker, and subscribes to a topic.
+     *
+     * @throws Exception if an error occurs during the execution
+     */
     public void mqttClient() throws Exception {
-        //connect NAO
+        // Connect NAO
         this.nao = new NAO("johanus.local", 9559);
+
         // Connects to MQTT broker
-        MqttClient client = new MqttClient (MQTT_HOST, MQTT_CLIENT_ID);
+        MqttClient client = new MqttClient(MQTT_HOST, MQTT_CLIENT_ID);
         MqttConnectOptions connectOptions = new MqttConnectOptions();
-        connectOptions.setUserName (MQTT_USERNAME);
-        connectOptions.setPassword (MQTT_PASSWORD.toCharArray());
+        connectOptions.setUserName(MQTT_USERNAME);
+        connectOptions.setPassword(MQTT_PASSWORD.toCharArray());
         client.connect(connectOptions);
 
         // Prints true if connection is made
