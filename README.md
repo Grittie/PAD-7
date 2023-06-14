@@ -34,11 +34,11 @@ Wanneer de NAO deze keuze heeft gemaakt, wordt er een afbeelding gegenereerd die
 
 ## Setup project:
 - 1: Download java jdk
-- 2: download depencies
+- 2: Download depencies
   - java-naoqi-sdk
   - json-simple
   - org.eclipse.paho.client.mqttv3
 - 3: Controleer of u de juiste hostname gebruikt, verander de hostname (indien nodig) in main.java.
 - 4: Run main.java & ImgurAPI.py (Maakt niet uit welke eerst). Voor ImgurAPI zie documentatie voor opzet.
 - 5: Zet de box aan het stroom
-- 6: druk op een van de knoppen om te beginnen met de studycheck!
+- 6: Druk op een van de knoppen om te beginnen met de studycheck!
