@@ -1,16 +1,14 @@
 # NAO
 
-In this class we connect to the NAO. After that the NAO can be controlled with methods from other classes. 
+[◄ back to index](../index.md)
 
-@startuml
-
-!theme plain
-top to bottom direction
-skinparam linetype ortho
+In this class we connect to the NAO. After that the NAO can be controlled with methods from other classes.
 
 ## PlantUML diagram
 
 ```puml
+@startuml
+
 class NAO {
 + NAO(String, int):
 - application: Application

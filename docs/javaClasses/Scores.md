@@ -1,11 +1,16 @@
 # Scores
+
+[◄ back to index](../index.md)
+
 The scores class has two functions, storeResults() and getResults().
 These functions work like expected.
 
-### storeResults()
+## storeResults()
+
 Store results gets given the scores array from the questionaire [logic](logic.md) and adds it to the total scores in the [scores.json](../config/Scores.md).
 
-### getResults()
+## getResults()
+
 Ger results retrieves all the scores in the [scores.json](../config/Scores.md) and prints it in a nice format.
 
 ```text
