@@ -31,3 +31,14 @@ menselijke wijze presenteren.~~
 
 De NAO is een Studiekeuzecheck die gebruikers een reeks vragen stelt, waardoor de NAO kan bepalen wat de beste studiekeuze voor hen zou kunnen zijn. 
 Wanneer de NAO deze keuze heeft gemaakt, wordt er een afbeelding gegenereerd die de studiekiezer kan scannen met zijn telefoon via een QR-code.
+
+## Setup project:
+- 1: Download java jdk
+- 2: download depencies
+  - java-naoqi-sdk
+  - json-simple
+  - org.eclipse.paho.client.mqttv3
+- 3: Controleer of u de juiste hostname gebruikt, verander de hostname (indien nodig) in main.java.
+- 4: Run main.java & ImgurAPI.py (Maakt niet uit welke eerst). Voor ImgurAPI zie documentatie voor opzet.
+- 5: Zet de box aan het stroom
+- 6: druk op een van de knoppen om te beginnen met de studycheck!
