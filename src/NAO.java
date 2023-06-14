@@ -1,4 +1,3 @@
-
 import com.aldebaran.qi.Application;
 import com.aldebaran.qi.helper.proxies.ALSystem;
 

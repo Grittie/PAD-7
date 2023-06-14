@@ -1,6 +1,3 @@
-
-
-
 import com.aldebaran.qi.Application;
 import com.aldebaran.qi.helper.proxies.ALMotion;
 import com.aldebaran.qi.helper.proxies.ALFaceDetection;

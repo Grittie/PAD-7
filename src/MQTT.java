@@ -9,7 +9,6 @@ public class MQTT {
     private static final String MQTT_CLIENT_ID = "gritla_0";
     private static final String MQTT_USERNAME = "gritla";
     private static final String MQTT_PASSWORD = "D6G9E1b95x8h3LaGFtxA";
-
     private static MqttClient client;
     private static MqttConnectOptions connectOptions;
 

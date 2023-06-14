@@ -1,5 +1,3 @@
-
-
 import com.aldebaran.qi.Session;
 import com.aldebaran.qi.helper.proxies.*;
 
