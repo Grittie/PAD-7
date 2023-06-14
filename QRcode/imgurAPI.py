@@ -4,7 +4,6 @@ import time
 from GenerateQR import generate
 from auth import authenticate
 
-
 # Method to upload a picture to Imgur.
 # It needs the client and the path where the pic is stored in the PC
 

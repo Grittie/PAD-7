@@ -1,7 +1,6 @@
 import configparser
 from imgurpython import ImgurClient
 
-
 def authenticate():
         # Get client ID and secret from auth.ini
         config = configparser.ConfigParser()

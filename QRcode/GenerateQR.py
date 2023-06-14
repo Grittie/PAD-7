@@ -1,6 +1,5 @@
 import qrcode
 
-
 # Generate QR from link and save it with a custom filename
 def generate(file,qr_name,qr_path,link):
     print("generating QR...")
