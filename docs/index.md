@@ -35,3 +35,6 @@ The documentation includes a description of the code, the modules used and a pla
 ## Config
 
 - [Questions JSON](./config/Questions.md)
+- [Scores JSON](./config/Scores.md)
+- [Presentation JSON](./config/presentation.md)
+
